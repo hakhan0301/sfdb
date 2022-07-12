@@ -6,6 +6,7 @@ import type { ScreenProps } from './types';
 import type { CreatePost, Post } from 'src/libs/types';
 
 import supabase, { tables } from 'src/libs/supabase';
+import { StatusBar } from 'expo-status-bar';
 
 function makeid(length: number) {
   var result = '';
@@ -42,7 +43,7 @@ export default function Home({ navigation }: ScreenProps) {
       return;
     };
 
-    // setPosts(prevPosts => [...prevPosts, data[0].text]);
+    setPosts(prevPosts => [...prevPosts, data[0].text]);
   };
 
   const deletePosts = async () => {
@@ -50,6 +51,7 @@ export default function Home({ navigation }: ScreenProps) {
       .posts()
       .delete()
       .gte('id', 0);
+    setPosts([]);
   };
   const fetchPosts = () => getPosts().then(data => setPosts(data?.map(post => post.text) || []));
 
@@ -58,28 +60,38 @@ export default function Home({ navigation }: ScreenProps) {
   }, []);
 
   return (
-    <Box style={tw`flex items-center justify-center w-full h-full bg-purple-500`} >
-      <Row space='8' justifyContent="space-between" >
+    <>
+      <Box flexDir="row" >
         <Button style={tw`px-3 py-2 bg-pink-500 rounded-xl`}
           _pressed={{ style: tw`px-3 py-2 bg-pink-600 rounded-xl` }}
-          onPress={() => fetchPosts()}
+          onPress={() => navigation.navigate('Login')}
         >
-          <Text style={tw`text-blue-500`}>fetch</Text>
+          <Text style={tw`text-blue-500`}>Login</Text>
         </Button>
-        <Button style={tw`px-3 py-2 bg-orange-500 rounded-xl`}
-          _pressed={{ style: tw`px-3 py-2 bg-orange-600 rounded-xl` }}
-          onPress={() => addPost({ text: makeid(12) })}
-        >
-          <Text style={tw`text-blue-500`}>add</Text>
-        </Button>
-        <Button style={tw`px-3 py-2 bg-orange-500 rounded-xl`}
-          _pressed={{ style: tw`px-3 py-2 bg-orange-600 rounded-xl` }}
-          onPress={() => deletePosts()}
-        >
-          <Text style={tw`text-blue-500`}>reset</Text>
-        </Button>
-      </Row>
-      <Text style={tw`w-full p-4 text-white bg-gray-700`}>{JSON.stringify(posts, null, 2)}</Text>
-    </Box >
+      </Box>
+      <Box style={tw`flex items-center justify-center bg-purple-500 grow`} >
+        <Row space='8' justifyContent="space-between" >
+          <Button style={tw`px-3 py-2 bg-pink-500 rounded-xl`}
+            _pressed={{ style: tw`px-3 py-2 bg-pink-600 rounded-xl` }}
+            onPress={() => fetchPosts()}
+          >
+            <Text style={tw`text-blue-500`}>fetch</Text>
+          </Button>
+          <Button style={tw`px-3 py-2 bg-orange-500 rounded-xl`}
+            _pressed={{ style: tw`px-3 py-2 bg-orange-600 rounded-xl` }}
+            onPress={() => addPost({ text: makeid(12) })}
+          >
+            <Text style={tw`text-blue-500`}>add</Text>
+          </Button>
+          <Button style={tw`px-3 py-2 bg-orange-500 rounded-xl`}
+            _pressed={{ style: tw`px-3 py-2 bg-orange-600 rounded-xl` }}
+            onPress={() => deletePosts()}
+          >
+            <Text style={tw`text-blue-500`}>reset</Text>
+          </Button>
+        </Row>
+        <Text style={tw`w-full p-4 text-white bg-gray-700`}>{JSON.stringify(posts, null, 2)}</Text>
+      </Box >
+    </>
   );
 } 
