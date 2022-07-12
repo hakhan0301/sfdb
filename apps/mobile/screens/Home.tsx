@@ -1,13 +1,23 @@
+import { Box, Button, Text } from 'native-base';
+import { useState } from 'react';
 import tw from 'twrnc';
-import { Button, View, Text } from 'react-native';
 
 import type { ScreenProps } from './types';
 
 export default function Home({ navigation }: ScreenProps) {
-  return (
-    <View style={tw`w-full h-full flex justify-center items-center`}>
-      <Text style={tw``}>Sussy baka app23</Text>
+  const [count, setCount] = useState(0);
 
-    </View>
+  return (
+    <Box style={tw`flex items-center justify-center w-full h-full bg-purple-500`} >
+      <Text >
+        {count}
+      </Text>
+      <Button style={tw`px-3 py-2 bg-orange-500 rounded-xl`}
+        _pressed={{ style: tw`px-3 py-2 bg-orange-600 rounded-xl` }}
+        onPress={() => setCount(prevCount => prevCount + 1)}
+      >
+        <Text style={tw`text-blue-500`}>Sussy button</Text>
+      </Button>
+    </Box >
   );
-}
+} 
