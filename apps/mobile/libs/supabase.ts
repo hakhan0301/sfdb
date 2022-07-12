@@ -18,5 +18,5 @@ export default supabase;
 
 
 export const tables = {
-  posts: supabase.from<Post>('Posts'),
+  posts: () => supabase.from<Post>('Posts'),
 }
