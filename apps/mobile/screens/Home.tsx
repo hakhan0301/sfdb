@@ -1,4 +1,4 @@
-import { Box, Button, ScrollView, Text, View } from 'native-base';
+import { Box, Button, Row, ScrollView, Text, View } from 'native-base';
 import { useState } from 'react';
 import tw from 'twrnc';
 import Swiper from 'react-native-swiper';
@@ -41,15 +41,18 @@ export default function Home({ navigation }: ScreenProps) {
     <>
       <Box style={tw`flex flex-row items-center justify-between px-4 py-2 bg-slate-700`} >
         <Text style={tw`text-xl text-white`}>Sussy Baka</Text>
-        <Text style={tw`text-2xl text-white`}>≡</Text>
+        <Row space={2} style={tw`items-center`}>
+          <Text style={tw`text-2xl text-center text-white`}>+</Text>
+          <Text style={tw`text-2xl text-center text-white`}>≡</Text>
+        </Row>
       </Box>
 
       <Swiper
         showsPagination={false} loadMinimal={true}
         horizontal={false} loop={false} index={index} onIndexChanged={setIndex}>
         {posts.map((post, i) => (
-          <ScrollView nestedScrollEnabled={true} scrollEnabled={Math.abs(index - 1) <= 1}>
-            <Post {...post} key={post.id} />
+          <ScrollView key={post.id} nestedScrollEnabled={true} scrollEnabled={Math.abs(index - 1) <= 1}>
+            <Post {...post} />
           </ScrollView>
         ))}
       </Swiper>
