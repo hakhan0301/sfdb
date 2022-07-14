@@ -88,6 +88,9 @@ export default function Post({ user, text, title, likes, createdAt, comments }: 
           <Comment index={i} key={comment.id} {...comment} />
         )}
       </Column>
+
+
+      <Box style={tw`h-2 bg-yellow-200`} />
     </Column >
   )
 }

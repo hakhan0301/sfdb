@@ -53,9 +53,6 @@ export default function Home({ navigation }: ScreenProps) {
           </ScrollView>
         ))}
       </Swiper>
-
-      <Box style={tw`h-2 bg-slate-700`} />
-
     </>
   );
 } 
