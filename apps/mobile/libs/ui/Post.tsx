@@ -2,7 +2,7 @@ import { AntDesign, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-ic
 import { Avatar, Box, Column, Image, Row, Text } from 'native-base';
 import tw from 'twrnc';
 
-import type { Comment as CommentType, Post as PostType } from 'src/libs/types';
+import type { Comment as CommentType, Post as PostType } from 'src/libs/types/posts';
 
 
 interface CommentProps extends CommentType {

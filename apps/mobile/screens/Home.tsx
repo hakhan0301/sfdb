@@ -2,8 +2,8 @@ import { Box, ScrollView, Text } from 'native-base';
 import { useState } from 'react';
 import tw from 'twrnc';
 
-import type { Post as PostType } from 'src/libs/types';
-import type { ScreenProps } from 'src/libs/types/screenTypes';
+import type { Post as PostType } from 'src/libs/types/posts';
+import type { ScreenProps } from 'src/libs/types/screen';
 
 
 import Post from 'src/libs/ui/Post';

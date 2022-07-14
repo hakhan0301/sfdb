@@ -1,5 +1,5 @@
 import { Box, Text } from "native-base";
-import { ScreenProps } from "./types";
+import { ScreenProps } from "src/libs/types/screen";
 
 export default function Login({ navigation }: ScreenProps) {
 
