@@ -83,7 +83,7 @@ export default function Post({ user, text, title, likes, createdAt, comments }: 
       </Row>
 
       {/* comments */}
-      <Column >
+      <Column>
         {comments.map((comment, i) =>
           <Comment index={i} key={comment.id} {...comment} />
         )}
