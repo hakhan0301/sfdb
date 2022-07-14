@@ -1,12 +1,17 @@
 import { Box, Button, ScrollView, Text, View } from 'native-base';
 import { useState } from 'react';
 import tw from 'twrnc';
-import { useRef } from 'react';
+import Swiper from 'react-native-swiper';
 
 import type { Post as PostType } from 'src/libs/types/posts';
 import type { ScreenProps } from 'src/libs/types/screen';
 
 import Post from 'src/libs/ui/Post';
+
+
+import { Animated } from 'react-native';
+import React from 'react';
+
 
 export default function Home({ navigation }: ScreenProps) {
   const [posts, setPosts] = useState<PostType[]>([
@@ -20,7 +25,7 @@ export default function Home({ navigation }: ScreenProps) {
       ]
     },
     {
-      id: 0, title: 'this is pretty SuSy', createdAt: new Date(), likes: 12, text: 'https://pbs.twimg.com/media/EzsXbgtXMAEmqIr.jpg',
+      id: 1, title: 'this is pretty SuSy', createdAt: new Date(), likes: 12, text: 'https://pbs.twimg.com/media/EzsXbgtXMAEmqIr.jpg',
       user: { name: 'OMEgaga', streaks: 1, strikes: 2, pfp: 'https://pbs.twimg.com/profile_images/1408387150119243778/j14N_zq__400x400.jpg', },
       comments: [
         { id: 0, createdAt: new Date(), text: 'this fdsaf', user: { name: 'memon2', pfp: 'https://avatars.githubusercontent.com/u/21112116?s=120&v=4' } },
@@ -31,15 +36,22 @@ export default function Home({ navigation }: ScreenProps) {
   ]);
 
   return (
-    <ScrollView>
+    <>
       <Box style={tw`flex flex-row items-center justify-between px-4 py-2 bg-slate-700`} >
         <Text style={tw`text-xl text-white`}>Sussy Baka</Text>
         <Text style={tw`text-2xl text-white`}>≡</Text>
       </Box>
-      <Post {...posts[0]} />
+
+      <Swiper horizontal={false} loop={false}>
+        {posts.map(post => (
+          <ScrollView nestedScrollEnabled={true}>
+            <Post {...post} key={post.id} />
+          </ScrollView>
+        ))}
+      </Swiper>
 
       <Box style={tw`h-2 bg-slate-700`} />
 
-    </ScrollView>
+    </>
   );
 } 
