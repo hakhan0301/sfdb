@@ -5,10 +5,7 @@ import tw from 'twrnc';
 import type { Post as PostType } from 'src/libs/types/posts';
 import type { ScreenProps } from 'src/libs/types/screen';
 
-
 import Post from 'src/libs/ui/Post';
-
-
 
 export default function Home({ navigation }: ScreenProps) {
   const [posts, setPosts] = useState<PostType[]>([
