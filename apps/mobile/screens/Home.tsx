@@ -14,6 +14,8 @@ import React from 'react';
 
 
 export default function Home({ navigation }: ScreenProps) {
+  const [index, setIndex] = useState(0);
+
   const [posts, setPosts] = useState<PostType[]>([
     {
       id: 0, title: 'is this SUSSY?', createdAt: new Date(), likes: 1, text: 'https://steamuserimages-a.akamaihd.net/ugc/1772707788143102214/2EB84E86640D917614EB57D517AFB3FB2F024A4C/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false',
@@ -42,9 +44,11 @@ export default function Home({ navigation }: ScreenProps) {
         <Text style={tw`text-2xl text-white`}>≡</Text>
       </Box>
 
-      <Swiper horizontal={false} loop={false}>
-        {posts.map(post => (
-          <ScrollView nestedScrollEnabled={true}>
+      <Swiper
+        showsPagination={false} loadMinimal={true}
+        horizontal={false} loop={false} index={index} onIndexChanged={setIndex}>
+        {posts.map((post, i) => (
+          <ScrollView nestedScrollEnabled={true} scrollEnabled={Math.abs(index - 1) <= 1}>
             <Post {...post} key={post.id} />
           </ScrollView>
         ))}
