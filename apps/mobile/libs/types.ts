@@ -1,11 +1,27 @@
-export type Post = {
-  id: number,
-  createdAt: Date,
-  text: string
+export interface Post {
+  id: number;
+  createdAt: Date;
+  title: string;
+  text: string;
+  likes: number;
+  user: User;
+  comments: Comment[];
 }
 
-export type CreatePost = {
-  id?: number,
-  createdAt?: Date,
-  text: string
+export interface User {
+  pfp: string;
+  name: string;
+  streaks: number;
+  strikes: number;
+}
+
+
+export interface Comment {
+  id: number,
+  text: string,
+  createdAt: Date,
+  user: {
+    name: string,
+    pfp: string
+  },
 }
