@@ -5,7 +5,7 @@ import { GlitchImage } from 'rn-glitch-effect';
 
 import tw from 'twrnc';
 
-const logo = require('../assets/glitchmonkey.png');
+const logo = require('assets/glitchmonkey.png');
 
 export default function Login({ navigation }: ScreenProps) {
 
