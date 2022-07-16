@@ -1,0 +1,46 @@
+diff --git a/node_modules/rn-glitch-effect/GlitchImage.js b/node_modules/rn-glitch-effect/GlitchImage.js
+index 386e522..c019291 100644
+--- a/node_modules/rn-glitch-effect/GlitchImage.js
++++ b/node_modules/rn-glitch-effect/GlitchImage.js
+@@ -1,6 +1,6 @@
+-import React, {useRef, useEffect, useImperativeHandle, forwardRef} from 'react';
+-import {View, Animated, Image, Platform} from 'react-native';
+-import {styles} from './styles';
++import React, { useRef, useEffect, useImperativeHandle, forwardRef } from 'react';
++import { View, Animated, Image, Platform } from 'react-native';
++import { styles } from './styles';
+ const SHADOW_COLOR = '#add8e6';
+ const MAIN_COLOR = '#144f66';
+ const ANIMATION_DURATION = 3000;
+@@ -22,9 +22,6 @@ const GlitchImage = (
+   },
+   ref,
+ ) => {
+-  console.log(shadowColor);
+-  console.log(mainColor);
+-  console.log(source);
+   const mainAnimatedValue = useRef(new Animated.Value(0)).current;
+   const animatedX = useRef(new Animated.Value(0)).current;
+ 
+@@ -105,8 +102,8 @@ const GlitchImage = (
+     return (
+       <View
+         style={[
+-          {backgroundColor: mainColor},
+-          isCover ? [styles.glitchImage, {shadowColor: shadowColor}] : null,
++          { backgroundColor: mainColor },
++          isCover ? [styles.glitchImage, { shadowColor: shadowColor }] : null,
+         ]}>
+         <Image source={source} style={[styles.image, imageStyle]} />
+       </View>
+@@ -119,8 +116,8 @@ const GlitchImage = (
+         style={[
+           styles.row,
+           styles.coverContainer,
+-          {height},
+-          {transform: [{translateX: animatedX}, {translateY: positionY}]},
++          { height },
++          { transform: [{ translateX: animatedX }, { translateY: positionY }] },
+         ]}>
+         <Animated.View
+           style={[
