@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackHeaderProps } from '@react-navigation/native-stack';
-import { Box, Button, NativeBaseProvider, Row, StatusBar, Text } from "native-base";
+import { Box, Button, NativeBaseProvider, Row, StatusBar, Text, extendTheme } from "native-base";
 import tw from 'twrnc';
 import { ScreenProps } from './libs/types/screen';
 
@@ -8,7 +8,6 @@ import PostsScreen from './screens/Posts';
 import LoginScreen from './screens/Login';
 
 const Stack = createNativeStackNavigator();
-
 function NavBar(props: NativeStackHeaderProps) {
 
   return (
@@ -40,9 +39,8 @@ export default function App() {
             animation: 'none'
           }}
         >
+          <Stack.Screen name="Login" component={LoginScreen} options={{ header: () => <></> }} />
           <Stack.Screen name="Home" component={PostsScreen} />
-          {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
-          <Stack.Screen name="Login" component={LoginScreen} />
         </Stack.Navigator>
 
       </NavigationContainer>
