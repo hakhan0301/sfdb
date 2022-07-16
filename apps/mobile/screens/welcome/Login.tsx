@@ -1,19 +1,26 @@
-import { Avatar, Box, Button, Center, Column, Icon, Image, Input, Text, View } from "native-base";
-import { ScreenProps } from "src/libs/types/screen";
+import { Avatar, Box, Center, Column, Icon, Image, Input, InputGroup, InputLeftAddon, InputRightAddon, Stack, Text, View } from 'native-base';
+import { ScreenProps } from 'src/libs/types/screen';
 // @ts-ignore
 import { GlitchImage } from 'rn-glitch-effect';
 
-import tw from 'twrnc';
+import { yellow100, yellow200, yellow300, yellow50, yellow800 } from 'src/libs/ui/colors';
 
-const logo = require('assets/glitchmonkey.png');
+import tw from 'twrnc';
+import { SolidButton } from 'src/libs/ui/welcome/Button';
+import React, { useState } from 'react';
+import { MaterialIcons } from '@expo/vector-icons';
+
+const logo = require('../../assets/glitchmonkey.png');
 
 export default function Login({ navigation }: ScreenProps) {
+  const [show, setShow] = useState(false);
+
 
   return (
     <Box style={tw`w-full h-full bg-stone-900`}>
-      <Center style={tw`h-full`}>
-        <Column space="0" style={tw`justify-center h-full`}>
-          <Column space="4" style={tw`h-[35%] items-center justify-center px-14`}>
+      <Center style={tw``}>
+        <Column space='8' style={tw`justify-center py-12`}>
+          <Column space='4' style={tw`items-center justify-center px-14`}>
             <GlitchImage mainColor={'rgb(0,0,0,0)'} source={logo}
               glitchAmplitude={2} glitchDuration={2000} repeatDelay={1000}
               imageStyle={{
@@ -22,8 +29,26 @@ export default function Login({ navigation }: ScreenProps) {
               }} />
             <Text style={tw`text-4xl font-bold text-yellow-300`}>sFoolar DB</Text>
           </Column>
-          <Column space="5" style={tw`h-[65%] items-stretch justify-start`}>
-            <Input style={tw`border-2 border-yellow-300 rounded-lg`} variant="unstyled" />
+          <Column space='5' style={tw`items-stretch justify-start`}>
+            <Input
+              placeholder='Username'
+              selectionColor='white'
+              placeholderTextColor={'#DAD7BF'}
+              style={{ color: 'white', ...tw`text-base border-2 border-yellow-300 rounded-lg` }}
+              variant='unstyled' />
+            <Input
+              InputRightElement={
+                <Icon
+                  style={tw`absolute right-2`}
+                  as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={5} mx="2" color="muted.400" onPress={() => setShow(!show)} />
+              }
+              placeholder='Password'
+              selectionColor='white'
+              type={show ? 'text' : 'password'}
+              placeholderTextColor={'#DAD7BF'}
+              style={{ color: 'white', ...tw`text-base border-2 border-yellow-300 rounded-lg` }}
+              variant='unstyled' />
+            <SolidButton text='submit' />
           </Column>
         </Column>
       </Center>
