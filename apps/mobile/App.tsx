@@ -2,16 +2,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackHeaderProps } from '@react-navigation/native-stack';
 import { Box, Button, NativeBaseProvider, Row, StatusBar, Text, extendTheme } from "native-base";
 import tw from 'twrnc';
-import { ScreenProps } from './libs/types/screen';
 
 import PostsScreen from './screens/Posts';
-import LoginScreen from './screens/Login';
+import WelcomeScreen from './screens/welcome/Welcome';
+import LoginScreen from './screens/welcome/Login';
 
 const Stack = createNativeStackNavigator();
 function NavBar(props: NativeStackHeaderProps) {
 
   return (
-
     <Box style={tw`flex flex-row items-center justify-between py-2 pr-4 bg-slate-800`} >
       <Button style={tw`p-0 px-4 bg-white/0`}
         _pressed={{ style: tw`p-0 px-4 bg-white/0 opacity-70` }}
@@ -39,6 +38,7 @@ export default function App() {
             animation: 'none'
           }}
         >
+          <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ header: () => <></> }} />
           <Stack.Screen name="Login" component={LoginScreen} options={{ header: () => <></> }} />
           <Stack.Screen name="Home" component={PostsScreen} />
         </Stack.Navigator>

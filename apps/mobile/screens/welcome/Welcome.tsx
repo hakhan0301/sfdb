@@ -30,6 +30,7 @@ export default function Login({ navigation }: ScreenProps) {
                 _text: tw`text-black`
               }}
               _text={tw`text-base font-semibold text-yellow-300`}
+              onPress={() => navigation.navigate('Login')}
             >Log in</Button>
             <Button
               style={tw`border-2 border-yellow-300 bg-yellow-300/0 rounded-xl`}
@@ -38,6 +39,7 @@ export default function Login({ navigation }: ScreenProps) {
                 _text: tw`text-black`
               }}
               _text={tw`text-base font-semibold text-yellow-300`}
+              onPress={() => navigation.navigate('Signup')}
             >Sign up</Button>
           </Column>
         </Column>
