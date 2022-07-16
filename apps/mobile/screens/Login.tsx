@@ -23,10 +23,10 @@ export default function Login({ navigation }: ScreenProps) {
             <Text style={tw`text-4xl font-bold text-amber-400`}>sFoolar DB</Text>
           </Column>
           <Column space="5" style={tw`items-stretch`}>
-            <Button style={tw` bg-amber-300 rounded-xl`}>
+            <Button style={tw`bg-yellow-300 rounded-xl`}>
               <Text style={tw`text-base font-semibold text-black`}>Log in</Text>
             </Button>
-            <Button style={tw`shadow-lg rounded-xl bg-amber-300`}>
+            <Button style={tw`bg-yellow-300 rounded-xl`}>
               <Text style={tw`text-base font-semibold text-black`}>Sign up</Text>
             </Button>
           </Column>
