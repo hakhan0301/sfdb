@@ -22,14 +22,25 @@ export default function Login({ navigation }: ScreenProps) {
   const [password, setPassword] = useState('');
 
   const login = async () => {
-    let { user, error } = await supabase.auth.signUp({
-      email: 'someone@email.com',
-      password: 'tncKULjgaOZvRlOAhCTh'
+    let { user, error } = await supabase.auth.signIn({
+      email: email,
+      password: password
     });
+
+    if (error) return;
+
+    navigation.navigate('Home');
   }
 
-  const signUp = () => {
+  const signUp = async () => {
+    let { user, error } = await supabase.auth.signUp({
+      email: email,
+      password: password
+    });
 
+    if (error) return;
+
+    navigation.navigate('Home');
   }
 
   return (
@@ -62,6 +73,7 @@ export default function Login({ navigation }: ScreenProps) {
             </FormControl>
             <FormControl isInvalid={password !== '' && !isValidInput(password)}>
               <Input
+                isDisabled={true}
                 InputRightElement={
                   <Icon
                     style={tw`absolute right-2 mr-2`}
