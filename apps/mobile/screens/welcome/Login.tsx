@@ -1,20 +1,17 @@
-import { Avatar, Box, Center, Column, Icon, Image, Input, InputGroup, InputLeftAddon, InputRightAddon, Stack, Text, View } from 'native-base';
-import { ScreenProps } from 'src/libs/types/screen';
 // @ts-ignore
 import { GlitchImage } from 'rn-glitch-effect';
-
-import { yellow100, yellow200, yellow300, yellow400, yellow50, yellow800 } from 'src/libs/ui/colors';
-
-import tw from 'twrnc';
-import { SolidButton } from 'src/libs/ui/welcome/Button';
-import React, { useState } from 'react';
+import { Box, Center, Column, Icon, Input, Text } from 'native-base';
+import { ScreenProps } from 'src/libs/types/screen';
 import { MaterialIcons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import tw from 'twrnc';
+
+import { SolidButton } from 'src/libs/ui/welcome/Button';
+import { yellow300 } from 'src/libs/ui/colors';
 
 const logo = require('../../assets/glitchmonkey.png');
 
 export default function Login({ navigation }: ScreenProps) {
-
-
   const [show, setShow] = useState(false);
 
   return (
