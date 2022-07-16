@@ -1,18 +1,36 @@
 // @ts-ignore
 import { GlitchImage } from 'rn-glitch-effect';
-import { Box, Center, Column, Icon, Input, Text } from 'native-base';
+import { Box, Center, Column, FormControl, Icon, Input, Text } from 'native-base';
 import { ScreenProps } from 'src/libs/types/screen';
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import tw from 'twrnc';
+
+import supabase from 'src/libs/supabase';
 
 import { SolidButton } from 'src/libs/ui/welcome/Button';
 import { yellow300 } from 'src/libs/ui/colors';
 
 const logo = require('../../assets/glitchmonkey.png');
 
+const isValidInput = (str: string) => str.length >= 3 && str.length <= 50;
+
 export default function Login({ navigation }: ScreenProps) {
   const [show, setShow] = useState(false);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const login = async () => {
+    let { user, error } = await supabase.auth.signUp({
+      email: 'someone@email.com',
+      password: 'tncKULjgaOZvRlOAhCTh'
+    });
+  }
+
+  const signUp = () => {
+
+  }
 
   return (
     <Box style={tw`w-full h-full bg-stone-900`}>
@@ -28,29 +46,44 @@ export default function Login({ navigation }: ScreenProps) {
             <Text style={tw`text-4xl font-bold text-yellow-300`}>sFoolar DB</Text>
           </Column>
           <Column space='5' style={tw`items-stretch justify-start`}>
-            <Input
-              placeholder='Username'
-              selectionColor='white'
-              placeholderTextColor={'#DAD7BF'}
-              style={{ color: 'white', ...tw`text-base border-2 border-yellow-300 rounded-lg` }}
-              variant='unstyled' />
-            <Input
-              InputRightElement={
-                <Icon
-                  style={tw`absolute right-2 mr-2`}
-                  as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={5} color="muted.400" onPress={() => setShow(!show)} />
-              }
-              placeholder='Password'
-              selectionColor='white'
-              type={show ? 'text' : 'password'}
-              placeholderTextColor={'#DAD7BF'}
-              style={{ color: 'white', ...tw`text-base border-2 border-yellow-300 rounded-lg` }}
-              variant='unstyled' />
-            <SolidButton text='Log in' />
+            <FormControl isInvalid={email !== '' && !isValidInput(email)}>
+
+              <Input
+                value={email} onChangeText={setEmail}
+                placeholder='Email'
+                selectionColor='white'
+                placeholderTextColor={'#DAD7BF'}
+                style={{ color: 'white', ...tw`text-base border-2 border-yellow-300 rounded-lg` }}
+                variant='unstyled' />
+              <FormControl.ErrorMessage>
+                Invalid email.
+              </FormControl.ErrorMessage>
+
+            </FormControl>
+            <FormControl isInvalid={password !== '' && !isValidInput(password)}>
+              <Input
+                InputRightElement={
+                  <Icon
+                    style={tw`absolute right-2 mr-2`}
+                    as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={5} color="muted.400" onPress={() => setShow(!show)} />
+                }
+                value={password} onChangeText={setPassword}
+                placeholder='Password'
+                selectionColor='white'
+                type={show ? 'text' : 'password'}
+                placeholderTextColor={'#DAD7BF'}
+                style={{ color: 'white', ...tw`text-base border-2 border-yellow-300 rounded-lg` }}
+                variant='unstyled' />
+              <FormControl.ErrorMessage>
+                Invalid password.
+              </FormControl.ErrorMessage>
+
+            </FormControl>
+            <SolidButton text='Log in' onPress={login} />
             <Center>
               <Text style={tw`text-yellow-100 text-base font-semibold`}>or</Text>
             </Center>
-            <SolidButton text='Sign up' />
+            <SolidButton text='Sign up' onPress={signUp} />
           </Column>
         </Column>
       </Center>
