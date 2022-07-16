@@ -3,7 +3,7 @@ import { ScreenProps } from 'src/libs/types/screen';
 // @ts-ignore
 import { GlitchImage } from 'rn-glitch-effect';
 
-import { yellow100, yellow200, yellow300, yellow50, yellow800 } from 'src/libs/ui/colors';
+import { yellow100, yellow200, yellow300, yellow400, yellow50, yellow800 } from 'src/libs/ui/colors';
 
 import tw from 'twrnc';
 import { SolidButton } from 'src/libs/ui/welcome/Button';
@@ -13,8 +13,9 @@ import { MaterialIcons } from '@expo/vector-icons';
 const logo = require('../../assets/glitchmonkey.png');
 
 export default function Login({ navigation }: ScreenProps) {
-  const [show, setShow] = useState(false);
 
+
+  const [show, setShow] = useState(false);
 
   return (
     <Box style={tw`w-full h-full bg-stone-900`}>
@@ -25,7 +26,7 @@ export default function Login({ navigation }: ScreenProps) {
               glitchAmplitude={2} glitchDuration={2000} repeatDelay={1000}
               imageStyle={{
                 height: 100, width: 100, resizeMode: 'contain',
-                tintColor: 'rgb(253,224,71)'
+                tintColor: yellow300
               }} />
             <Text style={tw`text-4xl font-bold text-yellow-300`}>sFoolar DB</Text>
           </Column>
