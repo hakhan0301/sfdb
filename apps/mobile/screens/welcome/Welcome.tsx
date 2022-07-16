@@ -30,7 +30,7 @@ export default function Login({ navigation }: ScreenProps) {
             />
             <Button
               text="Sign up"
-              onPress={() => navigation.navigate('Signup')}
+              onPress={() => navigation.navigate('Login')}
             />
           </Column>
         </Column>
