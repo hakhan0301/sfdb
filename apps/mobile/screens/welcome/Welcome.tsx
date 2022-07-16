@@ -1,11 +1,12 @@
-import { Avatar, Box, Button, Center, Column, Icon, Image, Text, View } from "native-base";
+import { Avatar, Box, Center, Column, Icon, Image, Text, View } from "native-base";
+import Button from "src/libs/ui/welcome/Button";
 import { ScreenProps } from "src/libs/types/screen";
 // @ts-ignore
 import { GlitchImage } from 'rn-glitch-effect';
 
 import tw from 'twrnc';
 
-const logo = require('assets/glitchmonkey.png');
+const logo = require('../../assets/glitchmonkey.png');
 
 export default function Login({ navigation }: ScreenProps) {
 
@@ -24,23 +25,13 @@ export default function Login({ navigation }: ScreenProps) {
           </Column>
           <Column space="5" style={tw`h-[50%] items-stretch justify-start`}>
             <Button
-              style={tw`border-2 border-yellow-300 bg-yellow-300/0 rounded-xl`}
-              _pressed={{
-                style: tw`bg-yellow-300 border-2 border-yellow-300 rounded-xl`,
-                _text: tw`text-black`
-              }}
-              _text={tw`text-base font-semibold text-yellow-300`}
+              text="Log in"
               onPress={() => navigation.navigate('Login')}
-            >Log in</Button>
+            />
             <Button
-              style={tw`border-2 border-yellow-300 bg-yellow-300/0 rounded-xl`}
-              _pressed={{
-                style: tw`bg-yellow-300 border-2 border-yellow-300 rounded-xl`,
-                _text: tw`text-black`
-              }}
-              _text={tw`text-base font-semibold text-yellow-300`}
+              text="Sign up"
               onPress={() => navigation.navigate('Signup')}
-            >Sign up</Button>
+            />
           </Column>
         </Column>
       </Center>
