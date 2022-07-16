@@ -4,7 +4,6 @@ import { Box, Button, NativeBaseProvider, Row, StatusBar, Text } from "native-ba
 import tw from 'twrnc';
 import { ScreenProps } from './libs/types/screen';
 
-import HomeScreen from './screens/Home';
 import PostsScreen from './screens/Posts';
 import LoginScreen from './screens/Login';
 
