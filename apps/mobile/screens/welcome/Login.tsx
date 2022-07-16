@@ -39,8 +39,8 @@ export default function Login({ navigation }: ScreenProps) {
             <Input
               InputRightElement={
                 <Icon
-                  style={tw`absolute right-2`}
-                  as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={5} mx="2" color="muted.400" onPress={() => setShow(!show)} />
+                  style={tw`absolute right-2 mr-2`}
+                  as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={5} color="muted.400" onPress={() => setShow(!show)} />
               }
               placeholder='Password'
               selectionColor='white'
@@ -48,7 +48,11 @@ export default function Login({ navigation }: ScreenProps) {
               placeholderTextColor={'#DAD7BF'}
               style={{ color: 'white', ...tw`text-base border-2 border-yellow-300 rounded-lg` }}
               variant='unstyled' />
-            <SolidButton text='submit' />
+            <SolidButton text='Log in' />
+            <Center>
+              <Text style={tw`text-yellow-100 text-base font-semibold`}>or</Text>
+            </Center>
+            <SolidButton text='Sign up' />
           </Column>
         </Column>
       </Center>
