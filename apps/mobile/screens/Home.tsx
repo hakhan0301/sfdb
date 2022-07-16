@@ -1,61 +1,86 @@
-import { Box, Button, Row, ScrollView, Text, View } from 'native-base';
-import { useState } from 'react';
-import tw from 'twrnc';
+import { Avatar, Box, Column, Row, ScrollView, Text } from 'native-base';
+import React, { useState } from 'react';
 import Swiper from 'react-native-swiper';
+import tw from 'twrnc';
 
-import type { Post as PostType } from 'src/libs/types/posts';
+import type { Post as PostType, User } from 'src/libs/types/posts';
 import type { ScreenProps } from 'src/libs/types/screen';
 
 import Post from 'src/libs/ui/Post';
+import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 
+import CountDown from 'react-native-countdown-component';
 
-import { Animated } from 'react-native';
-import React from 'react';
 
 
 export default function Home({ navigation }: ScreenProps) {
-  const [index, setIndex] = useState(0);
+  const user: User = {
+    name: 'OME', streaks: 12, strikes: 1, pfp: 'https://pbs.twimg.com/profile_images/1408387150119243778/j14N_zq__400x400.jpg'
+  };
 
-  const [posts, setPosts] = useState<PostType[]>([
-    {
-      id: 0, title: 'is this SUSSY?', createdAt: new Date(), likes: 1, text: 'https://steamuserimages-a.akamaihd.net/ugc/1772707788143102214/2EB84E86640D917614EB57D517AFB3FB2F024A4C/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false',
-      user: { name: 'OME', streaks: 12, strikes: 1, pfp: 'https://pbs.twimg.com/profile_images/1408387150119243778/j14N_zq__400x400.jpg', },
-      comments: [
-        { id: 0, createdAt: new Date(), text: 'this is ome susy', user: { name: 'memon', pfp: 'https://avatars.githubusercontent.com/u/21112116?s=120&v=4' } },
-        { id: 2, createdAt: new Date(), text: 'ia m shan', user: { name: 'memon', pfp: 'https://avatars.githubusercontent.com/u/21112116?s=120&v=4' } },
-        { id: 1, createdAt: new Date(), text: 'jasdfkljfsdjk', user: { name: 'memon', pfp: 'https://avatars.githubusercontent.com/u/21112116?s=120&v=4' } },
-      ]
-    },
-    {
-      id: 1, title: 'this is pretty SuSy', createdAt: new Date(), likes: 12, text: 'https://pbs.twimg.com/media/EzsXbgtXMAEmqIr.jpg',
-      user: { name: 'OMEgaga', streaks: 1, strikes: 2, pfp: 'https://pbs.twimg.com/profile_images/1408387150119243778/j14N_zq__400x400.jpg', },
-      comments: [
-        { id: 0, createdAt: new Date(), text: 'this fdsaf', user: { name: 'memon2', pfp: 'https://avatars.githubusercontent.com/u/21112116?s=120&v=4' } },
-        { id: 2, createdAt: new Date(), text: 'ia m f shan', user: { name: 'memon2', pfp: 'https://avatars.githubusercontent.com/u/21112116?s=120&v=4' } },
-        { id: 1, createdAt: new Date(), text: 'wahooo', user: { name: 'memon2', pfp: 'https://avatars.githubusercontent.com/u/21112116?s=120&v=4' } },
-      ]
-    },
-  ]);
+  const feed = (
+    <Row style={tw`items-center justify-between`}>
+      <Row space="2" style={tw`flex flex-row py-1.75 items-center`}>
+        <Avatar
+          style={tw`w-6 h-6`}
+          source={{ uri: user.pfp }} />
+        <Text fontStyle="italic" style={tw`text-lg text-white `}>{user.name}</Text>
+        <Text fontStyle="italic" style={tw`text-sm text-white `}>posted, with 2hr left</Text>
+
+      </Row>
+      <Row space='2'>
+        <Row space='1' style={tw`items-center`}>
+          <FontAwesome5 style={tw`text-red-500`} size={18} name="fire" />
+          <Text style={tw`text-white`}>{user.streaks}</Text>
+        </Row>
+        <Row space='1' style={tw`items-center`}>
+          <MaterialCommunityIcons style={tw`text-white`} name="alert-circle-outline" size={18} />
+          <Text style={tw`text-white`}>{user.streaks}</Text>
+        </Row>
+      </Row>
+    </Row>
+  );
+
 
   return (
-    <>
-      <Box style={tw`flex flex-row items-center justify-between px-4 py-2 bg-slate-700`} >
-        <Text style={tw`text-xl text-white`}>Sussy Baka</Text>
-        <Row space={2} style={tw`items-center`}>
-          <Text style={tw`text-2xl text-center text-white`}>+</Text>
-          <Text style={tw`text-2xl text-center text-white`}>≡</Text>
-        </Row>
-      </Box>
+    <Column style={tw`h-full bg-rose-900`}>
 
-      <Swiper
-        showsPagination={false} loadMinimal={true}
-        horizontal={false} loop={false} index={index} onIndexChanged={setIndex}>
-        {posts.map((post, i) => (
-          <ScrollView key={post.id} nestedScrollEnabled={true} scrollEnabled={Math.abs(index - 1) <= 1}>
-            <Post {...post} />
-          </ScrollView>
-        ))}
-      </Swiper>
-    </>
+      {/* you */}
+      <Column style={tw`px-4 py-3`} space="1">
+        <Text style={tw`text-xl font-extrabold text-teal-100`}>You:</Text>
+        <Row style={tw`items-center justify-between`}>
+          <Row space="2" style={tw`flex flex-row py-1.75 items-center`}>
+            <Avatar
+              style={tw`w-8 h-8`}
+              source={{ uri: user.pfp }} />
+            <Text fontStyle="italic" style={tw`text-xl text-white `}>{user.name}</Text>
+            <Text style={tw`text-white `}>•</Text>
+
+            <Row space='2'>
+              <Row space='1' style={tw`items-center`}>
+                <FontAwesome5 style={tw`text-red-500`} size={18} name="fire" />
+                <Text style={tw`text-white`}>{user.streaks}</Text>
+              </Row>
+              <Row space='1' style={tw`items-center`}>
+                <MaterialCommunityIcons style={tw`text-white`} name="alert-circle-outline" size={18} />
+                <Text style={tw`text-white`}>{user.streaks}</Text>
+              </Row>
+            </Row>
+          </Row>
+          <Text style={tw`font-bold text-red-400`}>
+            00 : 10 : 30
+          </Text>
+        </Row>
+      </Column>
+
+      <Column style={tw`px-4 py-3 bg-red-800`} space="1">
+        <Text style={tw`text-xl font-extrabold text-teal-100`}>Feed:</Text>
+
+        <Column>
+          {feed}{feed}{feed}{feed}{feed}
+        </Column>
+      </Column>
+
+    </Column>
   );
 } 

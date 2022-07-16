@@ -7,6 +7,5 @@ export default function Login({ navigation }: ScreenProps) {
     <Box>
       <Text>sussy</Text>
     </Box>
-  )
-
+  );
 }

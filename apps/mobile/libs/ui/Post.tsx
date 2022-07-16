@@ -1,7 +1,6 @@
 import { AntDesign, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Avatar, Box, Column, Image, Row, Text } from 'native-base';
 import tw from 'twrnc';
-
 import type { Comment as CommentType, Post as PostType } from 'src/libs/types/posts';
 
 
@@ -11,7 +10,7 @@ interface CommentProps extends CommentType {
 
 export function Comment({ user, text, createdAt, index }: CommentProps) {
   const isEven = index % 2 === 0;
-  const bg = isEven ? 'bg-orange-100' : 'bg-red-100';
+  const bg = isEven ? 'bg-orange-100' : 'bg-orange-50';
   const border = `${index === 0 ? 'border-t' : ''} border-b border-amber-800/20`;
 
   return (
@@ -33,7 +32,6 @@ export function Comment({ user, text, createdAt, index }: CommentProps) {
 
 
 export default function Post({ user, text, title, likes, createdAt, comments }: PostType) {
-
   return (
     <Column style={tw``}>
       {/* post header */}
@@ -45,7 +43,6 @@ export default function Post({ user, text, title, likes, createdAt, comments }: 
             source={{ uri: user.pfp }} />
 
           <Text fontStyle="italic" style={tw`text-lg text-gray-700`}>{user.name}</Text>
-
           <Text style={tw`text-gray-700`}>•</Text>
 
           <Row space='2'>
