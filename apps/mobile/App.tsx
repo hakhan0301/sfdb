@@ -6,6 +6,9 @@ import tw from 'twrnc';
 import PostsScreen from './screens/Posts';
 import WelcomeScreen from './screens/welcome/Welcome';
 import LoginScreen from './screens/welcome/Login';
+import { useEffect, useState } from 'react';
+import { Session } from '@supabase/supabase-js';
+import supabase from './libs/supabase';
 
 const Stack = createNativeStackNavigator();
 function NavBar(props: NativeStackHeaderProps) {
@@ -18,7 +21,8 @@ function NavBar(props: NativeStackHeaderProps) {
         <Text style={tw`text-xl text-white`}>Sussy Baka</Text>
       </Button>
       <Row space={2} style={tw`items-center`}>
-        <Text style={tw`text-lg text-center text-white`}>d</Text>
+        <Text style={tw`text-lg text-center text-white`}
+          onPress={() => props.navigation.navigate('Welcome')}>d</Text>
         <Text style={tw`text-2xl text-center text-white`}>+</Text>
         <Text style={tw`text-2xl text-center text-white`}>≡</Text>
       </Row>
@@ -28,6 +32,20 @@ function NavBar(props: NativeStackHeaderProps) {
 
 
 export default function App() {
+  const [session, setSession] = useState<Session | null>(null)
+
+  useEffect(() => {
+    setSession(supabase.auth.session());
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      console.log('session: ', session);
+      setSession(session)
+    });
+  }, []);
+
+
+
+
   return (
     <NativeBaseProvider>
       <StatusBar barStyle="light-content" />

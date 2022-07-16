@@ -5,15 +5,18 @@ import { ScreenProps } from 'src/libs/types/screen';
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import tw from 'twrnc';
+import { ApiError, Session } from "@supabase/supabase-js";
 
 import supabase from 'src/libs/supabase';
 
 import { SolidButton } from 'src/libs/ui/welcome/Button';
 import { yellow300 } from 'src/libs/ui/colors';
+import { Alert } from 'react-native';
 
 const logo = require('../../assets/glitchmonkey.png');
 
 const isValidInput = (str: string) => str.length >= 3 && str.length <= 50;
+
 
 export default function Login({ navigation }: ScreenProps) {
   const [show, setShow] = useState(false);
@@ -27,9 +30,9 @@ export default function Login({ navigation }: ScreenProps) {
       password: password
     });
 
-    if (error) return;
-
-    navigation.navigate('Home');
+    if (error) {
+      Alert.alert('Auth Error', error.message);
+    };
   }
 
   const signUp = async () => {
@@ -38,9 +41,15 @@ export default function Login({ navigation }: ScreenProps) {
       password: password
     });
 
-    if (error) return;
+    if (error) {
+      Alert.alert('Auth Error', error.message);
+      return;
+    };
 
-    navigation.navigate('Home');
+    Alert.alert(
+      'Successfully Signed Up',
+      'Please log in after confirming your email.'
+    )
   }
 
   return (
@@ -73,13 +82,14 @@ export default function Login({ navigation }: ScreenProps) {
             </FormControl>
             <FormControl isInvalid={password !== '' && !isValidInput(password)}>
               <Input
-                isDisabled={true}
                 InputRightElement={
                   <Icon
                     style={tw`absolute right-2 mr-2`}
                     as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={5} color="muted.400" onPress={() => setShow(!show)} />
                 }
                 value={password} onChangeText={setPassword}
+                autoCapitalize='none'
+                autoCorrect={false}
                 placeholder='Password'
                 selectionColor='white'
                 type={show ? 'text' : 'password'}
