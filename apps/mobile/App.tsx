@@ -8,6 +8,8 @@ import WelcomeScreen from './screens/welcome/Welcome';
 import LoginScreen from './screens/welcome/Login';
 import { useEffect, useState } from 'react';
 import { Session } from '@supabase/supabase-js';
+
+import AuthContext from './libs/contexts/AuthContext';
 import supabase from './libs/supabase';
 
 const Stack = createNativeStackNavigator();
@@ -24,7 +26,8 @@ function NavBar(props: NativeStackHeaderProps) {
         <Text style={tw`text-lg text-center text-white`}
           onPress={() => props.navigation.navigate('Welcome')}>d</Text>
         <Text style={tw`text-2xl text-center text-white`}>+</Text>
-        <Text style={tw`text-2xl text-center text-white`}>≡</Text>
+        <Text onPress={() => { supabase.auth.signOut() }}
+          style={tw`text-2xl text-center text-white`}>≡</Text>
       </Row>
     </Box >
   );
@@ -42,24 +45,27 @@ export default function App() {
     });
   }, []);
 
-
-
-
   return (
     <NativeBaseProvider>
       <StatusBar barStyle="light-content" />
       <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            header: (props) => <NavBar {...props} />,
-            animation: 'none'
-          }}
-        >
-          <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ header: () => <></> }} />
-          <Stack.Screen name="Login" component={LoginScreen} options={{ header: () => <></> }} />
-          <Stack.Screen name="Home" component={PostsScreen} />
-        </Stack.Navigator>
+        <AuthContext.Provider value={session}>
+          <Stack.Navigator
+            screenOptions={{
+              header: (props) => <NavBar {...props} />,
+              animation: 'none'
+            }}
+          >
+            {(!session) && [
+              <Stack.Screen key="Welcome" name="Welcome" component={WelcomeScreen} options={{ header: () => <></> }} />,
+              <Stack.Screen key="Login" name="Login" component={LoginScreen} options={{ header: () => <></> }} />
+            ]}
+            {session && (
+              <Stack.Screen name="Home" component={PostsScreen} />
+            )}
+          </Stack.Navigator>
 
+        </AuthContext.Provider>
       </NavigationContainer>
     </NativeBaseProvider>
   );
