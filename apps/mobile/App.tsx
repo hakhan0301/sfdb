@@ -11,9 +11,11 @@ import { Session } from '@supabase/supabase-js';
 
 import AuthContext from './libs/contexts/AuthContext';
 import supabase from './libs/supabase';
+import { useSession } from './libs/hooks/auth';
 
 const Stack = createNativeStackNavigator();
 function NavBar(props: NativeStackHeaderProps) {
+  const user = useSession();
 
   return (
     <Box style={tw`flex flex-row items-center justify-between py-2 pr-4 bg-slate-800`} >
@@ -24,9 +26,12 @@ function NavBar(props: NativeStackHeaderProps) {
       </Button>
       <Row space={2} style={tw`items-center`}>
         <Text style={tw`text-lg text-center text-white`}
-          onPress={() => props.navigation.navigate('Welcome')}>d</Text>
+          onPress={() =>
+            user ? supabase.auth.signOut() : props.navigation.navigate('Welcome')
+          }
+        >d</Text>
         <Text style={tw`text-2xl text-center text-white`}>+</Text>
-        <Text onPress={() => { supabase.auth.signOut() }}
+        <Text
           style={tw`text-2xl text-center text-white`}>≡</Text>
       </Row>
     </Box >
