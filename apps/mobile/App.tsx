@@ -37,9 +37,8 @@ export default function App() {
   useEffect(() => {
     setSession(supabase.auth.session());
 
-    supabase.auth.onAuthStateChange((_event, session) => {
-      console.log('session: ', session);
-      setSession(session)
+    supabase.auth.onAuthStateChange((_event, _session) => {
+      setSession(_session);
     });
   }, []);
 
