@@ -4,6 +4,7 @@ import { Box, Button, NativeBaseProvider, Row, StatusBar, Text, extendTheme } fr
 import tw from 'twrnc';
 
 import PostsScreen from './screens/Posts';
+import NewPostScreen from './screens/NewPost';
 import WelcomeScreen from './screens/welcome/Welcome';
 import LoginScreen from './screens/welcome/Login';
 import { useEffect, useState } from 'react';
@@ -61,12 +62,17 @@ export default function App() {
               animation: 'none'
             }}
           >
-            {(!session) && [
-              <Stack.Screen key="Welcome" name="Welcome" component={WelcomeScreen} options={{ header: () => <></> }} />,
-              <Stack.Screen key="Login" name="Login" component={LoginScreen} options={{ header: () => <></> }} />
-            ]}
+            {(!session) && (
+              <>
+                <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ header: () => <></> }} />,
+                <Stack.Screen name="Login" component={LoginScreen} options={{ header: () => <></> }} />
+              </>
+            )}
             {session && (
-              <Stack.Screen name="Home" component={PostsScreen} />
+              <>
+                <Stack.Screen name="NewPost" component={NewPostScreen} />
+                <Stack.Screen name="Home" component={PostsScreen} />
+              </>
             )}
           </Stack.Navigator>
 
