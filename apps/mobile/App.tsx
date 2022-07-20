@@ -49,6 +49,8 @@ export default function App() {
     });
   }, []);
 
+  const EmptyHeader = () => <></>;
+
   return (
     <NativeBaseProvider>
       <StatusBar barStyle="light-content" />
@@ -61,11 +63,11 @@ export default function App() {
             }}
           >
             {(!session) && [
-              <Stack.Screen name="Welcome" key="Welcome" component={WelcomeScreen} options={{ header: () => <></> }} />,
-              <Stack.Screen name="Login" key="Login" component={LoginScreen} options={{ header: () => <></> }} />
+              <Stack.Screen name="Welcome" key="Welcome" component={WelcomeScreen} options={{ header: EmptyHeader }} />,
+              <Stack.Screen name="Login" key="Login" component={LoginScreen} options={{ header: EmptyHeader }} />
             ]}
             {session && [
-              <Stack.Screen name="NewPost" key="NewPost" component={NewPostScreen} />,
+              <Stack.Screen name="NewPost" key="NewPost" component={NewPostScreen} options={{ header: EmptyHeader }} />,
               <Stack.Screen name="Home" key="Home" component={PostsScreen} />
             ]}
           </Stack.Navigator>
