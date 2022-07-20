@@ -27,9 +27,7 @@ function NavBar(props: NativeStackHeaderProps) {
       </Button>
       <Row space={2} style={tw`items-center`}>
         <Text style={tw`text-lg text-center text-white`}
-          onPress={() =>
-            user ? supabase.auth.signOut() : props.navigation.navigate('Welcome')
-          }
+          onPress={() => props.navigation.navigate('NewPost')}
         >d</Text>
         <Text style={tw`text-2xl text-center text-white`}>+</Text>
         <Text
@@ -62,18 +60,14 @@ export default function App() {
               animation: 'none'
             }}
           >
-            {(!session) && (
-              <>
-                <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ header: () => <></> }} />,
-                <Stack.Screen name="Login" component={LoginScreen} options={{ header: () => <></> }} />
-              </>
-            )}
-            {session && (
-              <>
-                <Stack.Screen name="NewPost" component={NewPostScreen} />
-                <Stack.Screen name="Home" component={PostsScreen} />
-              </>
-            )}
+            {(!session) && [
+              <Stack.Screen name="Welcome" key="Welcome" component={WelcomeScreen} options={{ header: () => <></> }} />,
+              <Stack.Screen name="Login" key="Login" component={LoginScreen} options={{ header: () => <></> }} />
+            ]}
+            {session && [
+              <Stack.Screen name="NewPost" key="NewPost" component={NewPostScreen} />,
+              <Stack.Screen name="Home" key="Home" component={PostsScreen} />
+            ]}
           </Stack.Navigator>
 
         </AuthContext.Provider>
