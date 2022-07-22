@@ -20,15 +20,19 @@ function SubmitButton() {
 
 export interface TextPostFormProps { }
 export function TextPostForm(props: TextPostFormProps) {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+
   return (
     <Column space="4">
       <Column space="2">
         <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Title</Text>
         <Input style={tw`px-3 py-2 text-base text-white bg-black`}
           placeholder='Title'
-          placeholderTextColor='white'
+          placeholderTextColor='#BFD2CC'
           selectionColor={colors.deepRed200}
-          variant='unstyled' />
+          variant='unstyled'
+          value={title} onChangeText={setTitle} />
       </Column>
       <Column space="2">
         <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Content</Text>
@@ -36,8 +40,9 @@ export function TextPostForm(props: TextPostFormProps) {
         <TextArea style={tw`p-3 text-base text-white bg-black`}
           selectionColor={colors.deepRed200}
           placeholder='Content'
-          placeholderTextColor='white'
-          variant='unstyled' />
+          placeholderTextColor='#BFD2CC'
+          variant='unstyled'
+          value={content} onChangeText={setContent} />
       </Column>
       <SubmitButton />
     </Column>
@@ -46,27 +51,29 @@ export function TextPostForm(props: TextPostFormProps) {
 
 export interface LinkPostFormProps { }
 export function LinkPostForm(props: LinkPostFormProps) {
+  const [title, setTitle] = useState('');
+  const [link, setLink] = useState('');
+
   return (
     <Column space="4">
       <Column space="2">
         <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Title</Text>
         <Input style={tw`px-3 py-2 text-base text-white bg-black`}
           placeholder='Title'
-          placeholderTextColor='white'
+          placeholderTextColor='#BFD2CC'
           selectionColor={colors.deepRed200}
-          variant='unstyled' />
-
+          variant='unstyled'
+          value={title} onChangeText={setTitle} />
       </Column>
       <Column space="2">
         <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Link</Text>
         <Input style={tw`px-3 py-2 text-base text-white bg-black`}
           placeholder='Link'
-          placeholderTextColor='white'
+          placeholderTextColor='#BFD2CC'
           selectionColor={colors.deepRed200}
-          variant='unstyled' />
-
+          variant='unstyled'
+          value={link} onChangeText={setLink} />
       </Column>
-
       <SubmitButton />
     </Column>
   )
@@ -77,6 +84,7 @@ type FileType = 'Image' | 'Video' | 'File';
 export interface MediaPostFormProps { }
 export function MediaPostForm(props: MediaPostFormProps) {
   const [fileType, setTileType] = useState<FileType>("Image");
+  const [title, setTitle] = useState('');
 
   return (
     <Column space="4" style={tw`pb-12`}>
@@ -84,9 +92,11 @@ export function MediaPostForm(props: MediaPostFormProps) {
         <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Title</Text>
         <Input style={tw`px-3 py-2 text-base text-white bg-black`}
           placeholder='Insert Title'
-          placeholderTextColor='white'
+          placeholderTextColor='#BFD2CC'
           selectionColor={colors.deepRed200}
-          variant='unstyled' />
+          variant='unstyled'
+          value={title} onChangeText={setTitle} />
+
       </Column>
       <Column space="2">
         <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>File Type</Text>
