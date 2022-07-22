@@ -1,5 +1,5 @@
 import { AntDesign, Ionicons } from '@expo/vector-icons';
-import { Button, Column, Row, Text, View } from 'native-base';
+import { Button, Column, Row, ScrollView, Text, View } from 'native-base';
 import React, { useState } from 'react';
 import tw from 'twrnc';
 
@@ -8,7 +8,7 @@ import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import type { ScreenProps } from 'src/libs/types/screen';
 import { ButtonOf3 } from 'src/libs/ui/newPost/Buttons';
-import { NewTextForm } from 'src/libs/ui/newPost/NewPostFields';
+import { LinkPostForm, MediaPostForm, TextPostForm } from 'src/libs/ui/newPost/NewPostFields';
 
 import * as colors from 'src/libs/ui/colors';
 import { blue400, blue600, deepOrange400, purple200accent, yellow300, yellow400 } from 'src/libs/ui/colors';
@@ -16,7 +16,7 @@ import supabase from 'src/libs/supabase';
 import { Entypo } from '@expo/vector-icons';
 
 
-type ActiveSections = 'Text' | 'Link' | 'Image';
+type ActiveSections = 'Text' | 'Link' | 'Upload';
 
 export default function Home({ navigation }: ScreenProps) {
   const [activeSection, setActiveSession]
@@ -43,7 +43,7 @@ export default function Home({ navigation }: ScreenProps) {
           </Row>
         </BlurView>
 
-        <View style={tw`bg-stone-800 flex-grow mt-5 p-6 pt-11`}>
+        <View style={tw`bg-stone-800 flex-grow mt-5 pt-11`}>
           <LinearGradient
             colors={[blue600, blue400]}
             style={tw`absolute -top-5 self-center rounded-lg`}
@@ -58,15 +58,19 @@ export default function Home({ navigation }: ScreenProps) {
                 onPress={() => setActiveSession('Link')} isActive={activeSection === 'Link'}
                 text='Link' />
               <ButtonOf3 index={2}
-                onPress={() => setActiveSession('Image')} isActive={activeSection === 'Image'}
-                text='Image' />
+                onPress={() => setActiveSession('Upload')} isActive={activeSection === 'Upload'}
+                text='Upload' />
             </Row>
           </LinearGradient>
+          <ScrollView style={tw`px-6`}>
 
-          {activeSection === "Text" && <NewTextForm />}
+            {activeSection === "Text" && <TextPostForm />}
+            {activeSection === "Link" && <LinkPostForm />}
+            {activeSection === "Upload" && <MediaPostForm />}
+          </ScrollView>
 
         </View>
-        <View style={tw`h-14`}>
+        <View style={tw`h-11`}>
           <Row style={tw`w-full absolute items-center top-[-8] justify-between px-9`}>
             <Button h="12" w='12' rounded='full' style={tw`bg-yellow-300`}
               _pressed={{ style: tw`bg-yellow-400` }}
