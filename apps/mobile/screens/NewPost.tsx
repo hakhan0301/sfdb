@@ -1,16 +1,45 @@
 import { Box, Button, Center, Column, Row, ScrollView, Text, View } from 'native-base';
 import React, { useState } from 'react';
-import Swiper from 'react-native-swiper';
 import tw from 'twrnc';
 import { AntDesign } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
-import type { Post as PostType } from 'src/libs/types/posts';
 import type { ScreenProps } from 'src/libs/types/screen';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { ButtonProps } from 'src/libs/ui/types';
+
+interface ButtonOf3Props extends ButtonProps {
+  index: 0 | 1 | 2;
+  isActive: boolean;
+}
+function ButtonOf3({ text, onPress, index, isActive }: ButtonOf3Props) {
+  let roundedStyle = {
+    0: 'rounded-l-lg rounded-r-none',
+    1: 'rounded-none',
+    2: 'rounded-r-lg rounded-l-none'
+  }
+
+  const style = tw`${isActive ? 'bg-yellow-300' : 'bg-white/0'} ${roundedStyle[index]}`
+
+  return (
+    <Button onPress={onPress}
+      w='24'
+      _pressed={{
+        style: { ...style, ...tw`${isActive ? 'bg-yellow-400' : 'bg-black/10'}` },
+      }}
+      style={style}>
+      <Text style={tw`${isActive ? 'text-black' : 'text-white'} font-bold`}>{text}</Text>
+    </Button>
+  )
+}
+
+type ActiveSections = 'Text' | 'Link' | 'Image';
 
 export default function Home({ navigation }: ScreenProps) {
-  const [index, setIndex] = useState(0);
+  const [activeSection, setActiveSession]
+    = useState<ActiveSections>('Text');
 
   return (
     <LinearGradient
@@ -32,34 +61,39 @@ export default function Home({ navigation }: ScreenProps) {
           </Row>
         </BlurView>
 
-        <View style={tw`bg-stone-800 flex-grow mt-5 p-4 pt-9`}>
+        <View style={tw`bg-stone-800 flex-grow mt-5 p-6 pt-11`}>
           <LinearGradient
             colors={['#1e88e5', '#42a5f5']}
-            style={tw`absolute -top-5 self-center rounded-xl`}
+            style={tw`absolute -top-5 self-center rounded-lg`}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
           >
-
             <Row style={tw`rounded-xl`}>
-              <Button onPress={() => setIndex(0)}
-                style={tw`${index == 0 ? 'bg-yellow-400' : 'bg-white/0'} w-24 rounded-l-lg rounded-r-none`}>
-                <Text style={tw`${index == 0 ? 'text-black' : 'text-white'} font-bold`}>Text</Text>
-              </Button>
-              <Button onPress={() => setIndex(1)}
-                style={tw`${index == 1 ? 'bg-yellow-400' : 'bg-white/0'} w-24 rounded-none`}>
-                <Text style={tw`${index == 1 ? 'text-black' : 'text-white'} font-bold`}>Text</Text>
-              </Button>
-              <Button onPress={() => setIndex(2)}
-                style={tw`${index == 2 ? 'bg-yellow-400' : 'bg-white/0'} w-24 rounded-r-lg rounded-l-none`}>
-                <Text style={tw`${index == 2 ? 'text-black' : 'text-white'} font-bold`}>Text</Text>
-              </Button>
+              <ButtonOf3 index={0}
+                onPress={() => setActiveSession('Text')} isActive={activeSection === 'Text'}
+                text='Text' />
+              <ButtonOf3 index={1}
+                onPress={() => setActiveSession('Link')} isActive={activeSection === 'Link'}
+                text='Link' />
+              <ButtonOf3 index={2}
+                onPress={() => setActiveSession('Image')} isActive={activeSection === 'Image'}
+                text='Image' />
             </Row>
           </LinearGradient>
           <Text style={tw`text-white`}>fasdfsd</Text>
 
         </View>
-        <View style={tw`h-12`}>
-          <Text>fsd</Text>
+        <View style={tw`h-14`}>
+          <Row style={tw`w-full absolute items-center top-[-8] justify-between px-9`}>
+            <Button h="12" w='12' rounded='full' style={tw`bg-yellow-300`}
+              _pressed={{ style: tw`bg-yellow-400` }}>
+              <Ionicons name="ios-home-sharp" size={18} color="black" />
+            </Button>
+            <Button h="16" w='16' rounded='full' style={tw`bg-yellow-300`}
+              _pressed={{ style: tw`bg-yellow-400` }}>
+              <FontAwesome5 name="camera" size={24} color="black" />
+            </Button>
+          </Row>
         </View>
 
       </Column>
