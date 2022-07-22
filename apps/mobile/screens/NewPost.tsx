@@ -43,14 +43,14 @@ export default function Home({ navigation }: ScreenProps) {
           </Row>
         </BlurView>
 
-        <View style={tw`bg-stone-800 flex-grow mt-4 pt-11`}>
+        <View style={tw`bg-stone-800 flex-grow pt-11`}>
           <LinearGradient
             colors={[`${colors.blue600}ff`, `${colors.blue400}ff`]}
-            style={tw`absolute -top-4 self-center rounded-lg`}
+            style={tw`absolute self-center rounded-lg rounded-t-none`}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
           >
-            <Row style={tw`rounded-xl`}>
+            <Row style={tw``}>
               <ButtonOf3 index={0}
                 onPress={() => setActiveSession('Text')} isActive={activeSection === 'Text'}
                 text='Text' />

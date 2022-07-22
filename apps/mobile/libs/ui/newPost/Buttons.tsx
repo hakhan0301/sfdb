@@ -12,25 +12,21 @@ export interface ButtonOf3Props extends ButtonProps {
 
 export function ButtonOf3({ text, onPress, index, isActive }: ButtonOf3Props) {
   let roundedStyle = {
-    0: 'rounded-l-lg rounded-r-none',
-    1: 'rounded-none',
-    2: 'rounded-r-lg rounded-l-none'
+    0: 'rounded-bl-lg',
+    1: '',
+    2: 'rounded-r-none rounded-br-lg'
   }
 
-  const style = tw`
-  ${isActive ? 'bg-yellow-300' : 'bg-white/0'} ${roundedStyle[index]} 
-  `
 
+  const style = tw`rounded-none ${roundedStyle[index]} ${isActive ? 'bg-yellow-300' : 'bg-white/0'}`;
   return (
-    <BlurView style={tw`${roundedStyle[index]}`} intensity={5} tint="dark">
-      <Button onPress={onPress}
-        w='24' py="1.5"
-        _pressed={{
-          style: { ...style, ...tw`${isActive ? 'bg-yellow-400' : 'bg-black/10'}` },
-        }}
-        style={style}>
-        <Text style={tw`${isActive ? 'text-black' : 'text-white'} font-bold`}>{text}</Text>
-      </Button>
-    </BlurView>
-  )
+    <Button onPress={onPress}
+      w='24' py="1.5"
+      _pressed={{
+        style: { ...style, ...tw`${isActive ? 'bg-yellow-400' : 'bg-black/10'}` },
+      }}
+      style={style}>
+      <Text style={tw`${isActive ? 'text-black' : 'text-white'} font-bold`}>{text}</Text>
+    </Button>
+  );
 }
