@@ -1,10 +1,7 @@
 import { Button as _Button } from "native-base";
 import tw from 'twrnc';
+import { ButtonProps } from "../types";
 
-export interface ButtonProps {
-  text: string;
-  onPress?: () => void
-}
 
 export default function Button({ text, onPress = () => { } }: ButtonProps) {
   return (
