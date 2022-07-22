@@ -31,7 +31,7 @@ export default function Home({ navigation }: ScreenProps) {
       end={{ x: 1, y: 0 }}
     >
       <Column style={tw`w-full h-full`}>
-        <BlurView style={tw`m-6 rounded-3xl border-4 border-white`} intensity={50}>
+        <BlurView style={tw`m-6 rounded-3xl border-4 border-white`} intensity={100}>
           <Row space="5"
             style={tw`p-5 items-center`}>
             <AntDesign name="clockcircleo" size={96} color="white" />
