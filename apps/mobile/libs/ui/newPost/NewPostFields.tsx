@@ -24,7 +24,7 @@ export function TextPostForm(props: TextPostFormProps) {
     <Column space="4">
       <Column space="2">
         <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Title</Text>
-        <Input style={tw`px-3 py-2 text-base font-medium text-white bg-black`}
+        <Input style={tw`px-3 py-2 text-base text-white bg-black`}
           placeholder='Title'
           placeholderTextColor='white'
           selectionColor={colors.deepRed200}
@@ -33,7 +33,7 @@ export function TextPostForm(props: TextPostFormProps) {
       <Column space="2">
         <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Content</Text>
         {/* @ts-ignore */}
-        <TextArea style={tw`p-3 text-base font-medium text-white bg-black`}
+        <TextArea style={tw`p-3 text-base text-white bg-black`}
           selectionColor={colors.deepRed200}
           placeholder='Content'
           placeholderTextColor='white'
@@ -50,7 +50,7 @@ export function LinkPostForm(props: LinkPostFormProps) {
     <Column space="4">
       <Column space="2">
         <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Title</Text>
-        <Input style={tw`px-3 py-2 text-base font-medium text-white bg-black`}
+        <Input style={tw`px-3 py-2 text-base text-white bg-black`}
           placeholder='Title'
           placeholderTextColor='white'
           selectionColor={colors.deepRed200}
@@ -59,7 +59,7 @@ export function LinkPostForm(props: LinkPostFormProps) {
       </Column>
       <Column space="2">
         <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Link</Text>
-        <Input style={tw`px-3 py-2 text-base font-medium text-white bg-black`}
+        <Input style={tw`px-3 py-2 text-base text-white bg-black`}
           placeholder='Link'
           placeholderTextColor='white'
           selectionColor={colors.deepRed200}
@@ -82,7 +82,7 @@ export function MediaPostForm(props: MediaPostFormProps) {
     <Column space="4" style={tw`pb-12`}>
       <Column space="2">
         <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Title</Text>
-        <Input style={tw`px-3 py-2 text-base font-medium text-white bg-black`}
+        <Input style={tw`px-3 py-2 text-base text-white bg-black`}
           placeholder='Insert Title'
           placeholderTextColor='white'
           selectionColor={colors.deepRed200}
@@ -92,13 +92,13 @@ export function MediaPostForm(props: MediaPostFormProps) {
         <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>File Type</Text>
         <Picker placeholder="Choose File Type"
 
-          style={tw`text-base font-medium text-white bg-black`}
+          style={tw`text-base text-white bg-black`}
           selectedValue={fileType}
           onValueChange={itemValue => setTileType(itemValue as FileType)}
-          itemStyle={tw`px-4 font-medium text-white bg-black`}>
-          <Picker.Item style={tw`font-medium`} label="Image" value="Image" />
-          <Picker.Item style={tw`font-medium`} label="Video" value="Video" />
-          <Picker.Item style={tw`font-medium`} label="File" value="File" />
+          itemStyle={tw`px-4 text-white bg-black`}>
+          <Picker.Item style={tw``} label="Image" value="Image" />
+          <Picker.Item style={tw``} label="Video" value="Video" />
+          <Picker.Item style={tw``} label="File" value="File" />
         </Picker>
       </Column>
       <Column space="2">
