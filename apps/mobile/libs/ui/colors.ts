@@ -50,3 +50,14 @@ export const blue800 = '#1565c0';
 export const blue900 = '#0d47a1';
 
 
+export const cyan = '#00bcd4';
+export const cyan50 = '#e0f7fa';
+export const cyan100 = '#b2ebf2';
+export const cyan200 = '#80deea';
+export const cyan300 = '#4dd0e1';
+export const cyan400 = '#26c6da';
+export const cyan500 = '#00bcd4';
+export const cyan600 = '#00acc1';
+export const cyan700 = '#0097a7';
+export const cyan800 = '#00838f';
+export const cyan900 = '#006064';
