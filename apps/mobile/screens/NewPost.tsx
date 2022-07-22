@@ -43,10 +43,10 @@ export default function Home({ navigation }: ScreenProps) {
           </Row>
         </BlurView>
 
-        <View style={tw`bg-stone-800 flex-grow mt-5 pt-11`}>
+        <View style={tw`bg-stone-800 flex-grow mt-4 pt-11`}>
           <LinearGradient
-            colors={[blue600, blue400]}
-            style={tw`absolute -top-5 self-center rounded-lg`}
+            colors={[`${colors.blue600}ff`, `${colors.blue400}ff`]}
+            style={tw`absolute -top-4 self-center rounded-lg`}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
           >
