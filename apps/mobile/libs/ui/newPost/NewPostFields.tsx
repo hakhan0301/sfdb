@@ -10,9 +10,9 @@ function SubmitButton() {
   return (
     <View style={tw`flex items-end mt-3`}>
       <Button rounded="md" w="24" py="2"
-        style={tw`bg-yellow-400`} _pressed={{ style: tw`bg-yellow-500` }}
+        style={tw`bg-[${colors.deepRed300}]`} _pressed={{ style: tw`bg-[${colors.deepRed400}]` }}
       >
-        <Text style={tw`font-medium text-black`}>Submit</Text>
+        <Text style={tw`font-bold text-black`}>Submit</Text>
       </Button>
     </View>
   );
@@ -23,16 +23,20 @@ export function TextPostForm(props: TextPostFormProps) {
   return (
     <Column space="4">
       <Column space="2">
-        <Text style={tw`text-2xl font-bold text-yellow-400`}>Title</Text>
-        <Input style={tw`h-12 text-base font-medium bg-blue-50`}
-          selectionColor={colors.blue400}
+        <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Title</Text>
+        <Input style={tw`px-3 py-2 text-base font-medium text-white bg-black`}
+          placeholder='Title'
+          placeholderTextColor='white'
+          selectionColor={colors.deepRed200}
           variant='unstyled' />
       </Column>
       <Column space="2">
-        <Text style={tw`text-2xl font-bold text-yellow-400`}>Content</Text>
+        <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Content</Text>
         {/* @ts-ignore */}
-        <TextArea style={tw`text-base font-medium bg-blue-50`}
-          selectionColor={colors.blue400}
+        <TextArea style={tw`p-3 text-base font-medium text-white bg-black`}
+          selectionColor={colors.deepRed200}
+          placeholder='Content'
+          placeholderTextColor='white'
           variant='unstyled' />
       </Column>
       <SubmitButton />
@@ -45,16 +49,22 @@ export function LinkPostForm(props: LinkPostFormProps) {
   return (
     <Column space="4">
       <Column space="2">
-        <Text style={tw`text-2xl font-bold text-yellow-400`}>Title</Text>
-        <Input style={tw`h-12 text-base font-medium bg-blue-50`}
-          selectionColor={colors.blue400}
+        <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Title</Text>
+        <Input style={tw`px-3 py-2 text-base font-medium text-white bg-black`}
+          placeholder='Title'
+          placeholderTextColor='white'
+          selectionColor={colors.deepRed200}
           variant='unstyled' />
+
       </Column>
       <Column space="2">
-        <Text style={tw`text-2xl font-bold text-yellow-400`}>Link</Text>
-        <Input style={tw`h-12 text-base font-medium bg-blue-50`}
-          selectionColor={colors.blue400}
+        <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Link</Text>
+        <Input style={tw`px-3 py-2 text-base font-medium text-white bg-black`}
+          placeholder='Link'
+          placeholderTextColor='white'
+          selectionColor={colors.deepRed200}
           variant='unstyled' />
+
       </Column>
 
       <SubmitButton />
@@ -71,28 +81,30 @@ export function MediaPostForm(props: MediaPostFormProps) {
   return (
     <Column space="4" style={tw`pb-12`}>
       <Column space="2">
-        <Text style={tw`text-2xl font-bold text-yellow-400`}>Title</Text>
-        <Input style={tw`h-12 text-base font-medium bg-blue-50`}
-          selectionColor={colors.blue400}
+        <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Title</Text>
+        <Input style={tw`px-3 py-2 text-base font-medium text-white bg-black`}
+          placeholder='Insert Title'
+          placeholderTextColor='white'
+          selectionColor={colors.deepRed200}
           variant='unstyled' />
       </Column>
       <Column space="2">
-        <Text style={tw`text-2xl font-bold text-yellow-400`}>File Type</Text>
+        <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>File Type</Text>
         <Picker placeholder="Choose File Type"
 
-          style={tw`text-base font-medium text-black bg-blue-50`}
+          style={tw`text-base font-medium text-white bg-black`}
           selectedValue={fileType}
           onValueChange={itemValue => setTileType(itemValue as FileType)}
-          itemStyle={tw`px-4 font-medium text-white bg-stone-800`}>
+          itemStyle={tw`px-4 font-medium text-white bg-black`}>
           <Picker.Item style={tw`font-medium`} label="Image" value="Image" />
           <Picker.Item style={tw`font-medium`} label="Video" value="Video" />
           <Picker.Item style={tw`font-medium`} label="File" value="File" />
         </Picker>
       </Column>
       <Column space="2">
-        <Text style={tw`text-2xl font-bold text-yellow-400`}>Upload</Text>
+        <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Upload</Text>
         <Button w="full" rounded="md"
-          style={tw`bg-blue-50`} _pressed={{ style: tw`bg-blue-200` }}
+          style={tw`bg-[${colors.deepRed50}]`} _pressed={{ style: tw`bg-[${colors.deepRed100}]` }}
         >
           <Row space="2" style={tw`items-center`}>
             <Feather name="upload-cloud" size={24} color="black" />

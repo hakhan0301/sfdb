@@ -4,16 +4,15 @@ import React, { useState } from 'react';
 import tw from 'twrnc';
 
 import { FontAwesome5 } from '@expo/vector-icons';
-import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import type { ScreenProps } from 'src/libs/types/screen';
 import { ButtonOf3 } from 'src/libs/ui/newPost/Buttons';
 import { LinkPostForm, MediaPostForm, TextPostForm } from 'src/libs/ui/newPost/NewPostFields';
 
 import * as colors from 'src/libs/ui/colors';
-import { blue400, blue600, deepOrange400, purple200accent, yellow300, yellow400 } from 'src/libs/ui/colors';
 import supabase from 'src/libs/supabase';
 import { Entypo } from '@expo/vector-icons';
+import { ImageBackground } from 'react-native';
 
 
 type ActiveSections = 'Text' | 'Link' | 'Upload';
@@ -23,27 +22,22 @@ export default function Home({ navigation }: ScreenProps) {
     = useState<ActiveSections>('Text');
 
   return (
-    <LinearGradient
-      colors={[deepOrange400, purple200accent]}
-      // colors={[colors.deepOrange400, colors.yellow800]}
-      style={tw``}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 0 }}
-    >
+    <ImageBackground source={{ uri: 'https://media.discordapp.net/attachments/748688944966664205/1000170121584709652/unsplash_kcKiBcDTJt4.png?width=336&height=661' }}
+      style={tw`bg-[${colors.forestGreen400}]`} >
       <Column style={tw`w-full h-full`}>
-        <BlurView style={tw`m-6 rounded-3xl border-4 border-white`} intensity={100}>
+        <View style={tw`m-6 rounded-3xl bg-black`}>
           <Row space="5"
             style={tw`p-5 items-center`}>
-            <AntDesign name="clockcircleo" size={96} color="white" />
+            <AntDesign name="clockcircleo" size={96} color={colors.forestGreen400} />
 
             <Column>
-              <Text style={tw`text-4xl text-white -mb-2`}>3 hours</Text>
-              <Text style={tw`text-white text-base`}>remaining</Text>
+              <Text style={tw`text-4xl text-[${colors.forestGreen400}] -mb-2`}>3 hours</Text>
+              <Text style={tw`text-[${colors.forestGreen400}] text-base`}>remaining</Text>
             </Column>
           </Row>
-        </BlurView>
+        </View>
 
-        <View style={tw`bg-stone-800 flex-grow pt-11`}>
+        <View style={tw`bg-stone-900 flex-grow pt-11`}>
           <LinearGradient
             colors={[`${colors.blue600}ff`, `${colors.blue400}ff`]}
             style={tw`absolute self-center rounded-lg rounded-t-none`}
@@ -63,7 +57,6 @@ export default function Home({ navigation }: ScreenProps) {
             </Row>
           </LinearGradient>
           <ScrollView style={tw`px-6 flex-1`}>
-
             {activeSection === "Text" && <TextPostForm />}
             {activeSection === "Link" && <LinkPostForm />}
             {activeSection === "Upload" && <MediaPostForm />}
@@ -72,14 +65,16 @@ export default function Home({ navigation }: ScreenProps) {
         </View>
         <View style={tw`h-11`}>
           <Row style={tw`w-full absolute items-center top-[-8] justify-between px-9`}>
-            <Button h="12" w='12' rounded='full' style={tw`bg-yellow-300`}
-              _pressed={{ style: tw`bg-yellow-400` }}
+            <Button h="12" w='12' rounded='full' borderWidth='4' borderColor='black' shadow='8'
+              style={tw`bg-[${colors.deepRed300}]`}
+              _pressed={{ style: tw`bg-[${colors.deepRed400}]` }}
               onPress={() => navigation.canGoBack() ? navigation.goBack() : navigation.navigate('Home')}
             >
               <Entypo name="back" size={18} color="black" />
             </Button>
-            <Button h="16" w='16' rounded='full' style={tw`bg-yellow-300`}
-              _pressed={{ style: tw`bg-yellow-400` }}
+            <Button h="16" w='16' rounded='full' borderWidth='4' borderColor='black' shadow='8'
+              style={tw`bg-[${colors.deepRed300}]`}
+              _pressed={{ style: tw`bg-[${colors.deepRed400}]` }}
               onPress={() => { }}
             >
               <FontAwesome5 name="camera" size={24} color="black" />
@@ -88,6 +83,6 @@ export default function Home({ navigation }: ScreenProps) {
         </View>
 
       </Column>
-    </LinearGradient >
+    </ImageBackground >
   );
 } 

@@ -61,3 +61,25 @@ export const cyan600 = '#00acc1';
 export const cyan700 = '#0097a7';
 export const cyan800 = '#00838f';
 export const cyan900 = '#006064';
+
+export const deepRed50 = '#FFB8B8';
+export const deepRed100 = '#FFA3A3';
+export const deepRed200 = '#FF7A7A';
+export const deepRed300 = '#FF5252';
+export const deepRed400 = '#FF2929';
+export const deepRed500 = '#FF0000';
+export const deepRed600 = '#C70000';
+export const deepRed700 = '#8F0000';
+export const deepRed800 = '#570000';
+export const deepRed900 = '#1F0000';
+
+export const forestGreen50 = '#BFD2CC';
+export const forestGreen100 = '#B3C9C3';
+export const forestGreen200 = '#9BB8B0';
+export const forestGreen300 = '#83A79D';
+export const forestGreen400 = '#6B968A';
+export const forestGreen500 = '#5A7F74';
+export const forestGreen600 = '#435E56';
+export const forestGreen700 = '#2B3D38';
+export const forestGreen800 = '#141D1A';
+export const forestGreen900 = '#000000';

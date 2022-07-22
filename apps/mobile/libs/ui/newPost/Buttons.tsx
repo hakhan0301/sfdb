@@ -4,6 +4,7 @@ import React from 'react';
 import tw from 'twrnc';
 
 import { ButtonProps } from "../types";
+import * as colors from 'src/libs/ui/colors';
 
 export interface ButtonOf3Props extends ButtonProps {
   index: 0 | 1 | 2;
@@ -17,16 +18,19 @@ export function ButtonOf3({ text, onPress, index, isActive }: ButtonOf3Props) {
     2: 'rounded-r-none rounded-br-lg'
   }
 
+  const bgColor = isActive ? `bg-[${colors.deepRed300}]` : `bg-[${colors.forestGreen400}]`;
+  const pressedBgColor = isActive ? `bg-[${colors.deepRed400}]` : `bg-[${colors.forestGreen500}]`;
 
-  const style = tw`rounded-none ${roundedStyle[index]} ${isActive ? 'bg-yellow-300' : 'bg-white/0'}`;
+
+  const style = tw`rounded-none ${roundedStyle[index]} ${bgColor}`;
   return (
     <Button onPress={onPress}
       w='24' py="1.5"
       _pressed={{
-        style: { ...style, ...tw`${isActive ? 'bg-yellow-400' : 'bg-black/10'}` },
+        style: { ...style, ...tw`${pressedBgColor}` },
       }}
       style={style}>
-      <Text style={tw`${isActive ? 'text-black' : 'text-white'} font-bold`}>{text}</Text>
+      <Text style={tw`${isActive ? 'text-black' : 'text-black'} font-bold`}>{text}</Text>
     </Button>
   );
 }
