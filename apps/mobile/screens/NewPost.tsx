@@ -80,7 +80,7 @@ export default function Home({ navigation }: ScreenProps) {
             </Button>
             <Button h="16" w='16' rounded='full' style={tw`bg-yellow-300`}
               _pressed={{ style: tw`bg-yellow-400` }}
-              onPress={() => supabase.auth.signOut()}
+              onPress={() => { }}
             >
               <FontAwesome5 name="camera" size={24} color="black" />
             </Button>
@@ -88,6 +88,6 @@ export default function Home({ navigation }: ScreenProps) {
         </View>
 
       </Column>
-    </LinearGradient>
+    </LinearGradient >
   );
 } 
