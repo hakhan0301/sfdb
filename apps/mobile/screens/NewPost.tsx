@@ -62,7 +62,7 @@ export default function Home({ navigation }: ScreenProps) {
                 text='Upload' />
             </Row>
           </LinearGradient>
-          <ScrollView style={tw`px-6`}>
+          <ScrollView style={tw`px-6 flex-1`}>
 
             {activeSection === "Text" && <TextPostForm />}
             {activeSection === "Link" && <LinkPostForm />}

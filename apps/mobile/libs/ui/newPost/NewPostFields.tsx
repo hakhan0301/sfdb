@@ -69,7 +69,7 @@ export function MediaPostForm(props: MediaPostFormProps) {
   const [fileType, setTileType] = useState<FileType>("Image");
 
   return (
-    <Column space="4">
+    <Column space="4" style={tw`pb-12`}>
       <Column space="2">
         <Text style={tw`text-2xl font-bold text-yellow-400`}>Title</Text>
         <Input style={tw`h-12 text-base font-medium bg-blue-50`}
@@ -83,10 +83,10 @@ export function MediaPostForm(props: MediaPostFormProps) {
           style={tw`text-base font-medium text-black bg-blue-50`}
           selectedValue={fileType}
           onValueChange={itemValue => setTileType(itemValue as FileType)}
-          itemStyle={tw`px-4 bg-red-500`}>
-          <Picker.Item style={tw`font-medium bg-red-500`} label="Image" value="Image" />
-          <Picker.Item style={tw`font-medium bg-red-500`} label="Video" value="Video" />
-          <Picker.Item style={tw`font-medium bg-red-500`} label="File" value="File" />
+          itemStyle={tw`px-4 font-medium text-white bg-stone-800`}>
+          <Picker.Item style={tw`font-medium`} label="Image" value="Image" />
+          <Picker.Item style={tw`font-medium`} label="Video" value="Video" />
+          <Picker.Item style={tw`font-medium`} label="File" value="File" />
         </Picker>
       </Column>
       <Column space="2">
