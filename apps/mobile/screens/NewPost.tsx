@@ -25,7 +25,7 @@ export default function Home({ navigation }: ScreenProps) {
     <ImageBackground source={{ uri: 'https://media.discordapp.net/attachments/748688944966664205/1000170121584709652/unsplash_kcKiBcDTJt4.png?width=336&height=661' }}
       style={tw`bg-[${colors.deepRed400}]`} >
       <Column style={tw`w-full h-full`}>
-        <View style={tw`m-6 rounded-3xl bg-black`}>
+        <View style={tw`m-6 rounded-3xl bg-stone-900`}>
           <Row space="5"
             style={tw`p-5 items-center`}>
             <AntDesign name="clockcircleo" size={96} color={colors.deepRed400} />
