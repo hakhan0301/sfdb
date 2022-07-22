@@ -8,6 +8,12 @@ import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import type { ScreenProps } from 'src/libs/types/screen';
 import { ButtonOf3 } from 'src/libs/ui/newPost/Buttons';
+import { NewTextForm } from 'src/libs/ui/newPost/NewPostFields';
+
+import * as colors from 'src/libs/ui/colors';
+import { blue400, blue600, deepOrange400, purple200accent, yellow300, yellow400 } from 'src/libs/ui/colors';
+import supabase from 'src/libs/supabase';
+import { Entypo } from '@expo/vector-icons';
 
 
 type ActiveSections = 'Text' | 'Link' | 'Image';
@@ -18,7 +24,8 @@ export default function Home({ navigation }: ScreenProps) {
 
   return (
     <LinearGradient
-      colors={['#ff7043', '#e040fb']}
+      colors={[deepOrange400, purple200accent]}
+      // colors={[colors.deepOrange400, colors.yellow800]}
       style={tw``}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
@@ -38,7 +45,7 @@ export default function Home({ navigation }: ScreenProps) {
 
         <View style={tw`bg-stone-800 flex-grow mt-5 p-6 pt-11`}>
           <LinearGradient
-            colors={['#1e88e5', '#42a5f5']}
+            colors={[blue600, blue400]}
             style={tw`absolute -top-5 self-center rounded-lg`}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
@@ -55,17 +62,22 @@ export default function Home({ navigation }: ScreenProps) {
                 text='Image' />
             </Row>
           </LinearGradient>
-          <Text style={tw`text-white`}>fasdfsd</Text>
+
+          {activeSection === "Text" && <NewTextForm />}
 
         </View>
         <View style={tw`h-14`}>
           <Row style={tw`w-full absolute items-center top-[-8] justify-between px-9`}>
             <Button h="12" w='12' rounded='full' style={tw`bg-yellow-300`}
-              _pressed={{ style: tw`bg-yellow-400` }}>
-              <Ionicons name="ios-home-sharp" size={18} color="black" />
+              _pressed={{ style: tw`bg-yellow-400` }}
+              onPress={() => navigation.canGoBack() ? navigation.goBack() : navigation.navigate('Home')}
+            >
+              <Entypo name="back" size={18} color="black" />
             </Button>
             <Button h="16" w='16' rounded='full' style={tw`bg-yellow-300`}
-              _pressed={{ style: tw`bg-yellow-400` }}>
+              _pressed={{ style: tw`bg-yellow-400` }}
+              onPress={() => supabase.auth.signOut()}
+            >
               <FontAwesome5 name="camera" size={24} color="black" />
             </Button>
           </Row>
