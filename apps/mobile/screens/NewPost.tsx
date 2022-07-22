@@ -17,7 +17,7 @@ import { ImageBackground } from 'react-native';
 
 type ActiveSections = 'Text' | 'Link' | 'Upload';
 
-export default function Home({ navigation }: ScreenProps) {
+export default function NewPost({ navigation }: ScreenProps) {
   const [activeSection, setActiveSession]
     = useState<ActiveSections>('Text');
 
