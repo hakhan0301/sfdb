@@ -64,20 +64,20 @@ export default function Home({ navigation }: ScreenProps) {
 
         </View>
         <View style={tw`h-11`}>
-          <Row style={tw`w-full absolute items-center top-[-8] justify-between px-9`}>
-            <Button h="12" w='12' rounded='full' borderWidth='4' borderColor='black' shadow='8'
+          <Row style={tw`w-full absolute items-center top-[-10] justify-between px-9`}>
+            <Button h="16" w='16' rounded='full' borderWidth='4' borderColor='black' shadow='8'
               style={tw`bg-[${colors.deepRed300}]`}
               _pressed={{ style: tw`bg-[${colors.deepRed400}]` }}
               onPress={() => navigation.canGoBack() ? navigation.goBack() : navigation.navigate('Home')}
             >
-              <Entypo name="back" size={18} color="black" />
+              <Entypo name="back" size={20} color="black" />
             </Button>
-            <Button h="16" w='16' rounded='full' borderWidth='4' borderColor='black' shadow='8'
+            <Button h="20" w='20' rounded='full' borderWidth='4' borderColor='black' shadow='8'
               style={tw`bg-[${colors.deepRed300}]`}
               _pressed={{ style: tw`bg-[${colors.deepRed400}]` }}
               onPress={() => { }}
             >
-              <FontAwesome5 name="camera" size={24} color="black" />
+              <FontAwesome5 name="camera" size={26} color="black" />
             </Button>
           </Row>
         </View>
