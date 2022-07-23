@@ -1,14 +1,14 @@
 import { AntDesign, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
-import { Avatar, Box, Column, Image, Row, Text } from 'native-base';
+import { Avatar, Box, Center, Column, Image, Row, Text, View } from 'native-base';
 import tw from 'twrnc';
-import type { Comment as CommentType, _Post as PostType } from 'src/libs/types/posts';
+import type { Comment as CommentType, _Post as PostType, PostType as TypeOfPost } from 'src/libs/types/posts';
 
 
 interface CommentProps extends CommentType {
   index: number
 }
 
-export function Comment({ user, text, createdAt, index }: CommentProps) {
+function Comment({ user, text, createdAt, index }: CommentProps) {
   const isEven = index % 2 === 0;
   const bg = isEven ? 'bg-orange-100' : 'bg-orange-50';
   const border = `${index === 0 ? 'border-t' : ''} border-b border-amber-800/20`;
@@ -30,10 +30,33 @@ export function Comment({ user, text, createdAt, index }: CommentProps) {
   )
 }
 
+interface PostBodyProps {
+  post_type: TypeOfPost,
+  text: string
+}
+function PostBody({ post_type, text }: PostBodyProps) {
+  switch (post_type) {
+    case 'TEXT':
+      return (
+        <View style={tw`bg-yellow-100 w-full px-4 py-4`}>
+          <Text style={tw`text-base text-black`}>
+            {text}
+          </Text>
+        </View>
+      );
+    case 'MEDIA':
+      return <Image
+        style={{ height: undefined, aspectRatio: 9 / 16, width: '100%' }}
+        source={{ uri: text }} alt="user picture" />;
+  }
 
-export default function Post({ user, text, title, likes, createdAt, comments }: PostType) {
+  return <>ERROR</>;
+}
+
+
+export default function Post({ user, text, title, likes, createdAt, comments, post_type }: PostType) {
   return (
-    <Column style={tw``}>
+    <Column style={tw`h-full bg-red-500`}>
       {/* post header */}
       <Column style={tw``}>
         {/* user */}
@@ -62,11 +85,9 @@ export default function Post({ user, text, title, likes, createdAt, comments }: 
       </Column>
 
 
-      {/* image */}
+      {/* content */}
       <Box flexDir='row' justifyContent='center'>
-        <Image
-          style={{ height: undefined, aspectRatio: 9 / 16, width: '100%' }}
-          source={{ uri: text }} alt="user picture" />
+        <PostBody post_type={post_type} text={text} />
       </Box>
 
       {/* post footer */}

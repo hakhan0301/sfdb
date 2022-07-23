@@ -1,5 +1,9 @@
+export type PostType =
+  'TEXT' | 'LINK' | 'MEDIA';
+
 export interface _Post {
   id: number;
+  post_type: PostType;
   createdAt: Date;
   title: string;
   text: string;
@@ -8,8 +12,10 @@ export interface _Post {
   comments: Comment[];
 }
 
+
 export interface Post {
   id: number;
+  post_type: PostType;
   created_at: string;
   title: string;
   body: string;
