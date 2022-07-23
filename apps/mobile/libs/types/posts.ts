@@ -10,7 +10,7 @@ export interface _Post {
 
 export interface Post {
   id: number;
-  createdAt: Date;
+  created_at: Date;
   title: string;
   body: string;
   user_id: string;
