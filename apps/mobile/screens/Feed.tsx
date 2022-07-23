@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Swiper from 'react-native-swiper';
 import tw from 'twrnc';
 
-import type { Post as PostType, User } from 'src/libs/types/posts';
+import type { _Post as PostType, User } from 'src/libs/types/posts';
 import type { ScreenProps } from 'src/libs/types/screen';
 
 import Post from 'src/libs/ui/Post';

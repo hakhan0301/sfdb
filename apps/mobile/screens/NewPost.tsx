@@ -26,7 +26,7 @@ export default function NewPost({ navigation }: ScreenProps) {
   const session = useSession();
 
   const handleTextContentSubmit = async (postBody: TextPostBody) => {
-    const { body, error } = await tables._posts().insert({
+    const { body, error } = await tables.posts().insert({
       id: 2,
       title: postBody.title,
       body: postBody.content,

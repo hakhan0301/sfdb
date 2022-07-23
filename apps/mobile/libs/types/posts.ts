@@ -1,4 +1,4 @@
-export interface Post {
+export interface _Post {
   id: number;
   createdAt: Date;
   title: string;
@@ -8,7 +8,7 @@ export interface Post {
   comments: Comment[];
 }
 
-export interface _Post {
+export interface Post {
   id: number;
   createdAt: Date;
   title: string;
