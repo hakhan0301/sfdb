@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 
 import Constants from 'expo-constants';
 
-import type { Post } from "./types/posts";
+import type { Post, _Post } from "./types/posts";
 
 
 const supabaseUrl = Constants.manifest!.extra!.SUPABASE_URL!;
@@ -18,7 +18,7 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 
 export default supabase;
 
-
 export const tables = {
   posts: () => supabase.from<Post>('Posts'),
+  _posts: () => supabase.from<_Post>('Posts'),
 }

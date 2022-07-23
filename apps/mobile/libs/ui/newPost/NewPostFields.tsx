@@ -5,12 +5,18 @@ import * as colors from "../colors";
 import { Picker } from '@react-native-picker/picker';
 import DocumentPicker from 'expo-document-picker';
 import { Feather } from '@expo/vector-icons';
+import { TextPostBody } from "src/libs/types/posts";
 
-function SubmitButton() {
+
+type SubmitButtonProps = {
+  onPress?: () => void
+}
+function SubmitButton({ onPress }: SubmitButtonProps) {
   return (
     <View style={tw`flex items-end mt-3`}>
       <Button rounded="md" w="24" py="2"
         style={tw`bg-[${colors.deepRed300}]`} _pressed={{ style: tw`bg-[${colors.deepRed400}]` }}
+        onPress={onPress}
       >
         <Text style={tw`font-bold text-black`}>Submit</Text>
       </Button>
@@ -18,15 +24,29 @@ function SubmitButton() {
   );
 }
 
-export interface TextPostFormProps { }
-export function TextPostForm(props: TextPostFormProps) {
+export interface TextPostFormProps {
+  onSubmit?: (body: TextPostBody) => Promise<boolean | undefined | void>;
+}
+export function TextPostForm({ onSubmit }: TextPostFormProps) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
+  const onHandleSubmit = async () => {
+    let clearState: any = true;
+    if (onSubmit) {
+      clearState = await onSubmit({ title, content });
+    }
+
+    if (clearState) {
+      setTitle('');
+      setContent('');
+    }
+  }
+
   return (
     <Column space="4">
+      <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Text Post</Text>
       <Column space="2">
-        <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Title</Text>
         <Input style={tw`px-3 py-2 text-base text-white bg-black`}
           placeholder='Title'
           placeholderTextColor='#BFD2CC'
@@ -35,7 +55,7 @@ export function TextPostForm(props: TextPostFormProps) {
           value={title} onChangeText={setTitle} />
       </Column>
       <Column space="2">
-        <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Content</Text>
+        {/* <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Content</Text> */}
         {/* @ts-ignore */}
         <TextArea style={tw`p-3 text-base text-white bg-black`}
           selectionColor={colors.deepRed200}
@@ -44,7 +64,7 @@ export function TextPostForm(props: TextPostFormProps) {
           variant='unstyled'
           value={content} onChangeText={setContent} />
       </Column>
-      <SubmitButton />
+      <SubmitButton onPress={onHandleSubmit} />
     </Column>
   )
 }

@@ -8,6 +8,15 @@ export interface Post {
   comments: Comment[];
 }
 
+export interface _Post {
+  id: number;
+  createdAt: Date;
+  title: string;
+  body: string;
+  user_id: string;
+}
+
+
 export interface User {
   pfp: string;
   name: string;
@@ -25,3 +34,13 @@ export interface Comment {
     pfp: string
   },
 }
+
+export interface BasePostBody {
+  title: string;
+}
+
+export interface TextPostBody extends BasePostBody {
+  content: string;
+}
+
+export type PostBody = TextPostBody; 

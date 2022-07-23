@@ -10,9 +10,11 @@ import { ButtonOf3 } from 'src/libs/ui/newPost/Buttons';
 import { LinkPostForm, MediaPostForm, TextPostForm } from 'src/libs/ui/newPost/NewPostFields';
 
 import * as colors from 'src/libs/ui/colors';
-import supabase from 'src/libs/supabase';
+import supabase, { tables } from 'src/libs/supabase';
 import { Entypo } from '@expo/vector-icons';
-import { ImageBackground } from 'react-native';
+import { Alert, ImageBackground } from 'react-native';
+import { TextPostBody } from 'src/libs/types/posts';
+import { useSession } from 'src/libs/hooks/auth';
 
 
 type ActiveSections = 'Text' | 'Link' | 'Upload';
@@ -20,6 +22,24 @@ type ActiveSections = 'Text' | 'Link' | 'Upload';
 export default function NewPost({ navigation }: ScreenProps) {
   const [activeSection, setActiveSession]
     = useState<ActiveSections>('Text');
+
+  const session = useSession();
+
+  const handleTextContentSubmit = async (postBody: TextPostBody) => {
+    const { body, error } = await tables._posts().insert({
+      id: 2,
+      title: postBody.title,
+      body: postBody.content,
+      user_id: session.user?.id
+    }, { returning: 'representation' });
+
+    if (error) {
+      Alert.alert(error.message);
+      return false;
+    }
+
+    return true;
+  }
 
   return (
     <ImageBackground source={{ uri: 'https://media.discordapp.net/attachments/748688944966664205/1000170121584709652/unsplash_kcKiBcDTJt4.png?width=336&height=661' }}
@@ -57,7 +77,7 @@ export default function NewPost({ navigation }: ScreenProps) {
             </Row>
           </LinearGradient>
           <ScrollView style={tw`px-6 flex-1`}>
-            {activeSection === "Text" && <TextPostForm />}
+            {activeSection === "Text" && <TextPostForm onSubmit={handleTextContentSubmit} />}
             {activeSection === "Link" && <LinkPostForm />}
             {activeSection === "Upload" && <MediaPostForm />}
           </ScrollView>
