@@ -26,11 +26,7 @@ function NavBar(props: NativeStackHeaderProps) {
         <Text style={tw`text-xl text-white`}>Sussy Baka</Text>
       </Button>
       <Row space={2} style={tw`items-center`}>
-        <Text style={tw`text-lg text-center text-white`}
-          onPress={() => props.navigation.navigate('NewPost')}
-        >d</Text>
-        <Text style={tw`text-2xl text-center text-white`}>+</Text>
-        <Text
+        <Text onPress={() => supabase.auth.signOut()}
           style={tw`text-2xl text-center text-white`}>≡</Text>
       </Row>
     </Box >
