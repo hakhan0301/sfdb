@@ -1,4 +1,4 @@
-import { Box, Button, Row, ScrollView, Text, View } from 'native-base';
+import { Box, Button, Center, Row, ScrollView, Text, View } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import Swiper from 'react-native-swiper';
 import tw from 'twrnc';
@@ -28,6 +28,7 @@ function completeMinimalPost(post: PostType): _Post {
 
 export default function PostsPage({ navigation }: ScreenProps) {
   const [posts, setPosts] = useState<PostType[]>([]);
+  const [loading, setLoading] = useState(true);
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -38,6 +39,7 @@ export default function PostsPage({ navigation }: ScreenProps) {
         .limit(10);
 
       setPosts(res.data ?? []);
+      setLoading(false);
     };
 
     getPosts();
@@ -49,20 +51,20 @@ export default function PostsPage({ navigation }: ScreenProps) {
       <Swiper
         showsPagination={false} loadMinimal={false}
         horizontal={false} loop={false} index={index} onIndexChanged={setIndex}>
-        {/* {posts.map((post, i) => (
-        <Text>{JSON.stringify(completeMinimalPost(post), null, 2)}</Text>
-      ))} */}
         {posts.map((post, i) => (
-          <ScrollView bg="yellow.200" key={post.id} nestedScrollEnabled={true} scrollEnabled={Math.abs(index - 1) <= 1}>
+          <ScrollView style={tw`bg-yellow-200`} borderTopWidth="1.5" borderColor="black"
+            key={post.id} nestedScrollEnabled={true} scrollEnabled={Math.abs(index - 1) <= 1}>
             <Post {...completeMinimalPost(post)} />
           </ScrollView>
         ))}
       </Swiper>
-
-      <Button style={tw`absolute w-16 h-16 rounded-full right-8 bottom-6`}
-        onPress={() => navigation.navigate('NewPost')}>
-        <Text style={tw`text-3xl text-white`}>+</Text>
-      </Button>
+      <View style={tw`absolute w-full h-full`}>
+        {loading && <Text>loading</Text>}
+        <Button style={tw`absolute w-16 h-16 rounded-full right-8 bottom-6`}
+          onPress={() => navigation.navigate('NewPost')}>
+          <Text style={tw`text-3xl text-white`}>+</Text>
+        </Button>
+      </View>
     </>
   );
 } 
