@@ -56,7 +56,7 @@ function PostBody({ post_type, text }: PostBodyProps) {
 
 export default function Post({ user, text, title, likes, createdAt, comments, post_type }: PostType) {
   return (
-    <Column style={tw`h-full bg-red-500`}>
+    <Column style={tw`h-full`}>
       {/* post header */}
       <Column style={tw``}>
         {/* user */}
@@ -83,7 +83,6 @@ export default function Post({ user, text, title, likes, createdAt, comments, po
         {/* title */}
         <Text style={tw`bg-yellow-200 text-lg px-4 py-2 font-semibold`}>{title}</Text>
       </Column>
-
 
       {/* content */}
       <Box flexDir='row' justifyContent='center'>
