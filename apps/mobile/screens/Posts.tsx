@@ -1,4 +1,4 @@
-import { Box, Row, ScrollView, Text, View } from 'native-base';
+import { Box, Button, Row, ScrollView, Text, View } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import Swiper from 'react-native-swiper';
 import tw from 'twrnc';
@@ -45,17 +45,24 @@ export default function PostsPage({ navigation }: ScreenProps) {
 
 
   return (
-    <Swiper
-      showsPagination={false} loadMinimal={false}
-      horizontal={false} loop={false} index={index} onIndexChanged={setIndex}>
-      {/* {posts.map((post, i) => (
+    <>
+      <Swiper
+        showsPagination={false} loadMinimal={false}
+        horizontal={false} loop={false} index={index} onIndexChanged={setIndex}>
+        {/* {posts.map((post, i) => (
         <Text>{JSON.stringify(completeMinimalPost(post), null, 2)}</Text>
       ))} */}
-      {posts.map((post, i) => (
-        <ScrollView bg="yellow.200" key={post.id} nestedScrollEnabled={true} scrollEnabled={Math.abs(index - 1) <= 1}>
-          <Post {...completeMinimalPost(post)} />
-        </ScrollView>
-      ))}
-    </Swiper>
+        {posts.map((post, i) => (
+          <ScrollView bg="yellow.200" key={post.id} nestedScrollEnabled={true} scrollEnabled={Math.abs(index - 1) <= 1}>
+            <Post {...completeMinimalPost(post)} />
+          </ScrollView>
+        ))}
+      </Swiper>
+
+      <Button style={tw`absolute w-16 h-16 rounded-full right-8 bottom-6`}
+        onPress={() => navigation.navigate('NewPost')}>
+        <Text style={tw`text-3xl text-white`}>+</Text>
+      </Button>
+    </>
   );
 } 
