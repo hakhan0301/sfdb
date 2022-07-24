@@ -10,14 +10,15 @@ import * as colors from "../colors";
 
 
 type SubmitButtonProps = {
-  onPress?: () => void
+  onPress?: () => void,
+  disabled?: boolean
 }
-function SubmitButton({ onPress }: SubmitButtonProps) {
+function SubmitButton({ onPress, disabled }: SubmitButtonProps) {
   return (
     <View style={tw`flex items-end mt-3`}>
       <Button rounded="md" w="24" py="2"
         style={tw`bg-[${colors.deepRed300}]`} _pressed={{ style: tw`bg-[${colors.deepRed400}]` }}
-        onPress={onPress}
+        onPress={onPress} disabled={disabled}
       >
         <Text style={tw`font-bold text-black`}>Submit</Text>
       </Button>
@@ -119,6 +120,8 @@ export interface MediaPostFormProps {
   onSubmit?: (body: FileBody) => Promise<boolean | undefined | void>;
 }
 export function MediaPostForm({ onSubmit }: MediaPostFormProps) {
+  const [loading, setLoading] = useState(false);
+
   const [fileType, setTileType] = useState<FileType>("Image");
   const [title, setTitle] = useState('');
 
@@ -135,8 +138,6 @@ export function MediaPostForm({ onSubmit }: MediaPostFormProps) {
     if (fileData.type === 'cancel') {
       return;
     }
-
-    console.log(fileData);
 
     const { name, uri, size } = fileData;
     if (size! > 80000000) {
@@ -156,6 +157,8 @@ export function MediaPostForm({ onSubmit }: MediaPostFormProps) {
     if (!localFileURI) return;
     if (!title) return;
 
+    setLoading(true);
+
     let clearState: any = true;
     if (onSubmit) {
       clearState = await onSubmit({
@@ -165,10 +168,13 @@ export function MediaPostForm({ onSubmit }: MediaPostFormProps) {
       });
     }
 
+
     if (clearState) {
       clearFile();
       setTitle('');
     }
+
+    setLoading(false);
   }
 
 
@@ -210,7 +216,7 @@ export function MediaPostForm({ onSubmit }: MediaPostFormProps) {
         </Row>
       )}
 
-      <SubmitButton onPress={onHandleSubmit} />
+      <SubmitButton onPress={onHandleSubmit} disabled={loading} />
     </Column >
   )
 }

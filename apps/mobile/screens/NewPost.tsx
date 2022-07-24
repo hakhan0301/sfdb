@@ -94,8 +94,6 @@ export default function NewPost({ navigation }: ScreenProps) {
       return false;
     }
 
-    console.log(postResult);
-
     return true;
   }
 
