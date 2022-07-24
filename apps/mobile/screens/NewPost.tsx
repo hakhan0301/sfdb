@@ -13,7 +13,7 @@ import * as colors from 'src/libs/ui/colors';
 import supabase, { tables } from 'src/libs/supabase';
 import { Entypo } from '@expo/vector-icons';
 import { Alert, ImageBackground } from 'react-native';
-import { TextPostBody } from 'src/libs/types/posts';
+import { LinkBody, TextBody } from 'src/libs/types/posts';
 import { useSession } from 'src/libs/hooks/auth';
 
 
@@ -25,11 +25,29 @@ export default function NewPost({ navigation }: ScreenProps) {
 
   const session = useSession();
 
-  const handleTextContentSubmit = async (postBody: TextPostBody) => {
+
+  const handleLinkContentSubmit = async (postBody: LinkBody) => {
+    const { body, error } = await tables.posts().insert({
+      title: postBody.title,
+      body: postBody.link,
+      user_id: session.user?.id,
+      post_type: 'LINK'
+    }, { returning: 'representation' });
+
+    if (error) {
+      Alert.alert(error.message);
+      return false;
+    }
+
+    return true;
+  }
+
+  const handleTextContentSubmit = async (postBody: TextBody) => {
     const { body, error } = await tables.posts().insert({
       title: postBody.title,
       body: postBody.content,
-      user_id: session.user?.id
+      user_id: session.user?.id,
+      post_type: 'TEXT'
     }, { returning: 'representation' });
 
     if (error) {
@@ -77,7 +95,7 @@ export default function NewPost({ navigation }: ScreenProps) {
           </LinearGradient>
           <ScrollView style={tw`px-6 flex-1`}>
             {activeSection === "Text" && <TextPostForm onSubmit={handleTextContentSubmit} />}
-            {activeSection === "Link" && <LinkPostForm />}
+            {activeSection === "Link" && <LinkPostForm onSubmit={handleLinkContentSubmit} />}
             {activeSection === "Upload" && <MediaPostForm />}
           </ScrollView>
 

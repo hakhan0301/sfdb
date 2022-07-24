@@ -44,13 +44,21 @@ function PostBody({ post_type, text }: PostBodyProps) {
           </Text>
         </View>
       );
+    case 'LINK':
+      return (
+        <View style={tw`bg-yellow-100 w-full px-4 py-4`}>
+          <Text style={tw`text-base text-black`}>
+            link: {text}
+          </Text>
+        </View>
+      );
     case 'MEDIA':
       return <Image
         style={{ height: undefined, aspectRatio: 9 / 16, width: '100%' }}
         source={{ uri: text }} alt="user picture" />;
   }
 
-  return <>ERROR</>;
+  throw new Error("INVALID POST_TYPE");
 }
 
 

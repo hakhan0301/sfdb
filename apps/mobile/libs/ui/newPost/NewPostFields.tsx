@@ -5,7 +5,7 @@ import * as colors from "../colors";
 import { Picker } from '@react-native-picker/picker';
 import DocumentPicker from 'expo-document-picker';
 import { Feather } from '@expo/vector-icons';
-import { TextPostBody } from "src/libs/types/posts";
+import { TextBody, LinkBody } from "src/libs/types/posts";
 
 
 type SubmitButtonProps = {
@@ -25,7 +25,7 @@ function SubmitButton({ onPress }: SubmitButtonProps) {
 }
 
 export interface TextPostFormProps {
-  onSubmit?: (body: TextPostBody) => Promise<boolean | undefined | void>;
+  onSubmit?: (body: TextBody) => Promise<boolean | undefined | void>;
 }
 export function TextPostForm({ onSubmit }: TextPostFormProps) {
   const [title, setTitle] = useState('');
@@ -69,10 +69,25 @@ export function TextPostForm({ onSubmit }: TextPostFormProps) {
   )
 }
 
-export interface LinkPostFormProps { }
-export function LinkPostForm(props: LinkPostFormProps) {
+export interface LinkPostFormProps {
+  onSubmit?: (body: LinkBody) => Promise<boolean | undefined | void>;
+}
+export function LinkPostForm({ onSubmit }: LinkPostFormProps) {
   const [title, setTitle] = useState('');
   const [link, setLink] = useState('');
+
+  const onHandleSubmit = async () => {
+    let clearState: any = true;
+    if (onSubmit) {
+      clearState = await onSubmit({ title, link });
+    }
+
+    if (clearState) {
+      setTitle('');
+      setLink('');
+    }
+  }
+
 
   return (
     <Column space="4">
@@ -94,7 +109,7 @@ export function LinkPostForm(props: LinkPostFormProps) {
           variant='unstyled'
           value={link} onChangeText={setLink} />
       </Column>
-      <SubmitButton />
+      <SubmitButton onPress={onHandleSubmit} />
     </Column>
   )
 }

@@ -45,8 +45,12 @@ export interface BasePostBody {
   title: string;
 }
 
-export interface TextPostBody extends BasePostBody {
+export interface TextBody extends BasePostBody {
   content: string;
 }
 
-export type PostBody = TextPostBody; 
+export interface LinkBody extends BasePostBody {
+  link: string;
+}
+
+export type PostBody = TextBody | LinkBody; 
