@@ -152,7 +152,7 @@ export default function NewPost({ navigation }: ScreenProps) {
             <Button h="20" w='20' rounded='full' borderWidth='4' borderColor='black' shadow='8'
               style={tw`bg-[${colors.deepRed300}]`}
               _pressed={{ style: tw`bg-[${colors.deepRed400}]` }}
-              onPress={() => { }}
+              onPress={() => navigation.navigate('Camera')}
             >
               <FontAwesome5 name="camera" size={26} color="black" />
             </Button>

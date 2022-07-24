@@ -4,6 +4,7 @@ import { Box, Button, NativeBaseProvider, Row, StatusBar, Text, extendTheme } fr
 import tw from 'twrnc';
 
 import PostsScreen from './screens/Posts';
+import CameraScreen from './screens/Camera';
 import NewPostScreen from './screens/NewPost';
 import WelcomeScreen from './screens/welcome/Welcome';
 import LoginScreen from './screens/welcome/Login';
@@ -63,8 +64,9 @@ export default function App() {
               <Stack.Screen name="Login" key="Login" component={LoginScreen} options={{ header: EmptyHeader }} />
             ]}
             {session && [
-              <Stack.Screen name="Home" key="Home" component={PostsScreen} />,
               <Stack.Screen name="NewPost" key="NewPost" component={NewPostScreen} options={{ header: EmptyHeader }} />,
+              <Stack.Screen name="Home" key="Home" component={PostsScreen} />,
+              <Stack.Screen name="Camera" key="Camera" component={CameraScreen} />,
             ]}
           </Stack.Navigator>
 
