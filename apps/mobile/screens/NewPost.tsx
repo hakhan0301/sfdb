@@ -13,9 +13,12 @@ import * as colors from 'src/libs/ui/colors';
 import supabase, { tables } from 'src/libs/supabase';
 import { Entypo } from '@expo/vector-icons';
 import { Alert, ImageBackground } from 'react-native';
-import { LinkBody, TextBody } from 'src/libs/types/posts';
+import { FileBody, fileMimes, LinkBody, TextBody } from 'src/libs/types/posts';
 import { useSession } from 'src/libs/hooks/auth';
+import uuid from 'react-native-uuid';
+import { decode } from 'base64-arraybuffer'
 
+import * as FileSystem from 'expo-file-system';
 
 type ActiveSections = 'Text' | 'Link' | 'Upload';
 
@@ -58,6 +61,45 @@ export default function NewPost({ navigation }: ScreenProps) {
     return true;
   }
 
+  const handleFileContentSubmit = async (postBody: FileBody) => {
+    const fileBase64 = await FileSystem.readAsStringAsync(
+      postBody.url,
+      { encoding: 'base64' }
+    );
+
+    const uploadResult = await supabase.storage
+      .from('post-files')
+      .upload(`public/${uuid.v4()}`, decode(fileBase64), {
+        contentType: fileMimes[postBody.fileType]
+      });
+
+    if (uploadResult.error) {
+      Alert.alert(uploadResult.error.message);
+      return false;
+    }
+
+    const postResult = await tables.posts().insert({
+      title: postBody.title,
+      body: JSON.stringify({
+        title: postBody.title,
+        fileType: postBody.fileType,
+        url: uploadResult.data?.Key
+      }),
+      user_id: session.user?.id,
+      post_type: 'MEDIA'
+    }, { returning: 'representation' });
+
+    if (postResult.error) {
+      Alert.alert(postResult.error.message);
+      return false;
+    }
+
+    console.log(postResult);
+
+    return true;
+  }
+
+
   return (
     <ImageBackground source={{ uri: 'https://media.discordapp.net/attachments/748688944966664205/1000170121584709652/unsplash_kcKiBcDTJt4.png?width=336&height=661' }}
       style={tw`bg-[${colors.deepRed300}]`} >
@@ -96,7 +138,7 @@ export default function NewPost({ navigation }: ScreenProps) {
           <ScrollView style={tw`px-6 flex-1`}>
             {activeSection === "Text" && <TextPostForm onSubmit={handleTextContentSubmit} />}
             {activeSection === "Link" && <LinkPostForm onSubmit={handleLinkContentSubmit} />}
-            {activeSection === "Upload" && <MediaPostForm />}
+            {activeSection === "Upload" && <MediaPostForm onSubmit={handleFileContentSubmit} />}
           </ScrollView>
 
         </View>

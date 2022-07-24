@@ -53,4 +53,18 @@ export interface LinkBody extends BasePostBody {
   link: string;
 }
 
-export type PostBody = TextBody | LinkBody; 
+
+export type FileType = "Image" | 'Video' | 'File';
+
+export const fileMimes: { [K in FileType]: string } = {
+  Image: 'image/*',
+  Video: 'video/*',
+  File: '*/*'
+}
+
+export interface FileBody extends BasePostBody {
+  url: string;
+  fileType: FileType
+}
+
+export type PostBody = TextBody | LinkBody | FileBody; 

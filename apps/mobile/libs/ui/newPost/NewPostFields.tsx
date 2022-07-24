@@ -4,7 +4,7 @@ import { getDocumentAsync } from 'expo-document-picker';
 import { Button, Column, Input, Row, Text, TextArea, View } from "native-base";
 import React, { useState } from "react";
 import { Alert } from "react-native";
-import { LinkBody, TextBody } from "src/libs/types/posts";
+import { FileBody, fileMimes, FileType, LinkBody, TextBody } from "src/libs/types/posts";
 import tw from 'twrnc';
 import * as colors from "../colors";
 
@@ -115,16 +115,10 @@ export function LinkPostForm({ onSubmit }: LinkPostFormProps) {
   )
 }
 
-type FileType = 'Image' | 'Video' | 'File';
-
-const fileMimes: { [K in FileType]: string } = {
-  Image: 'image/*',
-  Video: 'video/*',
-  File: '*/*'
+export interface MediaPostFormProps {
+  onSubmit?: (body: FileBody) => Promise<boolean | undefined | void>;
 }
-
-export interface MediaPostFormProps { }
-export function MediaPostForm(props: MediaPostFormProps) {
+export function MediaPostForm({ onSubmit }: MediaPostFormProps) {
   const [fileType, setTileType] = useState<FileType>("Image");
   const [title, setTitle] = useState('');
 
@@ -132,15 +126,17 @@ export function MediaPostForm(props: MediaPostFormProps) {
   const [localFileName, setLocalFileName] = useState<null | string>(null);
 
   const onPressFileUpload = async () => {
-
     const fileData = await getDocumentAsync({
       multiple: false,
-      type: fileMimes[fileType]
+      type: fileMimes[fileType],
+      copyToCacheDirectory: true
     });
 
     if (fileData.type === 'cancel') {
       return;
     }
+
+    console.log(fileData);
 
     const { name, uri, size } = fileData;
     if (size! > 80000000) {
@@ -151,10 +147,30 @@ export function MediaPostForm(props: MediaPostFormProps) {
     setLocalFileName(name);
   }
 
-  const onClearFiles = () => {
+  const clearFile = () => {
     setLocalFileURI(null);
     setLocalFileName(null);
   }
+
+  const onHandleSubmit = async () => {
+    if (!localFileURI) return;
+    if (!title) return;
+
+    let clearState: any = true;
+    if (onSubmit) {
+      clearState = await onSubmit({
+        title,
+        url: localFileURI,
+        fileType
+      });
+    }
+
+    if (clearState) {
+      clearFile();
+      setTitle('');
+    }
+  }
+
 
   return (
     <Column space="4" style={tw`pb-12`}>
@@ -188,13 +204,13 @@ export function MediaPostForm(props: MediaPostFormProps) {
       {localFileURI !== null && (
         <Row style={tw`bg-black text-base px-3 py-2 rounded flex-1 items-center`}>
           <Text style={tw`flex-1 text-white text-base`} isTruncated>{localFileName}</Text>
-          <Button style={tw`bg-black p-0.5`} onPress={onClearFiles}>
+          <Button style={tw`bg-black p-0.5`} onPress={clearFile}>
             <Entypo name="cross" size={16} color={colors.deepRed400} />
           </Button>
         </Row>
       )}
 
-      <SubmitButton />
+      <SubmitButton onPress={onHandleSubmit} />
     </Column >
   )
 }
