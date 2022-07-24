@@ -1,11 +1,12 @@
-import { Button, Column, Flex, Input, Row, Select, Text, TextArea, View } from "native-base";
+import { Entypo, Feather } from '@expo/vector-icons';
+import { Picker } from '@react-native-picker/picker';
+import { getDocumentAsync } from 'expo-document-picker';
+import { Button, Column, Input, Row, Text, TextArea, View } from "native-base";
 import React, { useState } from "react";
+import { Alert } from "react-native";
+import { LinkBody, TextBody } from "src/libs/types/posts";
 import tw from 'twrnc';
 import * as colors from "../colors";
-import { Picker } from '@react-native-picker/picker';
-import DocumentPicker from 'expo-document-picker';
-import { Feather } from '@expo/vector-icons';
-import { TextBody, LinkBody } from "src/libs/types/posts";
 
 
 type SubmitButtonProps = {
@@ -116,49 +117,84 @@ export function LinkPostForm({ onSubmit }: LinkPostFormProps) {
 
 type FileType = 'Image' | 'Video' | 'File';
 
+const fileMimes: { [K in FileType]: string } = {
+  Image: 'image/*',
+  Video: 'video/*',
+  File: '*/*'
+}
+
 export interface MediaPostFormProps { }
 export function MediaPostForm(props: MediaPostFormProps) {
   const [fileType, setTileType] = useState<FileType>("Image");
   const [title, setTitle] = useState('');
 
+  const [localFileURI, setLocalFileURI] = useState<null | string>(null);
+  const [localFileName, setLocalFileName] = useState<null | string>(null);
+
+  const onPressFileUpload = async () => {
+
+    const fileData = await getDocumentAsync({
+      multiple: false,
+      type: fileMimes[fileType]
+    });
+
+    if (fileData.type === 'cancel') {
+      return;
+    }
+
+    const { name, uri, size } = fileData;
+    if (size! > 80000000) {
+      Alert.alert('File too large', 'Your limit is ~80MBs.');
+    }
+
+    setLocalFileURI(uri);
+    setLocalFileName(name);
+  }
+
+  const onClearFiles = () => {
+    setLocalFileURI(null);
+    setLocalFileName(null);
+  }
+
   return (
     <Column space="4" style={tw`pb-12`}>
-      <Column space="2">
-        <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Title</Text>
-        <Input style={tw`px-3 py-2 text-base text-white bg-black`}
-          placeholder='Insert Title'
-          placeholderTextColor='#BFD2CC'
-          selectionColor={colors.deepRed200}
-          variant='unstyled'
-          value={title} onChangeText={setTitle} />
-
-      </Column>
-      <Column space="2">
-        <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>File Type</Text>
-        <Picker placeholder="Choose File Type"
-
-          style={tw`text-base text-white bg-black`}
-          selectedValue={fileType}
-          onValueChange={itemValue => setTileType(itemValue as FileType)}
-          itemStyle={tw`px-4 text-white bg-black`}>
-          <Picker.Item style={tw``} label="Image" value="Image" />
-          <Picker.Item style={tw``} label="Video" value="Video" />
-          <Picker.Item style={tw``} label="File" value="File" />
-        </Picker>
-      </Column>
-      <Column space="2">
-        <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Upload</Text>
+      <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>File Post</Text>
+      <Input style={tw`px-3 py-2 text-base text-white bg-black`}
+        placeholder='Title'
+        placeholderTextColor='#BFD2CC'
+        selectionColor={colors.deepRed200}
+        variant='unstyled'
+        value={title} onChangeText={setTitle} />
+      <Picker placeholder="Choose File Type"
+        style={tw`text-base text-white bg-black`}
+        selectedValue={fileType}
+        onValueChange={itemValue => setTileType(itemValue as FileType)}
+        itemStyle={tw`px-4 text-white bg-black`}>
+        <Picker.Item style={tw``} label="Image" value="Image" />
+        <Picker.Item style={tw``} label="Video" value="Video" />
+        <Picker.Item style={tw``} label="File" value="File" />
+      </Picker>
+      {localFileURI === null && (
         <Button w="full" rounded="md"
           style={tw`bg-[${colors.deepRed50}]`} _pressed={{ style: tw`bg-[${colors.deepRed100}]` }}
-        >
+          onPress={onPressFileUpload} >
           <Row space="2" style={tw`items-center`}>
-            <Feather name="upload-cloud" size={24} color="black" />
-            <Text style={tw`font-bold text-black`}>Select File</Text>
+            <Feather name="upload-cloud" size={21} color="black" />
+            <Text style={tw`font-bold text-black`}>Upload {fileType}</Text>
           </Row>
         </Button>
-      </Column>
+      )}
+
+      {localFileURI !== null && (
+        <Row style={tw`bg-black text-base px-3 py-2 rounded flex-1 items-center`}>
+          <Text style={tw`flex-1 text-white text-base`} isTruncated>{localFileName}</Text>
+          <Button style={tw`bg-black p-0.5`} onPress={onClearFiles}>
+            <Entypo name="cross" size={16} color={colors.deepRed400} />
+          </Button>
+        </Row>
+      )}
 
       <SubmitButton />
-    </Column>
+    </Column >
   )
 }
