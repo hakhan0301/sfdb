@@ -1,5 +1,5 @@
 import { AntDesign, Ionicons } from '@expo/vector-icons';
-import { Button, Column, Row, ScrollView, Text, View } from 'native-base';
+import { Button, Center, Column, Row, ScrollView, Spinner, Text, View } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import tw from 'twrnc';
 
@@ -34,24 +34,27 @@ interface NewPost extends ScreenPropsRouteless {
 }
 
 export default function NewPost({ navigation, route }: NewPost) {
-  const imageURI = route?.params?.imageURI;
-
-  const [activeSection, setActiveSession]
-    = useState<ActiveSections>('Text');
-
+  const [loading, setLoading] = useState(false);
   const session = useSession();
+
+  const imageURI = route?.params?.imageURI;
+  const [activeSection, setActiveSession] = useState<ActiveSections>('Text');
 
   useEffect(() => {
     if (imageURI) setActiveSession('Upload');
   }, [imageURI]);
 
+
   const handleLinkContentSubmit = async (postBody: LinkBody) => {
+    setLoading(true);
     const { body, error } = await tables.posts().insert({
       title: postBody.title,
       body: postBody.link,
       user_id: session.user?.id,
       post_type: 'LINK'
     }, { returning: 'representation' });
+
+    setLoading(false);
 
     if (error) {
       Alert.alert(error.message);
@@ -62,12 +65,16 @@ export default function NewPost({ navigation, route }: NewPost) {
   }
 
   const handleTextContentSubmit = async (postBody: TextBody) => {
+    setLoading(true);
+
     const { body, error } = await tables.posts().insert({
       title: postBody.title,
       body: postBody.content,
       user_id: session.user?.id,
       post_type: 'TEXT'
     }, { returning: 'representation' });
+
+    setLoading(false);
 
     if (error) {
       Alert.alert(error.message);
@@ -78,6 +85,8 @@ export default function NewPost({ navigation, route }: NewPost) {
   }
 
   const handleFileContentSubmit = async (postBody: FileBody) => {
+    setLoading(true);
+
     const fileBase64 = await FileSystem.readAsStringAsync(
       postBody.url,
       { encoding: 'base64' }
@@ -89,7 +98,14 @@ export default function NewPost({ navigation, route }: NewPost) {
         contentType: fileMimes[postBody.fileType]
       });
 
+    navigation.setParams({
+      imageURI: undefined
+    });
+
+
     if (uploadResult.error) {
+      setLoading(false);
+
       Alert.alert(uploadResult.error.message);
       return false;
     }
@@ -104,6 +120,8 @@ export default function NewPost({ navigation, route }: NewPost) {
       user_id: session.user?.id,
       post_type: 'MEDIA'
     }, { returning: 'representation' });
+
+    setLoading(false);
 
     if (postResult.error) {
       Alert.alert(postResult.error.message);
@@ -153,6 +171,7 @@ export default function NewPost({ navigation, route }: NewPost) {
                 text='Upload' />
             </Row>
           </LinearGradient>
+
           <ScrollView style={tw`px-6 flex-1`}>
             {activeSection === "Text" && <TextPostForm onSubmit={handleTextContentSubmit} />}
             {activeSection === "Link" && <LinkPostForm onSubmit={handleLinkContentSubmit} />}
@@ -178,6 +197,12 @@ export default function NewPost({ navigation, route }: NewPost) {
             </Button>
           </Row>
         </View>
+
+        {loading && (
+          <Center style={tw`absolute w-full h-full bg-stone-900/50`}>
+            <Spinner accessibilityLabel="Loading posts" />
+          </Center>
+        )}
 
       </Column>
     </ImageBackground >
