@@ -2,7 +2,7 @@ import { Entypo, Feather } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 import { getDocumentAsync } from 'expo-document-picker';
 import { Button, Column, Input, Row, Text, TextArea, View } from "native-base";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { FileBody, fileMimes, FileType, LinkBody, TextBody } from "src/libs/types/posts";
 import tw from 'twrnc';
@@ -117,6 +117,13 @@ export function MediaPostForm({ onSubmit, initialFile }: MediaPostFormProps) {
   const [localFileName, setLocalFileName] = useState<null | string>(initialFile ?? null);
   const [fileType, setTileType] = useState<FileType>("Image");
   const [title, setTitle] = useState('');
+
+  useEffect(() => {
+    if (initialFile) {
+      setLocalFileURI(initialFile);
+      setLocalFileName(initialFile);
+    }
+  }, [initialFile]);
 
 
   const onPressFileUpload = async () => {
