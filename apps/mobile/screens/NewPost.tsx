@@ -1,11 +1,11 @@
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { Button, Column, Row, ScrollView, Text, View } from 'native-base';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import tw from 'twrnc';
 
 import { FontAwesome5 } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import type { ScreenProps } from 'src/libs/types/screen';
+import type { ScreenProps, ScreenPropsRouteless } from 'src/libs/types/screen';
 import { ButtonOf3 } from 'src/libs/ui/newPost/Buttons';
 import { LinkPostForm, MediaPostForm, TextPostForm } from 'src/libs/ui/newPost/NewPostFields';
 
@@ -19,15 +19,31 @@ import uuid from 'react-native-uuid';
 import { decode } from 'base64-arraybuffer'
 
 import * as FileSystem from 'expo-file-system';
+import { RouteProp } from '@react-navigation/native';
 
 type ActiveSections = 'Text' | 'Link' | 'Upload';
 
-export default function NewPost({ navigation }: ScreenProps) {
+type NewPostRouteProps = {
+  params: {
+    imageURI?: string
+  }
+}
+
+interface NewPost extends ScreenPropsRouteless {
+  route: RouteProp<NewPostRouteProps>
+}
+
+export default function NewPost({ navigation, route }: NewPost) {
+  const imageURI = route?.params?.imageURI;
+
   const [activeSection, setActiveSession]
     = useState<ActiveSections>('Text');
 
   const session = useSession();
 
+  useEffect(() => {
+    if (imageURI) setActiveSession('Upload');
+  }, [imageURI]);
 
   const handleLinkContentSubmit = async (postBody: LinkBody) => {
     const { body, error } = await tables.posts().insert({
@@ -140,7 +156,7 @@ export default function NewPost({ navigation }: ScreenProps) {
           <ScrollView style={tw`px-6 flex-1`}>
             {activeSection === "Text" && <TextPostForm onSubmit={handleTextContentSubmit} />}
             {activeSection === "Link" && <LinkPostForm onSubmit={handleLinkContentSubmit} />}
-            {activeSection === "Upload" && <MediaPostForm onSubmit={handleFileContentSubmit} />}
+            {activeSection === "Upload" && <MediaPostForm onSubmit={handleFileContentSubmit} initialFile={imageURI} />}
           </ScrollView>
 
         </View>

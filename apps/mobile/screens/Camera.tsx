@@ -128,8 +128,9 @@ export default function CameraScreen({ navigation }: ScreenProps) {
   const onSubmitPicture = () => {
     if (pictureURI === null) throw new Error('image submitted, but no image??');
 
-    console.log(pictureURI);
-
+    navigation.navigate('NewPost', {
+      imageURI: pictureURI
+    });
   }
 
 

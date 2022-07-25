@@ -118,15 +118,16 @@ export function LinkPostForm({ onSubmit }: LinkPostFormProps) {
 
 export interface MediaPostFormProps {
   onSubmit?: (body: FileBody) => Promise<boolean | undefined | void>;
+  initialFile?: string;
 }
-export function MediaPostForm({ onSubmit }: MediaPostFormProps) {
+export function MediaPostForm({ onSubmit, initialFile }: MediaPostFormProps) {
   const [loading, setLoading] = useState(false);
 
+  const [localFileURI, setLocalFileURI] = useState<null | string>(initialFile ?? null);
+  const [localFileName, setLocalFileName] = useState<null | string>(initialFile ?? null);
   const [fileType, setTileType] = useState<FileType>("Image");
   const [title, setTitle] = useState('');
 
-  const [localFileURI, setLocalFileURI] = useState<null | string>(null);
-  const [localFileName, setLocalFileName] = useState<null | string>(null);
 
   const onPressFileUpload = async () => {
     const fileData = await getDocumentAsync({
