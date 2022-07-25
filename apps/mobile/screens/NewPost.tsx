@@ -146,8 +146,9 @@ export default function NewPost({ navigation, route }: NewPost) {
             <AntDesign name="clockcircleo" size={96} color={colors.deepRed300} />
 
             <Column>
-              <Text style={tw`text-4xl text-[${colors.deepRed300}] -mb-2`}>3 hours</Text>
-              <Text style={tw`text-[${colors.deepRed300}] text-base`}>remaining</Text>
+              <Text style={tw`text-4xl text-[${colors.deepRed300}] -mb-2`}>TODO</Text>
+              {/* <Text style={tw`text-4xl text-[${colors.deepRed300}] -mb-2`}>3 hours</Text> */}
+              {/* <Text style={tw`text-[${colors.deepRed300}] text-base`}>remaining</Text> */}
             </Column>
           </Row>
         </View>
