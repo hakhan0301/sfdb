@@ -29,10 +29,12 @@ export default function CameraScreen({ navigation }: ScreenProps) {
 
 
   useEffect(() => {
-    (async () => {
+    const getCameraPermissions = async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === 'granted');
-    })();
+    };
+
+    getCameraPermissions();
   }, []);
 
   const flipCamera = () => {
