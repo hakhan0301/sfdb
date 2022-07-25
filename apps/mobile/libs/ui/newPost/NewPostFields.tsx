@@ -47,25 +47,20 @@ export function TextPostForm({ onSubmit }: TextPostFormProps) {
 
   return (
     <Column space="4">
-      <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Text Post</Text>
-      <Column space="2">
-        <Input style={tw`px-3 py-2 text-base text-white bg-black`}
-          placeholder='Title'
-          placeholderTextColor='#BFD2CC'
-          selectionColor={colors.deepRed200}
-          variant='unstyled'
-          value={title} onChangeText={setTitle} />
-      </Column>
-      <Column space="2">
-        {/* <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Content</Text> */}
-        {/* @ts-ignore */}
-        <TextArea style={tw`p-3 text-base text-white bg-black`}
-          selectionColor={colors.deepRed200}
-          placeholder='Content'
-          placeholderTextColor='#BFD2CC'
-          variant='unstyled'
-          value={content} onChangeText={setContent} />
-      </Column>
+      <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Post Text</Text>
+      <Input style={tw`px-3 py-2 text-base text-white bg-black`}
+        placeholder='Title'
+        placeholderTextColor='#BFD2CC'
+        selectionColor={colors.deepRed200}
+        variant='unstyled'
+        value={title} onChangeText={setTitle} />
+      {/* @ts-ignore */}
+      <TextArea style={tw`p-3 text-base text-white bg-black`}
+        selectionColor={colors.deepRed200}
+        placeholder='Content'
+        placeholderTextColor='#BFD2CC'
+        variant='unstyled'
+        value={content} onChangeText={setContent} />
       <SubmitButton onPress={onHandleSubmit} />
     </Column>
   )
@@ -93,24 +88,19 @@ export function LinkPostForm({ onSubmit }: LinkPostFormProps) {
 
   return (
     <Column space="4">
-      <Column space="2">
-        <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Title</Text>
-        <Input style={tw`px-3 py-2 text-base text-white bg-black`}
-          placeholder='Title'
-          placeholderTextColor='#BFD2CC'
-          selectionColor={colors.deepRed200}
-          variant='unstyled'
-          value={title} onChangeText={setTitle} />
-      </Column>
-      <Column space="2">
-        <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Link</Text>
-        <Input style={tw`px-3 py-2 text-base text-white bg-black`}
-          placeholder='Link'
-          placeholderTextColor='#BFD2CC'
-          selectionColor={colors.deepRed200}
-          variant='unstyled'
-          value={link} onChangeText={setLink} />
-      </Column>
+      <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Post Link</Text>
+      <Input style={tw`px-3 py-2 text-base text-white bg-black`}
+        placeholder='Title'
+        placeholderTextColor='#BFD2CC'
+        selectionColor={colors.deepRed200}
+        variant='unstyled'
+        value={title} onChangeText={setTitle} />
+      <Input style={tw`px-3 py-2 text-base text-white bg-black`}
+        placeholder='Link'
+        placeholderTextColor='#BFD2CC'
+        selectionColor={colors.deepRed200}
+        variant='unstyled'
+        value={link} onChangeText={setLink} />
       <SubmitButton onPress={onHandleSubmit} />
     </Column>
   )
@@ -181,7 +171,7 @@ export function MediaPostForm({ onSubmit, initialFile }: MediaPostFormProps) {
 
   return (
     <Column space="4" style={tw`pb-12`}>
-      <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>File Post</Text>
+      <Text style={tw`text-2xl font-bold text-[${colors.forestGreen400}]`}>Upload File</Text>
       <Input style={tw`px-3 py-2 text-base text-white bg-black`}
         placeholder='Title'
         placeholderTextColor='#BFD2CC'
