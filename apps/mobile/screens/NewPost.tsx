@@ -12,7 +12,7 @@ import { LinkPostForm, MediaPostForm, TextPostForm } from 'src/libs/ui/newPost/N
 import * as colors from 'src/libs/ui/colors';
 import supabase, { tables } from 'src/libs/supabase';
 import { Entypo } from '@expo/vector-icons';
-import { Alert, ImageBackground } from 'react-native';
+import { Alert, Dimensions, ImageBackground } from 'react-native';
 import { FileBody, fileMimes, LinkBody, TextBody } from 'src/libs/types/posts';
 import { useSession } from 'src/libs/hooks/auth';
 import uuid from 'react-native-uuid';
@@ -138,7 +138,7 @@ export default function NewPost({ navigation, route }: NewPost) {
 
   return (
     <ImageBackground source={{ uri: 'https://media.discordapp.net/attachments/748688944966664205/1000170121584709652/unsplash_kcKiBcDTJt4.png?width=336&height=661' }}
-      style={tw`bg-[${colors.deepRed300}]`} >
+      style={{ ...tw`bg-[${colors.deepRed300}]`, minHeight: Math.round(Dimensions.get('window').height) }} >
       <Column style={tw`w-full h-full`}>
         <View style={tw`m-6 rounded-3xl bg-stone-900`}>
           <Row space="5"
