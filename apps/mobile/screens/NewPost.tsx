@@ -97,6 +97,10 @@ export default function NewPost({ navigation }: ScreenProps) {
     return true;
   }
 
+  const onCamera = () => {
+    navigation.navigate('Camera');
+  }
+
 
   return (
     <ImageBackground source={{ uri: 'https://media.discordapp.net/attachments/748688944966664205/1000170121584709652/unsplash_kcKiBcDTJt4.png?width=336&height=661' }}
@@ -152,7 +156,7 @@ export default function NewPost({ navigation }: ScreenProps) {
             <Button h="20" w='20' rounded='full' borderWidth='4' borderColor='black' shadow='8'
               style={tw`bg-[${colors.deepRed300}]`}
               _pressed={{ style: tw`bg-[${colors.deepRed400}]` }}
-              onPress={() => navigation.navigate('Camera')}
+              onPress={onCamera}
             >
               <FontAwesome5 name="camera" size={26} color="black" />
             </Button>

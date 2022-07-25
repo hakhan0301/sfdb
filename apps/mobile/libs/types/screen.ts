@@ -3,7 +3,11 @@ import type {
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack';
 
-export interface ScreenProps {
+
+export interface ScreenPropsRouteless {
   navigation: NativeStackNavigationProp<any>;
+}
+
+export interface ScreenProps extends ScreenPropsRouteless {
   route: RouteProp<any>;
 }
