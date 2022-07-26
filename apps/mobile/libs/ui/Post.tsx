@@ -1,7 +1,9 @@
 import { AntDesign, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
-import { Avatar, Box, Center, Column, Image, Row, Text, View } from 'native-base';
+import { Avatar, Box, Center, Column, Image, Row, Spinner, Text, View } from 'native-base';
 import tw from 'twrnc';
-import type { Comment as CommentType, _Post as PostType, PostType as TypeOfPost } from 'src/libs/types/posts';
+import type { Comment as CommentType, _Post as PostType, PostType as TypeOfPost, FileBody } from 'src/libs/types/posts';
+import supabase from '../supabase';
+import { useEffect, useState } from 'react';
 
 
 interface CommentProps extends CommentType {
@@ -30,6 +32,44 @@ function Comment({ user, text, createdAt, index }: CommentProps) {
   )
 }
 
+function MediaPostBody({ fileType, title, url }: FileBody) {
+
+  const [signedURL, setSignedURL] = useState<string | null>(null);
+
+  useEffect(() => {
+    const createdSignedURL = async () => {
+      const file = url.substring(url.indexOf('/') + 1);
+
+      const res = await supabase.storage
+        .from('post-files')
+        .createSignedUrl(file, 60);
+
+      setSignedURL(res.signedURL)
+    }
+
+    if (fileType === 'Image') {
+      createdSignedURL();
+    }
+  }, [fileType, url]);
+
+
+  if (fileType === 'Image') {
+    if (!signedURL) return <Spinner />;
+    return (
+      <Image style={{ height: undefined, aspectRatio: 9 / 16, width: '100%' }}
+        source={{ uri: signedURL }} alt="user picture" />
+    )
+  }
+
+
+
+  // style={{ height: undefined, aspectRatio: 9 / 16, width: '100%' }}
+  // source={{ uri: text }} alt="user picture" 
+  return (
+    <Text>{JSON.stringify(signedURL)}</Text>
+  )
+}
+
 interface PostBodyProps {
   post_type: TypeOfPost,
   text: string
@@ -53,9 +93,7 @@ function PostBody({ post_type, text }: PostBodyProps) {
         </View>
       );
     case 'MEDIA':
-      return <Image
-        style={{ height: undefined, aspectRatio: 9 / 16, width: '100%' }}
-        source={{ uri: text }} alt="user picture" />;
+      return <MediaPostBody {...JSON.parse(text)} />;
   }
 
   throw new Error("INVALID POST_TYPE");

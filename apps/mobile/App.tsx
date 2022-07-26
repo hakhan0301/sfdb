@@ -64,8 +64,8 @@ export default function App() {
               <Stack.Screen name="Login" key="Login" component={LoginScreen} options={{ header: EmptyHeader }} />
             ]}
             {session && [
-              <Stack.Screen name="NewPost" key="NewPost" component={NewPostScreen} options={{ header: EmptyHeader }} />,
               <Stack.Screen name="Home" key="Home" component={PostsScreen} />,
+              <Stack.Screen name="NewPost" key="NewPost" component={NewPostScreen} options={{ header: EmptyHeader }} />,
               <Stack.Screen name="Camera" key="Camera" component={CameraScreen} options={{ header: EmptyHeader }} />,
             ]}
           </Stack.Navigator>
