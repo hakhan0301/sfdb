@@ -44,7 +44,7 @@ function MediaPostBody({ fileType, title, url }: FileBody) {
         .from('post-files')
         .createSignedUrl(file, 60);
 
-      setSignedURL(res.signedURL)
+      setSignedURL(res.signedURL);
     }
 
     if (fileType === 'Image') {
