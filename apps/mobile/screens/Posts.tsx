@@ -52,7 +52,7 @@ export default function PostsPage({ navigation }: ScreenProps) {
         showsPagination={false} loadMinimal={false}
         horizontal={false} loop={false} index={index} onIndexChanged={setIndex}>
         {posts.map((post, i) => (
-          <ScrollView style={tw`bg-yellow-200`} borderTopWidth="1.5" borderColor="black"
+          <ScrollView style={tw`bg-yellow-200`} borderTopWidth="1.5" borderColor="slate.800"
             key={post.id} nestedScrollEnabled={true} scrollEnabled={Math.abs(index - 1) <= 1}>
             <Post {...completeMinimalPost(post)} />
           </ScrollView>
