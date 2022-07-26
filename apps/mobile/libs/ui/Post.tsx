@@ -61,10 +61,6 @@ function MediaPostBody({ fileType, title, url }: FileBody) {
     )
   }
 
-
-
-  // style={{ height: undefined, aspectRatio: 9 / 16, width: '100%' }}
-  // source={{ uri: text }} alt="user picture" 
   return (
     <Text>{JSON.stringify(signedURL)}</Text>
   )
