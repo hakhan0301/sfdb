@@ -2,11 +2,12 @@ import { Button, Column, Image, Input, ScrollView, Spinner, Text, View } from 'n
 import React, { useEffect, useState } from 'react';
 import tw from 'twrnc';
 
-import type { ScreenProps } from 'src/libs/types/screen';
+import type { ScreenProps, ScreenPropsRouteless } from 'src/libs/types/screen';
 import { useSession } from 'src/libs/hooks/auth';
 import { tables } from 'src/libs/supabase';
 import { User } from 'src/libs/types/posts';
 import { Alert } from 'react-native';
+import { RouteProp } from '@react-navigation/native';
 
 async function getUser(userId: string) {
   const user = await tables.users()
@@ -27,10 +28,36 @@ async function updateUser(user: User) {
     .eq('id', user.id);
 }
 
-export default function Home({ navigation }: ScreenProps) {
+
+type ProfileRouteProps = {
+  params: {
+    cameraResultURI?: string
+  }
+}
+
+interface ProfileProps extends ScreenPropsRouteless {
+  route: RouteProp<ProfileRouteProps>
+}
+export default function Profile({ navigation, route }: ProfileProps) {
   const session = useSession();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User>();
+
+  const cameraResultURI = route?.params?.cameraResultURI;
+
+  useEffect(() => {
+    if (cameraResultURI) {
+      setUser((prevUser) => ({
+        id: prevUser!.id,
+        username: prevUser!.username,
+        pfp: cameraResultURI,
+      }));
+
+      navigation.setParams({
+        cameraResultURI: undefined
+      });
+    }
+  }, [cameraResultURI]);
 
   const userId = session?.user?.id;
 
@@ -51,6 +78,14 @@ export default function Home({ navigation }: ScreenProps) {
       pfp: prevUser!.pfp,
       username: newUsername
     }));
+  }
+
+  const onNewPFP = async () => {
+    if (!user) return;
+
+    navigation.navigate('Camera', {
+      returnScreen: 'Profile'
+    });
   }
 
   const onSubmit = async () => {
@@ -99,9 +134,9 @@ export default function Home({ navigation }: ScreenProps) {
               source={{ uri: user.pfp }} alt='sus' />
             <Button bg='emerald.500' _pressed={{ bg: 'emerald.700' }}
               style={tw`absolute right-0 shadow-lg rounded-full w-12 h-12 p-0`}
+              onPress={onNewPFP}
             ><Text style={tw`text-white font-medium`}>Edit</Text></Button>
           </View>
-
         </Column>
 
         <Button bg='emerald.500' _pressed={{ bg: 'emerald.700' }}
