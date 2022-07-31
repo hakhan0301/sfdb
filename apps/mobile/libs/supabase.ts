@@ -3,11 +3,11 @@ import { createClient } from '@supabase/supabase-js';
 
 import Constants from 'expo-constants';
 
-import type { _Post, Post } from "./types/posts";
+import type { Post, User } from "./types/posts";
 
 
 const supabaseUrl = Constants.manifest!.extra!.SUPABASE_URL!;
-const supabaseAnonKey = Constants.manifest!.extra!.SUPABASE_ANON_KEY
+const supabaseAnonKey = Constants.manifest!.extra!.SUPABASE_ANON_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   localStorage: AsyncStorage as any,
@@ -20,4 +20,5 @@ export default supabase;
 
 export const tables = {
   posts: () => supabase.from<Post>('Posts'),
+  users: () => supabase.from<User>('Users')
 }
