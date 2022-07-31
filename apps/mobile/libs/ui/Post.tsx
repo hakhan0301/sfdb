@@ -104,7 +104,7 @@ export default function Post({ user, text, title, likes, createdAt, comments, po
         {/* user */}
         <Row space="2" style={tw`bg-yellow-100 flex flex-row px-4 py-1.75 items-center`}>
           <Avatar
-            style={tw`w-6 h-6`}
+            style={tw`w-8 h-8`}
             source={{ uri: user.pfp }} />
 
           <Text fontStyle="italic" style={tw`text-lg text-gray-700`}>{user.name}</Text>
