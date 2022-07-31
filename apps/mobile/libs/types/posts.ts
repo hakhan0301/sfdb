@@ -8,7 +8,7 @@ export interface _Post {
   title: string;
   text: string;
   likes: number;
-  user: User;
+  user: _User;
   comments: Comment[];
 }
 
@@ -23,9 +23,9 @@ export interface Post {
 }
 
 
-export interface User {
-  pfp: string;
+export interface _User {
   name: string;
+  pfp: string;
   streaks: number;
   strikes: number;
 }

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Swiper from 'react-native-swiper';
 import tw from 'twrnc';
 
-import type { _Post as PostType, User } from 'src/libs/types/posts';
+import type { _Post as PostType, _User } from 'src/libs/types/posts';
 import type { ScreenProps } from 'src/libs/types/screen';
 
 import Post from 'src/libs/ui/Post';
@@ -14,7 +14,7 @@ import CountDown from 'react-native-countdown-component';
 
 
 export default function Home({ navigation }: ScreenProps) {
-  const user: User = {
+  const user: _User = {
     name: 'OME', streaks: 12, strikes: 1, pfp: 'https://pbs.twimg.com/profile_images/1408387150119243778/j14N_zq__400x400.jpg'
   };
 
