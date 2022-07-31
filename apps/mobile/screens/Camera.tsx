@@ -5,7 +5,7 @@ import tw from 'twrnc';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Camera, CameraProps, CameraType } from 'expo-camera';
 import { useEffect, useState } from 'react';
-import { BackHandler, Dimensions, Platform } from 'react-native';
+import { Alert, BackHandler, Dimensions, Platform } from 'react-native';
 import type { RouteProp } from '@react-navigation/native';
 
 import * as colors from 'src/libs/ui/colors';
@@ -89,11 +89,27 @@ function RatiodCamera(props: RatiodCameraProps) {
   );
 }
 
-export default function CameraScreen({ navigation }: ScreenProps) {
+
+type CameraRouteProps = {
+  params: {
+    returnScreen?: string
+  }
+}
+
+interface CameraScreenProps extends ScreenPropsRouteless {
+  route: RouteProp<CameraRouteProps>
+}
+export default function CameraScreen({ navigation, route }: CameraScreenProps) {
   const [cameraType, setCameraType] = useState(CameraType.back);
   const [camera, setCamera] = useState<Camera | null>(null);
 
   const [pictureURI, setPictureURI] = useState<string | null>(null);
+
+  const returnScreen = route?.params?.returnScreen;
+
+  if (!returnScreen) {
+    Alert.alert('Error', 'Camera without return screen.');
+  }
 
   const flipCamera = () => {
     setCameraType(
@@ -128,8 +144,8 @@ export default function CameraScreen({ navigation }: ScreenProps) {
   const onSubmitPicture = () => {
     if (pictureURI === null) throw new Error('image submitted, but no image??');
 
-    navigation.navigate('NewPost', {
-      imageURI: pictureURI
+    navigation.navigate(returnScreen!, {
+      cameraResultURI: pictureURI
     });
   }
 

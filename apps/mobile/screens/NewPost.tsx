@@ -25,7 +25,7 @@ type ActiveSections = 'Text' | 'Link' | 'Upload';
 
 type NewPostRouteProps = {
   params: {
-    imageURI?: string
+    cameraResultURI?: string
   }
 }
 
@@ -37,12 +37,12 @@ export default function NewPost({ navigation, route }: NewPost) {
   const [loading, setLoading] = useState(false);
   const session = useSession();
 
-  const imageURI = route?.params?.imageURI;
+  const cameraResultURI = route?.params?.cameraResultURI;
   const [activeSection, setActiveSession] = useState<ActiveSections>('Text');
 
   useEffect(() => {
-    if (imageURI) setActiveSession('Upload');
-  }, [imageURI]);
+    if (cameraResultURI) setActiveSession('Upload');
+  }, [cameraResultURI]);
 
 
   const handleLinkContentSubmit = async (postBody: LinkBody) => {
@@ -99,7 +99,7 @@ export default function NewPost({ navigation, route }: NewPost) {
       });
 
     navigation.setParams({
-      imageURI: undefined
+      cameraResultURI: undefined
     });
 
 
@@ -132,7 +132,9 @@ export default function NewPost({ navigation, route }: NewPost) {
   }
 
   const onCamera = () => {
-    navigation.navigate('Camera');
+    navigation.navigate('Camera', {
+      returnScreen: 'NewPost'
+    });
   }
 
 
@@ -176,7 +178,7 @@ export default function NewPost({ navigation, route }: NewPost) {
           <ScrollView style={tw`px-6 flex-1`}>
             {activeSection === "Text" && <TextPostForm onSubmit={handleTextContentSubmit} />}
             {activeSection === "Link" && <LinkPostForm onSubmit={handleLinkContentSubmit} />}
-            {activeSection === "Upload" && <MediaPostForm onSubmit={handleFileContentSubmit} initialFile={imageURI} />}
+            {activeSection === "Upload" && <MediaPostForm onSubmit={handleFileContentSubmit} initialFile={cameraResultURI} />}
           </ScrollView>
 
         </View>
