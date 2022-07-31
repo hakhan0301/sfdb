@@ -6,8 +6,11 @@ import tw from 'twrnc';
 import PostsScreen from './screens/Posts';
 import CameraScreen from './screens/Camera';
 import NewPostScreen from './screens/NewPost';
+import ProfileScreen from './screens/Profile';
+
 import WelcomeScreen from './screens/welcome/Welcome';
 import LoginScreen from './screens/welcome/Login';
+
 import { useEffect, useState } from 'react';
 import { Session } from '@supabase/supabase-js';
 
@@ -64,6 +67,7 @@ export default function App() {
               <Stack.Screen name="Login" key="Login" component={LoginScreen} options={{ header: EmptyHeader }} />
             ]}
             {session && [
+              <Stack.Screen name="Profile" key="Profile" component={ProfileScreen} />,
               <Stack.Screen name="Home" key="Home" component={PostsScreen} />,
               <Stack.Screen name="NewPost" key="NewPost" component={NewPostScreen} options={{ header: EmptyHeader }} />,
               <Stack.Screen name="Camera" key="Camera" component={CameraScreen} options={{ header: EmptyHeader }} />,
