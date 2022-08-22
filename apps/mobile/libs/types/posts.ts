@@ -19,6 +19,11 @@ export interface User {
   pfp: string;
 }
 
+export interface Like {
+  post_id: number;
+  user_id: number;
+}
+
 
 export interface BasePostBody {
   title: string;

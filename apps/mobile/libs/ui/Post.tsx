@@ -2,8 +2,10 @@ import { AntDesign, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-ic
 import { Avatar, Box, Center, Column, Image, Row, Spinner, Text, View } from 'native-base';
 import tw from 'twrnc';
 import type { Comment as CommentType, _Post as PostType, PostType as TypeOfPost, FileBody } from 'src/libs/types/posts';
-import supabase from '../supabase';
+import supabase, { tables } from '../supabase';
 import { useEffect, useState } from 'react';
+import { useSession } from '../hooks/auth';
+import { Alert } from 'react-native';
 
 
 interface CommentProps extends CommentType {
@@ -95,7 +97,9 @@ function PostBody({ post_type, text }: PostBodyProps) {
 }
 
 
-export default function Post({ user, text, title, likes: _likes, createdAt, comments, post_type, likedByUser: _likedByUser }: PostType) {
+export default function Post({ id, user, text, title, likes: _likes, createdAt, comments, post_type, likedByUser: _likedByUser }: PostType) {
+  const session = useSession();
+
   const [likes, setLikes] = useState(0);
   // useEffect(() => setLikes(_likes), [_likes]);
 
@@ -103,14 +107,28 @@ export default function Post({ user, text, title, likes: _likes, createdAt, comm
   useEffect(() => setLikedByUser(_likedByUser), [_likedByUser]);
 
 
-  const likePost = () => {
+  const likePost = async () => {
     setLikedByUser(true);
     setLikes(likes + 1);
+    const { error } = await tables.likes().insert({
+      post_id: id,
+      user_id: session.user?.id as any
+    });
+
+    if (error) Alert.alert("Error liking", error.message);
   };
 
-  const dislikePost = () => {
+  const dislikePost = async () => {
     setLikedByUser(false);
     setLikes(likes - 1);
+    const { error } = await tables.likes()
+      .delete()
+      .match({
+        post_id: id,
+        user_id: session.user?.id as any
+      })
+
+    if (error) Alert.alert("Error disliking", error.message);
   };
 
   return (
