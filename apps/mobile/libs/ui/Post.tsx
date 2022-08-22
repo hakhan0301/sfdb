@@ -95,9 +95,23 @@ function PostBody({ post_type, text }: PostBodyProps) {
 }
 
 
-export default function Post({ user, text, title, likes: _likes, createdAt, comments, post_type, likedByUser }: PostType) {
-  const [likes, setLikes] = useState(_likes);
-  useEffect(() => setLikes(_likes), [_likes]);
+export default function Post({ user, text, title, likes: _likes, createdAt, comments, post_type, likedByUser: _likedByUser }: PostType) {
+  const [likes, setLikes] = useState(0);
+  // useEffect(() => setLikes(_likes), [_likes]);
+
+  const [likedByUser, setLikedByUser] = useState(_likedByUser);
+  useEffect(() => setLikedByUser(_likedByUser), [_likedByUser]);
+
+
+  const likePost = () => {
+    setLikedByUser(true);
+    setLikes(likes + 1);
+  };
+
+  const dislikePost = () => {
+    setLikedByUser(false);
+    setLikes(likes - 1);
+  };
 
   return (
     <Column style={tw`h-full`}>
@@ -137,8 +151,9 @@ export default function Post({ user, text, title, likes: _likes, createdAt, comm
       <Row space="3" style={tw`flex flex-row px-4 py-2 bg-yellow-200 items-center justify-between`}>
         <Row space='1.5' style={tw`items-center`}>
           <AntDesign size={24} name={likedByUser ? 'heart' : 'hearto'}
-            color={likedByUser ? 'red' : 'black'} />
-          <Text style={tw`text-lg`}>{likes ?? -1}</Text>
+            color={likedByUser ? 'red' : 'black'}
+            onPress={likedByUser ? dislikePost : likePost} />
+          <Text style={tw`text-lg`}>{likes ?? 'ERROR'}</Text>
         </Row>
 
         <Text>{createdAt.toDateString()}</Text>
