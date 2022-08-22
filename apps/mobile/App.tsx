@@ -1,6 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackHeaderProps } from '@react-navigation/native-stack';
 import { Box, Button, NativeBaseProvider, Row, StatusBar, Text, extendTheme } from "native-base";
+import { FontAwesome } from '@expo/vector-icons';
+
 import tw from 'twrnc';
 
 import PostsScreen from './screens/Posts';
@@ -19,19 +21,23 @@ import supabase from './libs/supabase';
 import { useSession } from './libs/hooks/auth';
 
 const Stack = createNativeStackNavigator();
-function NavBar(props: NativeStackHeaderProps) {
+function NavBar({ navigation }: NativeStackHeaderProps) {
   const user = useSession();
 
   return (
     <Box style={tw`flex flex-row items-center justify-between py-2 pr-4 bg-slate-800`} >
       <Button style={tw`p-0 px-4 bg-white/0`}
         _pressed={{ style: tw`p-0 px-4 bg-white/0 opacity-70` }}
-        onPress={() => props.navigation.navigate('Home')}>
+        onPress={() => navigation.navigate('Home')}>
         <Text style={tw`text-xl text-white`}>Sussy Baka</Text>
       </Button>
-      <Row space={2} style={tw`items-center`}>
-        <Text onPress={() => supabase.auth.signOut()}
-          style={tw`text-2xl text-center text-white`}>≡</Text>
+      <Row space={4} style={tw`items-center`}>
+        <Button variant='unstyled' style={tw`p-0`} onPress={() => navigation.navigate('Profile')}>
+          <FontAwesome name="user" size={16} color="white" />
+        </Button>
+        <Button variant='unstyled' style={tw`p-0`} onPress={() => supabase.auth.signOut()}>
+          <FontAwesome name="user-times" size={16} color="white" />
+        </Button>
       </Row>
     </Box >
   );
