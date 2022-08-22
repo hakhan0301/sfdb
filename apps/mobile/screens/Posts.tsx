@@ -23,7 +23,8 @@ function completeMinimalPost(post: PostType): _Post {
     },
     createdAt: new Date(post.created_at),
     text: post.body,
-    likes: 12,
+    likes: post.likes,
+    likedByUser: Math.random() > .5,
     comments: [
       { id: 0, createdAt: new Date(), text: 'this is ome susy', user: { name: 'memon', pfp: 'https://avatars.githubusercontent.com/u/21112116?s=120&v=4' } },
       { id: 2, createdAt: new Date(), text: 'ia m shan', user: { name: 'memon', pfp: 'https://avatars.githubusercontent.com/u/21112116?s=120&v=4' } },

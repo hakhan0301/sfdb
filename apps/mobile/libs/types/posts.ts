@@ -9,6 +9,7 @@ export interface Post {
   title: string;
   body: string;
   user_id: string;
+  likes: number;
 }
 
 
@@ -52,6 +53,7 @@ export type PostBody = TextBody | LinkBody | FileBody;
 export interface _Post {
   id: number;
   post_type: PostType;
+  likedByUser: boolean;
   createdAt: Date;
   title: string;
   text: string;

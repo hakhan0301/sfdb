@@ -33,7 +33,6 @@ function Comment({ user, text, createdAt, index }: CommentProps) {
 }
 
 function MediaPostBody({ fileType, title, url }: FileBody) {
-
   const [signedURL, setSignedURL] = useState<string | null>(null);
 
   useEffect(() => {
@@ -96,7 +95,10 @@ function PostBody({ post_type, text }: PostBodyProps) {
 }
 
 
-export default function Post({ user, text, title, likes, createdAt, comments, post_type }: PostType) {
+export default function Post({ user, text, title, likes: _likes, createdAt, comments, post_type, likedByUser }: PostType) {
+  const [likes, setLikes] = useState(_likes);
+  useEffect(() => setLikes(_likes), [_likes]);
+
   return (
     <Column style={tw`h-full`}>
       {/* post header */}
@@ -134,8 +136,9 @@ export default function Post({ user, text, title, likes, createdAt, comments, po
       {/* post footer */}
       <Row space="3" style={tw`flex flex-row px-4 py-2 bg-yellow-200 items-center justify-between`}>
         <Row space='1.5' style={tw`items-center`}>
-          <AntDesign name="hearto" size={24} color="black" />
-          <Text style={tw`text-lg`}>{likes}</Text>
+          <AntDesign size={24} name={likedByUser ? 'heart' : 'hearto'}
+            color={likedByUser ? 'red' : 'black'} />
+          <Text style={tw`text-lg`}>{likes ?? -1}</Text>
         </Row>
 
         <Text>{createdAt.toDateString()}</Text>
