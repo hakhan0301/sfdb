@@ -51,9 +51,6 @@ export default function PostsPage({ navigation }: ScreenProps) {
         .order('created_at', { ascending: false })
         .limit(10);
 
-      console.log(res.data && res.data[0]);
-
-
       setPosts(res.data ?? []);
       setLoading(false);
     };
