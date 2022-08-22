@@ -6,11 +6,7 @@ import tw from 'twrnc';
 import type { _Post as PostType, _User } from 'src/libs/types/posts';
 import type { ScreenProps } from 'src/libs/types/screen';
 
-import Post from 'src/libs/ui/Post';
 import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
-
-import CountDown from 'react-native-countdown-component';
-
 
 
 export default function Home({ navigation }: ScreenProps) {
