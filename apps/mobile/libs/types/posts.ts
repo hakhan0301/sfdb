@@ -9,7 +9,9 @@ export interface Post {
   title: string;
   body: string;
   user_id: string;
-  likes: number;
+  likes: string[];
+  likedByUser: any[];
+  user: User;
 }
 
 

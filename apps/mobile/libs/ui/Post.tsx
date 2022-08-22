@@ -100,8 +100,8 @@ function PostBody({ post_type, text }: PostBodyProps) {
 export default function Post({ id, user, text, title, likes: _likes, createdAt, comments, post_type, likedByUser: _likedByUser }: PostType) {
   const session = useSession();
 
-  const [likes, setLikes] = useState(0);
-  // useEffect(() => setLikes(_likes), [_likes]);
+  const [likes, setLikes] = useState(_likes);
+  useEffect(() => setLikes(_likes), [_likes]);
 
   const [likedByUser, setLikedByUser] = useState(_likedByUser);
   useEffect(() => setLikedByUser(_likedByUser), [_likedByUser]);

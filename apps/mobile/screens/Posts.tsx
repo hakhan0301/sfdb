@@ -3,16 +3,12 @@ import React, { useEffect, useState } from 'react';
 import Swiper from 'react-native-swiper';
 import tw from 'twrnc';
 
-import type { Post as DBPostType, User, _Post } from 'src/libs/types/posts';
+import type { Post as PostType, _Post } from 'src/libs/types/posts';
 import type { ScreenProps } from 'src/libs/types/screen';
 
 import Post from 'src/libs/ui/Post';
-import supabase, { tables } from 'src/libs/supabase';
-
-
-interface PostType extends DBPostType {
-  user: User
-}
+import supabase from 'src/libs/supabase';
+import { useSession } from 'src/libs/hooks/auth';
 
 function completeMinimalPost(post: PostType): _Post {
   return {
@@ -23,8 +19,8 @@ function completeMinimalPost(post: PostType): _Post {
     },
     createdAt: new Date(post.created_at),
     text: post.body,
-    likes: post.likes,
-    likedByUser: Math.random() > .5,
+    likes: post.likes && post.likes.length,
+    likedByUser: post.likedByUser && post.likedByUser.length === 1,
     comments: [
       { id: 0, createdAt: new Date(), text: 'this is ome susy', user: { name: 'memon', pfp: 'https://avatars.githubusercontent.com/u/21112116?s=120&v=4' } },
       { id: 2, createdAt: new Date(), text: 'ia m shan', user: { name: 'memon', pfp: 'https://avatars.githubusercontent.com/u/21112116?s=120&v=4' } },
@@ -39,14 +35,24 @@ export default function PostsPage({ navigation }: ScreenProps) {
   const [loading, setLoading] = useState(true);
   const [index, setIndex] = useState(0);
 
+  const session = useSession();
+
   useEffect(() => {
 
     const getPosts = async () => {
       const res = await supabase
         .from<PostType>('Posts')
-        .select('*, user:Users( * )')
+        .select(`
+          *, 
+          user:Users(*), 
+          likes:Likes(user_id),
+          likedByUser:Likes(user_id)&likedByUser.user_id=eq.${session.user?.id},
+        `)
         .order('created_at', { ascending: false })
         .limit(10);
+
+      console.log(res.data && res.data[0]);
+
 
       setPosts(res.data ?? []);
       setLoading(false);
