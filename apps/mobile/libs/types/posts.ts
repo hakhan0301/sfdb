@@ -14,7 +14,6 @@ export interface Post {
   user: User;
 }
 
-
 export interface User {
   id: string;
   username: string;
@@ -24,6 +23,15 @@ export interface User {
 export interface Like {
   post_id: number;
   user_id: number;
+}
+
+
+export interface DBComment {
+  id: number,
+  created_at: Date,
+  post_id: number,
+  user_id: number,
+  body: string,
 }
 
 
@@ -85,3 +93,4 @@ export interface Comment {
     pfp: string
   },
 }
+

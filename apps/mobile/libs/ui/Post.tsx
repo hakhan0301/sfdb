@@ -1,10 +1,10 @@
 import { AntDesign, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
-import { Avatar, Box, Center, Column, Image, Row, Spinner, Text, View } from 'native-base';
+import { Avatar, Box, Button, Center, Column, FormControl, Image, Input, Row, Spinner, Text, View } from 'native-base';
 import tw from 'twrnc';
 import type { Comment as CommentType, _Post as PostType, PostType as TypeOfPost, FileBody } from 'src/libs/types/posts';
 import supabase, { tables } from '../supabase';
 import { useEffect, useState } from 'react';
-import { useSession } from '../hooks/auth';
+import { useProfile, useSession } from '../hooks/auth';
 import { Alert } from 'react-native';
 
 
@@ -97,8 +97,9 @@ function PostBody({ post_type, text }: PostBodyProps) {
 }
 
 
-export default function Post({ id, user, text, title, likes: _likes, createdAt, comments, post_type, likedByUser: _likedByUser }: PostType) {
+export default function Post({ id, user, text, title, likes: _likes, createdAt, comments: _comments, post_type, likedByUser: _likedByUser }: PostType) {
   const session = useSession();
+  const { user: currentUser } = useProfile(session.user?.id!);
 
   const [likes, setLikes] = useState(_likes);
   useEffect(() => setLikes(_likes), [_likes]);
@@ -106,6 +107,34 @@ export default function Post({ id, user, text, title, likes: _likes, createdAt, 
   const [likedByUser, setLikedByUser] = useState(_likedByUser);
   useEffect(() => setLikedByUser(_likedByUser), [_likedByUser]);
 
+  const [comments, setComments] = useState(_comments);
+  useEffect(() => setComments(_comments), [_comments]);
+
+  const [comment, setComment] = useState('');
+
+  const submitComment = async () => {
+    const tempComment = comment;
+    const { error, data } = await tables.comments().insert({
+      post_id: id,
+      user_id: session.user?.id as any,
+      body: tempComment
+    });
+
+    if (error) Alert.alert("Error commenting", error.message);
+
+    const newComment = data![0];
+
+    setComment('');
+    setComments(prevComments => [
+      {
+        id: newComment.id, createdAt: new Date(newComment.created_at), text: newComment.body,
+        user: { name: currentUser!.username, pfp: currentUser!.pfp }
+      },
+      ...prevComments
+    ]);
+
+
+  }
 
   const likePost = async () => {
     setLikedByUser(true);
@@ -178,14 +207,30 @@ export default function Post({ id, user, text, title, likes: _likes, createdAt, 
       </Row>
 
       {/* comments */}
-      <Column>
+      <Column style={tw``}>
+        <Row style={tw`px-4 items-center`}>
+          <Box style={{ ...tw`text-base grow` }} >
+            <Input
+              placeholder='Comment'
+              placeholderTextColor={'#555'}
+              style={{ color: 'black', ...tw`px-0 text-base` }}
+              value={comment} onChangeText={setComment}
+              variant='unstyled' />
+          </Box>
+          <Button bg='yellow.400' _pressed={{ bg: 'yellow.500' }}
+            onPress={submitComment}>
+            <Text>Submit</Text>
+          </Button>
+        </Row>
+
+
         {comments.map((comment, i) =>
           <Comment index={i} key={comment.id} {...comment} />
         )}
       </Column>
 
 
-      <Box style={tw`h-2 bg-yellow-200`} />
+      <Box style={tw`h-4 bg-yellow-200`} />
     </Column >
   )
 }
