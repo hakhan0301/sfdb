@@ -69,13 +69,13 @@ export default function PostsPage({ navigation }: ScreenProps) {
   }, []);
 
   return (
-    <KeyboardAvoidingView w="full" h='full' behavior='height'>
+    <>
       <Swiper
         showsPagination={false} loadMinimal={false}
         horizontal={false} loop={false} index={index} onIndexChanged={setIndex}>
         {posts.map((post, i) => (
           <ScrollView style={tw`bg-yellow-200`} borderTopWidth="1.5" borderColor="slate.800"
-            key={post.id} nestedScrollEnabled={true} scrollEnabled={Math.abs(index - 1) <= 1}>
+            nestedScrollEnabled={true} scrollEnabled={Math.abs(index - 1) <= 1} key={post.id} >
             <Post {...completeMinimalPost(post)} />
           </ScrollView>
         ))}
@@ -87,6 +87,6 @@ export default function PostsPage({ navigation }: ScreenProps) {
           <Text style={tw`text-3xl text-black`}>+</Text>
         </Button>
       </View>
-    </KeyboardAvoidingView>
+    </>
   );
 } 

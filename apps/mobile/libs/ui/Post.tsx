@@ -3,10 +3,12 @@ import { Avatar, Box, Button, Center, Column, FormControl, Image, Input, Row, Sp
 import tw from 'twrnc';
 import type { Comment as CommentType, _Post as PostType, PostType as TypeOfPost, FileBody } from 'src/libs/types/posts';
 import supabase, { tables } from '../supabase';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useProfile, useSession } from '../hooks/auth';
 import { Alert } from 'react-native';
 
+// @ts-ignore
+import timeago from 'time-ago';
 
 interface CommentProps extends CommentType {
   index: number
@@ -26,7 +28,7 @@ function Comment({ user, text, createdAt, index }: CommentProps) {
       <Column>
         <Row style={tw`items-baseline`} space="1" >
           <Text style={tw`font-semibold`}>{user.name}</Text>
-          <Text style={tw`text-xs text-gray-500`}>{createdAt.toDateString()}</Text>
+          <Text style={tw`text-xs text-gray-500`}>{timeago.ago(createdAt)}</Text>
         </Row>
         <Text>{text}</Text>
       </Column>
@@ -112,6 +114,13 @@ export default function Post({ id, user, text, title, likes: _likes, createdAt, 
 
   const [comment, setComment] = useState('');
 
+  const commentsByTime = useMemo(() =>
+    comments.sort(
+      (a, b) => b.createdAt.getMilliseconds() - a.createdAt.getMilliseconds()
+    ).slice(0, 3),
+    [comments]
+  );
+
   const submitComment = async () => {
     const tempComment = comment;
     const { error, data } = await tables.comments().insert({
@@ -132,8 +141,6 @@ export default function Post({ id, user, text, title, likes: _likes, createdAt, 
       },
       ...prevComments
     ]);
-
-
   }
 
   const likePost = async () => {
@@ -203,7 +210,7 @@ export default function Post({ id, user, text, title, likes: _likes, createdAt, 
           <Text style={tw`text-lg`}>{likes ?? 'ERROR'}</Text>
         </Row>
 
-        <Text>{createdAt.toDateString()}</Text>
+        <Text>{timeago.ago(createdAt)}</Text>
       </Row>
 
       {/* comments */}
@@ -224,13 +231,13 @@ export default function Post({ id, user, text, title, likes: _likes, createdAt, 
         </Row>
 
 
-        {comments.map((comment, i) =>
+        {commentsByTime.map((comment, i) =>
           <Comment index={i} key={comment.id} {...comment} />
         )}
       </Column>
 
 
-      <Box style={tw`h-4 bg-yellow-200`} />
+      <Box style={tw`h-8 bg-yellow-200`} />
     </Column >
   )
 }

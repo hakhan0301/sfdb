@@ -30,16 +30,16 @@ export interface User {
 }
 
 export interface Like {
-  post_id: number;
-  user_id: number;
+  post_id: string;
+  user_id: string;
 }
 
 
 export interface DBComment {
-  id: number,
+  id: string,
   created_at: Date,
-  post_id: number,
-  user_id: number,
+  post_id: string,
+  user_id: string,
   body: string,
 }
 

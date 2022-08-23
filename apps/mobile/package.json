@@ -20,6 +20,7 @@
     "dotenv": "^16.0.1",
     "expo": "~45.0.0",
     "expo-blur": "~11.1.0",
+    "expo-camera": "~12.2.0",
     "expo-document-picker": "~10.2.1",
     "expo-file-system": "^14.0.0",
     "expo-linear-gradient": "^11.3.0",
@@ -38,8 +39,8 @@
     "react-native-uuid": "^2.0.1",
     "react-native-web": "0.17.7",
     "rn-glitch-effect": "^1.1.0",
-    "twrnc": "^3.3.3",
-    "expo-camera": "~12.2.0"
+    "time-ago": "^0.2.1",
+    "twrnc": "^3.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
