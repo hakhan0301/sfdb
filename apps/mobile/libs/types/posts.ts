@@ -3,14 +3,23 @@ export type PostType =
 
 
 export interface Post {
-  id: number;
+  id: string;
   post_type: PostType;
   created_at: string;
   title: string;
   body: string;
   user_id: string;
   likes: { user_id: string }[];
-  likedByUser: any[];
+  likedByUser: [{ user_id: string }] | [];
+  comments: {
+    created_at: string;
+    id: string;
+    body: string;
+    user: {
+      username: string;
+      pfp: string;
+    };
+  }[];
   user: User;
 }
 
@@ -66,7 +75,7 @@ export type PostBody = TextBody | LinkBody | FileBody;
 // ----------------------- dummy types --------------
 
 export interface _Post {
-  id: number;
+  id: string;
   post_type: PostType;
   likedByUser: boolean;
   createdAt: Date;
@@ -85,7 +94,7 @@ export interface _User {
 }
 
 export interface Comment {
-  id: number,
+  id: string,
   text: string,
   createdAt: Date,
   user: {

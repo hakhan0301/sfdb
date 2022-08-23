@@ -21,11 +21,15 @@ function completeMinimalPost(post: PostType): _Post {
     text: post.body,
     likes: post.likes && post.likes.length,
     likedByUser: post.likedByUser && post.likedByUser.length === 1,
-    comments: [
-      { id: 0, createdAt: new Date(), text: 'this is ome susy', user: { name: 'memon', pfp: 'https://avatars.githubusercontent.com/u/21112116?s=120&v=4' } },
-      { id: 2, createdAt: new Date(), text: 'ia m shan', user: { name: 'memon', pfp: 'https://avatars.githubusercontent.com/u/21112116?s=120&v=4' } },
-      { id: 1, createdAt: new Date(), text: 'jasdfkljfsdjk', user: { name: 'memon', pfp: 'https://avatars.githubusercontent.com/u/21112116?s=120&v=4' } },
-    ]
+    comments: post.comments.map(comment => ({
+      id: comment.id,
+      createdAt: new Date(comment.created_at),
+      text: comment.body,
+      user: {
+        name: comment.user.username,
+        pfp: comment.user.pfp
+      }
+    }))
   };
 }
 
@@ -38,13 +42,18 @@ export default function PostsPage({ navigation }: ScreenProps) {
   const session = useSession();
 
   useEffect(() => {
-
     const getPosts = async () => {
       const res = await supabase
         .from<PostType>('Posts')
         .select(`
-          *, 
+          *,
           user:Users(*), 
+          comments:Comments(
+            id,
+            created_at,
+            user:Users(username, pfp),
+            body
+          ),
           likes:Likes(user_id),
           likedByUser:Likes(user_id)&likedByUser.user_id=eq.${session.user?.id},
         `)
@@ -57,7 +66,6 @@ export default function PostsPage({ navigation }: ScreenProps) {
 
     getPosts();
   }, []);
-
 
   return (
     <>
