@@ -3,24 +3,12 @@ import React, { useEffect, useState } from 'react';
 import tw from 'twrnc';
 
 import type { ScreenProps, ScreenPropsRouteless } from 'src/libs/types/screen';
-import { useSession } from 'src/libs/hooks/auth';
+import { useProfile, useSession } from 'src/libs/hooks/auth';
 import { tables } from 'src/libs/supabase';
 import { User } from 'src/libs/types/posts';
 import { Alert } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 
-async function getUser(userId: string) {
-  const user = await tables.users()
-    .select('*')
-    .eq('id', userId)
-    .limit(1);
-
-  if (user.data?.length !== 1) {
-    throw new Error('Internal Server error with profile');
-  }
-
-  return user.data![0];
-}
 
 async function updateUser(user: User) {
   return tables.users()
@@ -41,7 +29,8 @@ interface ProfileProps extends ScreenPropsRouteless {
 export default function Profile({ navigation, route }: ProfileProps) {
   const session = useSession();
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<User>();
+  const userId = session?.user?.id!;
+  const { user, setUser } = useProfile(userId);
 
   const cameraResultURI = route?.params?.cameraResultURI;
 
@@ -59,18 +48,6 @@ export default function Profile({ navigation, route }: ProfileProps) {
     }
   }, [cameraResultURI]);
 
-  const userId = session?.user?.id;
-
-  useEffect(() => {
-    const doUser = async () => {
-      if (userId) {
-        await getUser(userId).then(setUser);
-      }
-      setLoading(false);
-    };
-
-    doUser();
-  }, [userId]);
 
   const onUsernameInput = (newUsername: string) => {
     setUser((prevUser) => ({
