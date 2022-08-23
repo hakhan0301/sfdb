@@ -9,6 +9,7 @@ import type { ScreenProps } from 'src/libs/types/screen';
 import Post from 'src/libs/ui/Post';
 import supabase from 'src/libs/supabase';
 import { useSession } from 'src/libs/hooks/auth';
+import { KeyboardAvoidingView } from 'native-base';
 
 function completeMinimalPost(post: PostType): _Post {
   return {
@@ -68,7 +69,7 @@ export default function PostsPage({ navigation }: ScreenProps) {
   }, []);
 
   return (
-    <>
+    <KeyboardAvoidingView w="full" h='full' behavior='height'>
       <Swiper
         showsPagination={false} loadMinimal={false}
         horizontal={false} loop={false} index={index} onIndexChanged={setIndex}>
@@ -86,6 +87,6 @@ export default function PostsPage({ navigation }: ScreenProps) {
           <Text style={tw`text-3xl text-black`}>+</Text>
         </Button>
       </View>
-    </>
+    </KeyboardAvoidingView>
   );
 } 
