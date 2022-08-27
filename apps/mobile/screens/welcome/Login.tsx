@@ -25,18 +25,21 @@ export default function Login({ navigation }: ScreenProps) {
   const [password, setPassword] = useState('');
 
   const login = async () => {
-    let { user, error } = await supabase.auth.signIn({
+    let { error } = await supabase.auth.signIn({
       email: email,
       password: password
     });
 
     if (error) {
       Alert.alert('Auth Error', error.message);
+      return;
     };
+
+    navigation.navigate('Profile');
   }
 
   const signUp = async () => {
-    let { user, error } = await supabase.auth.signUp({
+    let { error } = await supabase.auth.signUp({
       email: email,
       password: password
     });
