@@ -177,9 +177,11 @@ export default function Post({ id, user, text, title, likes: _likes, createdAt, 
   return (
     <>
       {modalVisible &&
-        <Modal isOpen={true} onClose={() => setModalVisible(false)} size="full">
 
-          <Modal.Content style={tw`rounded-none`} height={keyboardVisible ? '75%' : '100%'}>
+        <Modal isOpen={true} onClose={() => setModalVisible(false)} size="full"
+          style={tw`absolute`}>
+
+          <Modal.Content style={tw`rounded-none`} maxHeight={'100%'}>
             <Modal.Header>Comments</Modal.Header>
             <Modal.CloseButton />
             <Modal.Body style={tw`px-4`} >
@@ -193,7 +195,7 @@ export default function Post({ id, user, text, title, likes: _likes, createdAt, 
                   <Input
                     placeholder='Comment'
                     placeholderTextColor={'#555'}
-                    style={{ color: 'black', ...tw`px-0 text-base` }}
+                    style={{ ...tw`px-0 text-base` }}
                     value={comment} onChangeText={setComment}
                     variant='unstyled' />
                 </Box>
@@ -204,7 +206,6 @@ export default function Post({ id, user, text, title, likes: _likes, createdAt, 
               </Row>
             </Modal.Footer>
           </Modal.Content>
-
         </Modal>
       }
 
