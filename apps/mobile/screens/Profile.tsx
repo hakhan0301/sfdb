@@ -28,7 +28,7 @@ interface ProfileProps extends ScreenPropsRouteless {
 }
 export default function Profile({ navigation, route }: ProfileProps) {
   const session = useSession();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const userId = session?.user?.id!;
   const { user, setUser } = useProfile(userId);
 
