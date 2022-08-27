@@ -67,7 +67,7 @@ function MediaPostBody({ fileType, title, url }: FileBody) {
   }
 
   return (
-    <Text>{JSON.stringify(signedURL)}</Text>
+    <Text>{fileType} not currently supported. sadge</Text>
   )
 }
 
@@ -177,7 +177,6 @@ export default function Post({ id, user, text, title, likes: _likes, createdAt, 
   return (
     <>
       {modalVisible &&
-
         <Modal isOpen={true} onClose={() => setModalVisible(false)} size="full"
           style={tw`absolute`}>
 
