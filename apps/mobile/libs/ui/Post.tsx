@@ -1,26 +1,28 @@
-import { AntDesign, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
-import { Avatar, Box, Button, Center, Column, FormControl, Image, Input, Row, Spinner, Text, View } from 'native-base';
-import tw from 'twrnc';
-import type { Comment as CommentType, _Post as PostType, PostType as TypeOfPost, FileBody } from 'src/libs/types/posts';
-import supabase, { tables } from '../supabase';
+import { FontAwesome5, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Avatar, Box, Button, Column, Image, Input, Modal, Row, Spinner, Text, View } from 'native-base';
 import { useEffect, useMemo, useState } from 'react';
-import { useProfile, useSession } from '../hooks/auth';
 import { Alert } from 'react-native';
+import type { Comment as CommentType, FileBody, PostType as TypeOfPost, _Post as PostType } from 'src/libs/types/posts';
+import tw from 'twrnc';
+import { useProfile, useSession } from '../hooks/auth';
+import supabase, { tables } from '../supabase';
 
 // @ts-ignore
 import timeago from 'time-ago';
+import { useKeyboardVisible } from '../hooks/useKeyboardVisible';
 
 interface CommentProps extends CommentType {
-  index: number
+  index: number,
+  bgColor: 'gray' | 'yellow'
 }
 
-function Comment({ user, text, createdAt, index }: CommentProps) {
+function Comment({ user, text, createdAt, index, bgColor }: CommentProps) {
   const isEven = index % 2 === 0;
-  const bg = isEven ? 'bg-orange-100' : 'bg-orange-50';
+  const bg = isEven ? `bg-${bgColor}-100` : `bg-${bgColor}-50`;
   const border = `${index === 0 ? 'border-t' : ''} border-b border-amber-800/20`;
 
   return (
-    <Row space="2" style={tw`px-4 py-2 ${border} ${bg}`} >
+    <Row space="2" style={tw`${bgColor === 'yellow' ? 'px-4' : ''} py-2 ${border} ${bg}`} >
       <Avatar
         style={tw`w-9 h-9 mt-1`}
         source={{ uri: user.pfp }} />
@@ -116,10 +118,15 @@ export default function Post({ id, user, text, title, likes: _likes, createdAt, 
 
   const commentsByTime = useMemo(() =>
     comments.sort(
-      (a, b) => b.createdAt.getMilliseconds() - a.createdAt.getMilliseconds()
-    ).slice(0, 3),
+      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+    ),
     [comments]
   );
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const keyboardVisible = useKeyboardVisible();
+
 
   const submitComment = async () => {
     const tempComment = comment;
@@ -168,76 +175,99 @@ export default function Post({ id, user, text, title, likes: _likes, createdAt, 
   };
 
   return (
-    <Column style={tw`h-full`}>
-      {/* post header */}
-      <Column style={tw``}>
-        {/* user */}
-        <Row space="2" style={tw`bg-yellow-100 flex flex-row px-4 py-1.75 items-center`}>
-          <Avatar
-            style={tw`w-8 h-8`}
-            source={{ uri: user.pfp }} />
+    <>
+      {modalVisible &&
+        <Modal isOpen={true} onClose={() => setModalVisible(false)} size="full">
 
-          <Text fontStyle="italic" style={tw`text-lg text-gray-700`}>{user.name}</Text>
-          <Text style={tw`text-gray-700`}>•</Text>
+          <Modal.Content style={tw`rounded-none`} height={keyboardVisible ? '75%' : '100%'}>
+            <Modal.Header>Comments</Modal.Header>
+            <Modal.CloseButton />
+            <Modal.Body style={tw`px-4`} >
+              {commentsByTime.map((comment, i) =>
+                <Comment index={i} key={comment.id} {...comment} bgColor='gray' />
+              )}
+            </Modal.Body>
+            <Modal.Footer>
+              <Row style={tw`w-full items-center`}>
+                <Box style={{ ...tw`text-base grow` }} >
+                  <Input
+                    placeholder='Comment'
+                    placeholderTextColor={'#555'}
+                    style={{ color: 'black', ...tw`px-0 text-base` }}
+                    value={comment} onChangeText={setComment}
+                    variant='unstyled' />
+                </Box>
+                <Button bg='yellow.400' _pressed={{ bg: 'yellow.500' }}
+                  onPress={submitComment}>
+                  <Text>Submit</Text>
+                </Button>
+              </Row>
+            </Modal.Footer>
+          </Modal.Content>
 
-          <Row space='2'>
-            <Row space='1' style={tw`items-center`}>
-              <FontAwesome5 style={tw`text-red-500`} size={18} name="fire" />
-              <Text style={tw`text-gray-700`}>{user.streaks}</Text>
-            </Row>
-            <Row space='1' style={tw`items-center`}>
-              <MaterialCommunityIcons style={tw`text-black`} name="alert-circle-outline" size={18} />
-              <Text style={tw`text-gray-700`}>{user.streaks}</Text>
+        </Modal>
+      }
+
+      <Column style={tw`h-full`}>
+        {/* post header */}
+        <Column style={tw``}>
+          {/* user */}
+          <Row space="2" style={tw`bg-yellow-100 flex flex-row px-4 py-1.75 items-center`}>
+            <Avatar
+              style={tw`w-8 h-8`}
+              source={{ uri: user.pfp }} />
+
+            <Text fontStyle="italic" style={tw`text-lg text-gray-700`}>{user.name}</Text>
+            <Text style={tw`text-gray-700`}>•</Text>
+
+            <Row space='2'>
+              <Row space='1' style={tw`items-center`}>
+                <FontAwesome5 style={tw`text-red-500`} size={18} name="fire" />
+                <Text style={tw`text-gray-700`}>{user.streaks}</Text>
+              </Row>
+              <Row space='1' style={tw`items-center`}>
+                <MaterialCommunityIcons style={tw`text-black`} name="alert-circle-outline" size={18} />
+                <Text style={tw`text-gray-700`}>{user.streaks}</Text>
+              </Row>
             </Row>
           </Row>
+
+          {/* title */}
+          <Text style={tw`bg-yellow-200 text-lg px-4 py-2 font-semibold`}>{title}</Text>
+        </Column>
+
+        {/* content */}
+        <Box flexDir='row' justifyContent='center'>
+          <PostBody post_type={post_type} text={text} />
+        </Box>
+
+        {/* post footer */}
+        <Row space="3" style={tw`flex flex-row px-4 py-2 bg-yellow-200 items-center justify-between`}>
+          <Row space='2' style={tw`items-center`}>
+            <Ionicons name="chatbubble-outline" size={25} color="black" style={tw`pb-.5`}
+              onPress={() => setModalVisible(true)} />
+            <Row space='1' style={tw`items-center`}>
+              <Ionicons size={28} name={likedByUser ? 'heart' : 'heart-outline'}
+                color={likedByUser ? 'red' : 'black'}
+                onPress={likedByUser ? dislikePost : likePost} />
+              <Text style={tw`text-lg pb-0.5`}>{likes ?? 'ERROR'}</Text>
+            </Row>
+          </Row>
+
+          <Text>{timeago.ago(createdAt)}</Text>
         </Row>
 
-        {/* title */}
-        <Text style={tw`bg-yellow-200 text-lg px-4 py-2 font-semibold`}>{title}</Text>
-      </Column>
+        {/* comments */}
+        <Column style={tw``}>
+          {commentsByTime.slice(0, 3).map((comment, i) =>
+            <Comment index={i} key={comment.id} {...comment} bgColor='yellow' />
+          )}
 
-      {/* content */}
-      <Box flexDir='row' justifyContent='center'>
-        <PostBody post_type={post_type} text={text} />
-      </Box>
-
-      {/* post footer */}
-      <Row space="3" style={tw`flex flex-row px-4 py-2 bg-yellow-200 items-center justify-between`}>
-        <Row space='1.5' style={tw`items-center`}>
-          <AntDesign size={24} name={likedByUser ? 'heart' : 'hearto'}
-            color={likedByUser ? 'red' : 'black'}
-            onPress={likedByUser ? dislikePost : likePost} />
-          <Text style={tw`text-lg`}>{likes ?? 'ERROR'}</Text>
-        </Row>
-
-        <Text>{timeago.ago(createdAt)}</Text>
-      </Row>
-
-      {/* comments */}
-      <Column style={tw``}>
-        <Row style={tw`px-4 items-center`}>
-          <Box style={{ ...tw`text-base grow` }} >
-            <Input
-              placeholder='Comment'
-              placeholderTextColor={'#555'}
-              style={{ color: 'black', ...tw`px-0 text-base` }}
-              value={comment} onChangeText={setComment}
-              variant='unstyled' />
-          </Box>
-          <Button bg='yellow.400' _pressed={{ bg: 'yellow.500' }}
-            onPress={submitComment}>
-            <Text>Submit</Text>
-          </Button>
-        </Row>
+        </Column>
 
 
-        {commentsByTime.map((comment, i) =>
-          <Comment index={i} key={comment.id} {...comment} />
-        )}
-      </Column>
-
-
-      <Box style={tw`h-8 bg-yellow-200`} />
-    </Column >
+        <Box style={tw`h-8 bg-yellow-200`} />
+      </Column >
+    </>
   )
 }
