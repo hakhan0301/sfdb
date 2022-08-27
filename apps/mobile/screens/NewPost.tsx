@@ -182,8 +182,8 @@ export default function NewPost({ navigation, route }: NewPost) {
           </ScrollView>
 
         </View>
-        <View style={tw`h-11`}>
-          <Row style={tw`w-full absolute items-center top-[-10] justify-between px-9`}>
+        <View style={tw`h-13`}>
+          <Row style={tw`w-full absolute items-center top-[-10] justify-between px-6`}>
             <Button h="16" w='16' rounded='full' borderWidth='4' borderColor='black' shadow='8'
               style={tw`bg-[${colors.deepRed300}]`}
               _pressed={{ style: tw`bg-[${colors.deepRed400}]` }}

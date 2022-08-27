@@ -82,7 +82,7 @@ export default function PostsPage({ navigation }: ScreenProps) {
       </Swiper>
       <View style={tw`absolute w-full h-full`}>
         {loading && <Text>loading</Text>}
-        <Button style={tw`absolute w-16 h-16 bg-yellow-500 rounded-full right-8 bottom-6`}
+        <Button style={tw`absolute w-16 h-16 bg-yellow-500 rounded-full right-6 bottom-6`}
           onPress={() => navigation.navigate('NewPost')}>
           <Text style={tw`text-3xl text-black`}>+</Text>
         </Button>
