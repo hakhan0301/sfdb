@@ -40,7 +40,9 @@
     "react-native-web": "0.17.7",
     "rn-glitch-effect": "^1.1.0",
     "time-ago": "^0.2.1",
-    "twrnc": "^3.3.3"
+    "twrnc": "^3.3.3",
+    "expo-notifications": "~0.15.4",
+    "expo-device": "~4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
