@@ -27,6 +27,10 @@ export interface User {
   id: string;
   username: string;
   pfp: string;
+  last_posted: null | string;
+  streak: number;
+  strikes: number;
+  notification_token: null | string;
 }
 
 export interface Like {
