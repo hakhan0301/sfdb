@@ -1,7 +1,8 @@
 import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
-import { useState, useEffect, useRef } from 'react';
 import { Platform, Subscription } from 'expo-modules-core';
+import * as Notifications from 'expo-notifications';
+import { useEffect, useRef, useState } from 'react';
+import { tables } from '../supabase';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -11,25 +12,34 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export function useNotifications() {
+export function useNotifications(userId?: string) {
   const [expoPushToken, setExpoPushToken] = useState<string>();
   const [notification, setNotification] = useState<Notifications.Notification>();
   const notificationListener = useRef<Subscription>();
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then(setExpoPushToken);
+    if (!expoPushToken || !userId) return;
+
+    tables.users().update({
+      id: userId,
+      notification_token: expoPushToken
+    });
+  }, [expoPushToken, userId]);
+
+  useEffect(() => {
+    registerDeviceForPushNotifications().then(setExpoPushToken);
     notificationListener.current = Notifications.addNotificationReceivedListener(setNotification);
 
     return () => {
       Notifications.removeNotificationSubscription(notificationListener.current!);
     };
-  }, []);
+  }, [userId]);
 
 
   return { expoPushToken, notification };
 }
 
-async function registerForPushNotificationsAsync() {
+async function registerDeviceForPushNotifications() {
   let token;
   if (Device.isDevice) {
     const { status: existingStatus } = await Notifications.getPermissionsAsync();
