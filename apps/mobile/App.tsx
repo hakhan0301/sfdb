@@ -1,29 +1,27 @@
+import { FontAwesome } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackHeaderProps } from '@react-navigation/native-stack';
-import { Box, Button, NativeBaseProvider, Row, StatusBar, Text, extendTheme } from "native-base";
-import { FontAwesome } from '@expo/vector-icons';
+import { Box, Button, NativeBaseProvider, Row, StatusBar, Text } from "native-base";
 
 import tw from 'twrnc';
 
-import PostsScreen from './screens/Posts';
 import CameraScreen from './screens/Camera';
 import NewPostScreen from './screens/NewPost';
+import PostsScreen from './screens/Posts';
 import ProfileScreen from './screens/Profile';
 
-import WelcomeScreen from './screens/welcome/Welcome';
 import LoginScreen from './screens/welcome/Login';
+import WelcomeScreen from './screens/welcome/Welcome';
 
-import { useEffect, useState } from 'react';
 import { Session } from '@supabase/supabase-js';
+import { useEffect, useState } from 'react';
 
 import AuthContext from './libs/contexts/AuthContext';
+import { useNotifications } from './libs/hooks/useNotifications';
 import supabase from './libs/supabase';
-import { useSession } from './libs/hooks/auth';
 
 const Stack = createNativeStackNavigator();
 function NavBar({ navigation }: NativeStackHeaderProps) {
-  const user = useSession();
-
   return (
     <Box style={tw`flex flex-row items-center justify-between py-2 pr-4 bg-slate-800`} >
       <Button style={tw`p-0 px-4 bg-white/0`}
@@ -43,7 +41,6 @@ function NavBar({ navigation }: NativeStackHeaderProps) {
   );
 }
 
-
 export default function App() {
   const [session, setSession] = useState<Session | null>(null)
 
@@ -56,6 +53,8 @@ export default function App() {
   }, []);
 
   const EmptyHeader = () => <></>;
+
+  useNotifications(session?.user?.id);
 
   return (
     <NativeBaseProvider>
