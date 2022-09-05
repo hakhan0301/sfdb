@@ -1,7 +1,9 @@
 import { APIGatewayProxyResult, APIGatewayEvent } from 'aws-lambda';
-import { Expo } from 'expo-server-sdk';
+import * as moment from 'moment/moment';
+import 'moment-timezone';
 
 import { ExpoPushMessage } from 'expo-server-sdk/build/ExpoClient';
+import { Expo } from 'expo-server-sdk';
 
 import { tables } from '@sfdb/supabase';
 
@@ -13,8 +15,8 @@ const expo = new Expo();
 export const handler = async (
   event: APIGatewayEvent
 ): Promise<APIGatewayProxyResult> => {
-  if (event?.queryStringParameters?.key !== 'sussykey')
-    return unauthorized();
+  if (event?.queryStringParameters?.key !== process.env.FUNCTION_SECRET)
+    return unauthorized(event?.queryStringParameters?.key);
 
   const { data: strikableUsers, error } = await tables.users()
     .select('*')
@@ -47,23 +49,27 @@ export const handler = async (
   }
 }
 
-function unauthorized(): APIGatewayProxyResult {
+function unauthorized(key: string | undefined): APIGatewayProxyResult {
   return {
-    body: 'Invalid "key" query string.',
+    body: `Invalid "key" query string. Received: ${key}`,
     statusCode: 400
   }
 }
 
+function getNow() {
+  return moment.tz("America/Mexico_City").toDate();
+}
+
 function todayMorning() {
-  const date = new Date();
+  const date = getNow();
   date.setHours(0, 0, 0);
   return date;
 }
 
 function timeUntilTomorrow() {
-  const now = new Date();
+  const now = getNow();
   now.setSeconds(0, 0);
-  const tomorrow = new Date();
+  const tomorrow = getNow();
   tomorrow.setDate(now.getDate() + 1);
   tomorrow.setHours(0, 0, 0);
 
