@@ -28,8 +28,6 @@
     "constructs": "^10.0.0",
     "dotenv": "^16.0.2",
     "expo-server-sdk": "^3.6.0",
-    "moment": "^2.29.4",
-    "moment-timezone": "^0.5.37",
     "source-map-support": "^0.5.16"
   }
 }
