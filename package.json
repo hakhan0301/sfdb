@@ -12,7 +12,8 @@
   "license": "ISC",
   "workspaces": [
     "apps/*",
-    "apps/functions/*"
+    "apps/functions/*",
+    "packages/*"
   ],
   "devDependencies": {
     "patch-package": "^6.4.7"
