@@ -27,6 +27,9 @@ export class FunctionsStack extends Stack {
     this.createFunction('WarnUsers',
       getEnvVariables(['FUNCTION_SECRET', 'SUPABASE_URL', 'SUPABASE_ADMIN_KEY'])
     );
+    this.createFunction('StrikeUsers',
+      getEnvVariables(['FUNCTION_SECRET', 'SUPABASE_URL', 'SUPABASE_ADMIN_KEY'])
+    );
   }
 
   createFunction(functionName: string, env?: EnvironmentVariables) {
