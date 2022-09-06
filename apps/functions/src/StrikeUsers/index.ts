@@ -33,7 +33,7 @@ export const handler = async (
     .map((user): ExpoPushMessage => ({
       title: 'sfdb - WARNING',
       to: user.notification_token!,
-      body: `You did not post today, you have been striked. ${3 - user.strikes} more and you're banned.`
+      body: strikeMessage(user.strikes)
     }));
 
   const chunks = expo.chunkPushNotifications(pushMessages);
@@ -58,3 +58,11 @@ function unauthorized(key: string | undefined): APIGatewayProxyResult {
 }
 
 
+
+function strikeMessage(strikes: number) {
+  if (strikes > 3) {
+    return `You did not post today, you have been striked. You've been striked too many times, you're now banned.`;
+  } else {
+    return `You did not post today, you have been striked. ${3 - strikes} more and you're banned.`;
+  }
+}
